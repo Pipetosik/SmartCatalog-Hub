@@ -1,0 +1,12 @@
+{
+  "favorites": [],
+  "launch_stats": {},
+  "settings": {
+    "theme": "win11",
+    "startup_tab": "all",
+    "enable_playtime_tracking": true,
+    "enable_clipboard_history": true,
+    "enable_hotkey_alt_c": true
+  },
+  "hidden_apps": []
+}

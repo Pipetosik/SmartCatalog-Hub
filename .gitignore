@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# User-specific & runtime data (generated locally per user)
+user_data.json
+catalog_data.json
+playtime_data.json
+clipboard_history.json
+workspaces_data.json
+snippets_data.json
+icons_cache/
+*.log
+*.lnk
+
+# Browser profiles & temporary dumps
+.*_profile/
+edge_prof_*/
+.user_uploaded/
+.system_generated/
+scratch/
+test_*.png
+chrome_*.png
+samsung_*.png
+tmp*
+dist/
+dist_installer/
+build/
+*.spec
+
+# One-off maintenance & migration scripts
+SmartCatalog.ico
+SmartCatalog_v2.ico
+apply_*.py
+deploy_*.py
+fix_*.py
+force_refresh_*.py
+rebuild_*.py
+sanitize_*.py
+
+# OS artifacts
+Thumbs.db
+Desktop.ini
+.DS_Store

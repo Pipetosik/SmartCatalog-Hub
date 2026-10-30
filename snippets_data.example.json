@@ -1,0 +1,23 @@
+[
+  {
+    "id": "snip_git",
+    "title": "Git Commit & Push",
+    "category": "Команды",
+    "text": "git add . && git commit -m \"update\" && git push",
+    "content": "git add . && git commit -m \"update\" && git push"
+  },
+  {
+    "id": "snip_docker",
+    "title": "Docker Compose Restart",
+    "category": "Команды",
+    "text": "docker compose down && docker compose up -d",
+    "content": "docker compose down && docker compose up -d"
+  },
+  {
+    "id": "snip_localhost",
+    "title": "Localhost Port 8000",
+    "category": "Ссылки",
+    "text": "http://127.0.0.1:8000",
+    "content": "http://127.0.0.1:8000"
+  }
+]

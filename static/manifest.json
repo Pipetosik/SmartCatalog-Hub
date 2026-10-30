@@ -1,0 +1,16 @@
+{
+  "name": "SmartCatalog Hub",
+  "short_name": "SmartCatalog",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121316",
+  "theme_color": "#121316",
+  "icons": [
+    {
+      "src": "/static/icons/smartcatalog.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
