@@ -3207,3 +3207,51 @@ body.theme-oled .app-container {
 .code-log-viewer:focus {
   border-color: var(--accent);
 }
+
+
+/* Responsive Header Actions & Settings Visibility */
+@media (max-width: 1350px) {
+  .header {
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .brand-sub {
+    display: none;
+  }
+  .search-box {
+    min-width: 140px;
+    max-width: 420px;
+    flex: 1 1 auto;
+  }
+  .header-actions {
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .header-actions .action-btn {
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    justify-content: center;
+  }
+  .header-actions .action-btn span {
+    display: none;
+  }
+  .header-actions .sys-monitor-pill {
+    width: auto;
+    min-width: unset;
+    padding: 0 8px;
+  }
+  .header-actions .sys-monitor-pill span {
+    display: inline;
+  }
+}
+
+@media (max-width: 960px) {
+  .header-actions .sys-monitor-pill {
+    display: none;
+  }
+  .search-box {
+    min-width: 100px;
+  }
+}

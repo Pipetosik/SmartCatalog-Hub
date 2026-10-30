@@ -69,6 +69,14 @@ def main():
         shutil.copy2(client_exe, target_client)
         print(f"[*] Placed client launcher: {target_client}")
         
+    hub_dist = os.path.join(DIST_DIR, "SmartCatalogHub")
+    hub_assets = os.path.join(hub_dist, "assets")
+    os.makedirs(hub_assets, exist_ok=True)
+    if os.path.exists(icon_path):
+        shutil.copy2(icon_path, os.path.join(hub_assets, "icon.ico"))
+        shutil.copy2(icon_path, os.path.join(hub_dist, "icon.ico"))
+        print(f"[*] Placed icon.ico in {hub_assets} and {hub_dist}")
+        
     print("\n[SUCCESS] Standalone build complete!")
     print(f"Output folder: {os.path.join(DIST_DIR, 'SmartCatalogHub')}")
 

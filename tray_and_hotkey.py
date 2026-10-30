@@ -13,9 +13,19 @@ import catalog_manager
 from catalog_manager import get_setting
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ICON_PATH = os.path.join(BASE_DIR, "SmartCatalog_v3.ico")
-if not os.path.exists(ICON_PATH):
-    ICON_PATH = os.path.join(BASE_DIR, "SmartCatalog.ico")
+
+def get_tray_icon_path():
+    candidates = [
+        os.path.join(BASE_DIR, "assets", "icon.ico"),
+        os.path.join(BASE_DIR, "icon.ico"),
+        os.path.join(BASE_DIR, "_internal", "assets", "icon.ico"),
+        os.path.join(BASE_DIR, "SmartCatalog_v3.ico"),
+        os.path.join(BASE_DIR, "SmartCatalog.ico"),
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
 
 WM_TRAY_NOTIFY = win32con.WM_USER + 20
 TRAY_ID = 100
@@ -130,11 +140,23 @@ class TrayIconWindow:
         if self.tray_active or not self.hwnd:
             return
         try:
-            if os.path.exists(ICON_PATH):
-                self.hicon = win32gui.LoadImage(
-                    0, ICON_PATH, win32con.IMAGE_ICON, 16, 16, win32con.LR_LOADFROMFILE
-                )
-            else:
+            icon_p = get_tray_icon_path()
+            if icon_p:
+                try:
+                    self.hicon = win32gui.LoadImage(
+                        0, icon_p, win32con.IMAGE_ICON, 16, 16, win32con.LR_LOADFROMFILE
+                    )
+                except Exception:
+                    self.hicon = None
+
+            if not self.hicon:
+                try:
+                    h_inst = win32api.GetModuleHandle(None)
+                    self.hicon = win32gui.LoadIcon(h_inst, 1)
+                except Exception:
+                    pass
+
+            if not self.hicon:
                 self.hicon = win32gui.LoadIcon(0, win32con.IDI_APPLICATION)
                 
             flags = win32gui.NIF_ICON | win32gui.NIF_MESSAGE | win32gui.NIF_TIP

@@ -1,8 +1,8 @@
 ; Inno Setup Script for SmartCatalog Hub
-; Compiles dist\SmartCatalogHub into SmartCatalog-Setup-v1.0.1.exe
+; Compiles dist\SmartCatalogHub into SmartCatalog-Setup-v1.0.2.exe
 
 #define MyAppName "SmartCatalog Hub"
-#define MyAppVersion "1.0.1"
+#define MyAppVersion "1.0.2"
 #define MyAppPublisher "SmartCatalog Hub Team"
 #define MyAppURL "https://github.com/Pipetosik/SmartCatalog-Hub"
 #define MyAppExeName "SmartCatalog.exe"
@@ -21,7 +21,7 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=LICENSE
 OutputDir=dist_installer
-OutputBaseFilename=SmartCatalog-Setup-v1.0.1
+OutputBaseFilename=SmartCatalog-Setup-v1.0.2
 SetupIconFile=assets\icon.ico
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -38,6 +38,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "startupentry"; Description: "Запускать SmartCatalog Hub при старте Windows"; GroupDescription: "Автозапуск:"
 
 [Files]
+Source: "assets\icon.ico"; DestDir: "{app}\assets"; Flags: ignoreversion
+Source: "assets\icon.ico"; DestDir: "{app}"; DestName: "icon.ico"; Flags: ignoreversion
 Source: "dist\SmartCatalogHub\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]

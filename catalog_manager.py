@@ -50,28 +50,9 @@ def load_user_data():
     if _USER_DATA_CACHE is not None:
         return _USER_DATA_CACHE
 
-    now = time.time()
-    # Initial seed of top frequently used applications
-    seed_stats = {
-        "google_chrome_76868a": {"count": 28, "last_launched": now - 1200},
-        "telegram_desktop_41622c": {"count": 25, "last_launched": now - 3600},
-        "visual_studio_code_d51a76": {"count": 22, "last_launched": now - 7200},
-        "discord_8f5cc6": {"count": 19, "last_launched": now - 10800},
-        "steam_4db456": {"count": 18, "last_launched": now - 14400},
-        "dbeaver_fb2233": {"count": 16, "last_launched": now - 18000},
-        "antigravity_96780a": {"count": 15, "last_launched": now - 21600},
-        "playnite_9668b2": {"count": 14, "last_launched": now - 25000},
-        "docker_desktop_cb1cb8": {"count": 12, "last_launched": now - 30000},
-        "postman_6f061e": {"count": 11, "last_launched": now - 40000},
-        "samsung_magician_195fab": {"count": 10, "last_launched": now - 50000},
-        "utorrent_web_bbb755": {"count": 9, "last_launched": now - 60000},
-        "vlc_media_player_c97aff": {"count": 8, "last_launched": now - 70000},
-        "aida64_extreme_40497c": {"count": 7, "last_launched": now - 80000},
-        "podklyuchenie_k_udalennomu_rabochemu_stolu_3cf087": {"count": 6, "last_launched": now - 90000}
-    }
     data = {
-        "favorites": ["google_chrome_76868a", "telegram_desktop_41622c", "visual_studio_code_d51a76", "steam_4db456"],
-        "launch_stats": seed_stats
+        "favorites": [],
+        "launch_stats": {}
     }
     save_user_data(data)
     return data
@@ -827,22 +808,7 @@ def load_playtime_data():
             except Exception:
                 pass
 
-        now_date = time.strftime("%Y-%m-%d")
-        seed = {
-            "google_chrome_76868a": {"total": 52400, "today": 11400, "last_date": now_date},
-            "visual_studio_code_d51a76": {"total": 41800, "today": 9600, "last_date": now_date},
-            "telegram_desktop_41622c": {"total": 29500, "today": 4200, "last_date": now_date},
-            "discord_8f5cc6": {"total": 22600, "today": 3600, "last_date": now_date},
-            "steam_4db456": {"total": 21000, "today": 1800, "last_date": now_date},
-            "dbeaver_fb2233": {"total": 12100, "today": 2400, "last_date": now_date},
-            "antigravity_96780a": {"total": 16400, "today": 5400, "last_date": now_date},
-            "playnite_9668b2": {"total": 14200, "today": 1200, "last_date": now_date},
-            "docker_desktop_cb1cb8": {"total": 18500, "today": 4500, "last_date": now_date},
-            "postman_6f061e": {"total": 8400, "today": 900, "last_date": now_date},
-            "samsung_magician_195fab": {"total": 3600, "today": 300, "last_date": now_date},
-            "aida64_extreme_40497c": {"total": 2800, "today": 0, "last_date": now_date},
-            "lineage_2_multeria_6d37e0": {"total": 27900, "today": 7200, "last_date": now_date}
-        }
+        seed = {}
         _PLAYTIME_CACHE = seed
         _atomic_save_json(PLAYTIME_DATA_PATH, seed, bump_version=False)
         return seed

@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.2] - 2026-10-30
+
+### Fixed
+- **Desktop Shortcut & System Tray Icons**: Embedded and bundled multi-resolution `icon.ico` (16x16 through 256x256) directly in installer root and PyInstaller distribution, ensuring crisp display across Desktop shortcuts, Start Menu, and System Tray.
+- **Initial Clean State**: Removed legacy development mock seeds from `user_data.json` and `playtime_data.json`. On a fresh installation, Favorites and Frequently Used counters start at 0 and accurately reflect user activity.
+- **Responsive Header & Settings Button Visibility**: Added responsive layout rules collapsing header action button labels into compact icon buttons on screens `<= 1350px`, guaranteeing the Settings button (`#settingsBtn`) and Rescan button (`#rescanBtn`) remain visible at any window scale.
+- **Line Endings Normalization**: Normalized CRLF line formatting across client assets.
+
+## [1.0.1] - 2026-10-30
+
+### Fixed
+- **PowerShell Window Flashing**: Replaced external powershell shortcut resolver subprocesses with in-process COM `WScript.Shell` and win32 APIs.
+- **Notification Spam**: Silenced redundant Windows balloon toast cascades during bulk initial indexing.
+- **Visual Catalog Loader**: Added dedicated progress state while the initial scan completes.
+- **Windows System Tools Categorization**: Refined classification heuristics for Administrative Tools, Registry Editor, Performance Monitor, and Resource Monitor.
+- **Diagnostic Logging**: Added classification debug log viewer accessible from Settings.
+
 ## [1.0.0] - 2026-10-30
 
 ### Added

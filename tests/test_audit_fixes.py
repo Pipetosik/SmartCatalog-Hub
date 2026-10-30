@@ -136,9 +136,12 @@ def test_api():
     try:
         urllib.request.urlopen(req)
         print("    FAIL: Oversized payload accepted!")
+        assert False, "Oversized payload accepted!"
     except urllib.error.HTTPError as e:
         print(f"    Oversized payload rejected with HTTP {e.code}")
         assert e.code == 413
+    except (ConnectionResetError, ConnectionAbortedError, urllib.error.URLError) as e:
+        print(f"    Oversized payload rejected by server connection close: {e}")
     print("    -> PASS: Memory exhaustion protection verified.")
 
     print("\n[7] Testing Windows System Tools Classification & Debug Logging...")
