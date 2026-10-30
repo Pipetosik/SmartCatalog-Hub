@@ -34,6 +34,8 @@ dist/
 dist_installer/
 build/
 *.spec
+*.zip
+*.tar.gz
 
 # One-off maintenance & migration scripts
 SmartCatalog.ico

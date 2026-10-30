@@ -10,6 +10,8 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: write
+    env:
+      PYTHONIOENCODING: utf-8
 
     steps:
       - name: Checkout code
@@ -40,8 +42,17 @@ jobs:
           choco install innosetup -y
 
       - name: Compile Windows Installer
+        shell: pwsh
         run: |
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+          if (Get-Command iscc -ErrorAction SilentlyContinue) {
+            iscc installer.iss
+          } elseif (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe") {
+            & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+          } elseif (Test-Path "C:\Program Files\Inno Setup 6\ISCC.exe") {
+            & "C:\Program Files\Inno Setup 6\ISCC.exe" installer.iss
+          } else {
+            throw "ISCC compiler not found!"
+          }
 
       - name: Compute SHA-256 Checksum
         shell: pwsh

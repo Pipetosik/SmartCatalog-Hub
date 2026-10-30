@@ -1,9 +1,15 @@
+import sys
+import os
+
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 import urllib.request
 import urllib.error
 import json
 import time
-import os
-import sys
 
 BASE_URL = "http://127.0.0.1:48123"
 
@@ -90,7 +96,7 @@ def test_api():
         print("    Response for killing PID 4:", body)
     except urllib.error.HTTPError as e:
         body = json.loads(e.read().decode('utf-8'))
-        print(f"    Expected rejection: HTTP {e.code}: {body}")
+        print(f"    Expected rejection: HTTP {e.code}: success={body.get('success')}")
         assert body.get("success") is False
     print("    -> PASS: Killing Windows System processes is strictly forbidden.")
 
@@ -108,7 +114,7 @@ def test_api():
         print("    Unexpected success for javascript scheme:", resp.read())
     except urllib.error.HTTPError as e:
         body = json.loads(e.read().decode('utf-8'))
-        print(f"    Dangerous protocol rejected: HTTP {e.code}: {body}")
+        print(f"    Dangerous protocol rejected: HTTP {e.code}: success={body.get('success')}")
         assert e.code == 400
     print("    -> PASS: Dangerous URL schemes rejected.")
 
