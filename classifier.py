@@ -1,5 +1,7 @@
 import os
 import re
+import time
+import threading
 import win32api
 
 CATEGORY_RULES = {
@@ -40,9 +42,9 @@ CATEGORY_RULES = {
     "04. Интернет и Браузеры": {
         "icon": "🌐",
         "keywords": [
-            "browser", "chrome", "firefox", "edge", "opera", "brave", "vivaldi", "tor", 
+            "browser", "chrome", "firefox", "edge", "opera", "brave", "vivaldi", "tor browser", 
             "yandex", "waterfox", "librewolf", "интернет", "браузер", "chromium", "safari", 
-            "arc", "sidekick", "gx"
+            "arc browser", "sidekick", "opera gx"
         ],
         "default_desc": "Веб-браузер для доступа в сеть Интернет"
     },
@@ -346,44 +348,231 @@ def get_pe_file_description(file_path):
         pass
     return ""
 
+LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "classification_debug.log")
+_log_lock = threading.Lock()
+
+def log_classification(name, path, desc, category, reason):
+    try:
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        entry = (
+            f"[{timestamp}] APP: {name}\n"
+            f"  Path: {path or 'N/A'}\n"
+            f"  PE/Provided Desc: {desc or 'N/A'}\n"
+            f"  Assigned Category: {category}\n"
+            f"  Reason: {reason}\n"
+            f"{'-'*70}\n"
+        )
+        with _log_lock:
+            with open(LOG_FILE, "a", encoding="utf-8") as f:
+                f.write(entry)
+    except Exception:
+        pass
+
+KNOWN_APPS = {
+    # 12. Система и Обслуживание (Windows Administrative & System Tools)
+    "registry editor": ("12. Система и Обслуживание", "Просмотр и редактирование ключей системного реестра Windows"),
+    "редактор реестра": ("12. Система и Обслуживание", "Просмотр и редактирование ключей системного реестра Windows"),
+    "regedit": ("12. Система и Обслуживание", "Просмотр и редактирование ключей системного реестра Windows"),
+    "narrator": ("12. Система и Обслуживание", "Встроенная программа чтения текста с экрана (специальные возможности)"),
+    "экранный диктор": ("12. Система и Обслуживание", "Встроенная программа чтения текста с экрана (специальные возможности)"),
+    "character map": ("12. Система и Обслуживание", "Таблица символов и специальных юникод-знаков Windows"),
+    "таблица символов": ("12. Система и Обслуживание", "Таблица символов и специальных юникод-знаков Windows"),
+    "charmap": ("12. Система и Обслуживание", "Таблица символов и специальных юникод-знаков Windows"),
+    "dfrgui": ("12. Система и Обслуживание", "Оптимизация и дефрагментация накопителей Windows"),
+    "defragment and optimize drives": ("12. Система и Обслуживание", "Оптимизация и дефрагментация накопителей Windows"),
+    "оптимизация дисков": ("12. Система и Обслуживание", "Оптимизация и дефрагментация накопителей Windows"),
+    "disk cleanup": ("12. Система и Обслуживание", "Очистка диска от временных файлов и кэша"),
+    "очистка диска": ("12. Система и Обслуживание", "Очистка диска от временных файлов и кэша"),
+    "cleanmgr": ("12. Система и Обслуживание", "Очистка диска от временных файлов и кэша"),
+    "task manager": ("12. Система и Обслуживание", "Мониторинг запущенных процессов, нагрузки на CPU/RAM и автозагрузки"),
+    "диспетчер задач": ("12. Система и Обслуживание", "Мониторинг запущенных процессов, нагрузки на CPU/RAM и автозагрузки"),
+    "taskmgr": ("12. Система и Обслуживание", "Мониторинг запущенных процессов, нагрузки на CPU/RAM и автозагрузки"),
+    "device manager": ("12. Система и Обслуживание", "Диспетчер аппаратных устройств и драйверов Windows"),
+    "диспетчер устройств": ("12. Система и Обслуживание", "Диспетчер аппаратных устройств и драйверов Windows"),
+    "devmgmt": ("12. Система и Обслуживание", "Диспетчер аппаратных устройств и драйверов Windows"),
+    "disk management": ("12. Система и Обслуживание", "Управление дисками, разметкой и разделами томов"),
+    "управление дисками": ("12. Система и Обслуживание", "Управление дисками, разметкой и разделами томов"),
+    "diskmgmt": ("12. Система и Обслуживание", "Управление дисками, разметкой и разделами томов"),
+    "computer management": ("12. Система и Обслуживание", "Консоль администрирования службами, дисками и событиями"),
+    "управление компьютером": ("12. Система и Обслуживание", "Консоль администрирования службами, дисками и событиями"),
+    "compmgmt": ("12. Система и Обслуживание", "Консоль администрирования службами, дисками и событиями"),
+    "event viewer": ("12. Система и Обслуживание", "Журнал системных событий, ошибок и аудита Windows"),
+    "просмотр событий": ("12. Система и Обслуживание", "Журнал системных событий, ошибок и аудита Windows"),
+    "eventvwr": ("12. Система и Обслуживание", "Журнал системных событий, ошибок и аудита Windows"),
+    "services": ("12. Система и Обслуживание", "Управление системными службами и фоновыми демонами Windows"),
+    "службы": ("12. Система и Обслуживание", "Управление системными службами и фоновыми демонами Windows"),
+    "command prompt": ("12. Система и Обслуживание", "Классический командный интерпретатор Windows (cmd.exe)"),
+    "командная строка": ("12. Система и Обслуживание", "Классический командный интерпретатор Windows (cmd.exe)"),
+    "cmd": ("12. Система и Обслуживание", "Классический командный интерпретатор Windows (cmd.exe)"),
+    "windows powershell": ("12. Система и Обслуживание", "Командная оболочка и скриптовый язык Windows PowerShell"),
+    "powershell": ("12. Система и Обслуживание", "Командная оболочка и скриптовый язык Windows PowerShell"),
+    "windows terminal": ("12. Система и Обслуживание", "Современный терминал с вкладками для PowerShell, CMD и WSL"),
+    "system configuration": ("12. Система и Обслуживание", "Настройка параметров загрузки и конфигурации системы"),
+    "конфигурация системы": ("12. Система и Обслуживание", "Настройка параметров загрузки и конфигурации системы"),
+    "msconfig": ("12. Система и Обслуживание", "Настройка параметров загрузки и конфигурации системы"),
+    "windows security": ("12. Система и Обслуживание", "Центр безопасности Windows: защита от угроз и брандмауэр"),
+    "безопасность windows": ("12. Система и Обслуживание", "Центр безопасности Windows: защита от угроз и брандмауэр"),
+    "windows defender firewall": ("12. Система и Обслуживание", "Брандмауэр Защитника Windows"),
+    "брандмауэр защитника windows": ("12. Система и Обслуживание", "Брандмауэр Защитника Windows"),
+    "control panel": ("12. Система и Обслуживание", "Классическая панель управления Windows"),
+    "панель управления": ("12. Система и Обслуживание", "Классическая панель управления Windows"),
+    "steps recorder": ("12. Система и Обслуживание", "Средство записи действий пользователя для отладки"),
+    "средство записи действий": ("12. Система и Обслуживание", "Средство записи действий пользователя для отладки"),
+    "calculator": ("12. Система и Обслуживание", "Стандартный калькулятор Windows"),
+    "калькулятор": ("12. Система и Обслуживание", "Стандартный калькулятор Windows"),
+    "calc": ("12. Система и Обслуживание", "Стандартный калькулятор Windows"),
+
+    # 11. Железо и Мониторинг
+    "resource monitor": ("11. Железо и Мониторинг", "Мониторинг использования ресурсов CPU, памяти, дисков и сети"),
+    "монитор ресурсов": ("11. Железо и Мониторинг", "Мониторинг использования ресурсов CPU, памяти, дисков и сети"),
+    "resmon": ("11. Железо и Мониторинг", "Мониторинг использования ресурсов CPU, памяти, дисков и сети"),
+    "performance monitor": ("11. Железо и Мониторинг", "Глубокий системный анализ метрик производительности Windows"),
+    "монитор производительности": ("11. Железо и Мониторинг", "Глубокий системный анализ метрик производительности Windows"),
+    "perfmon": ("11. Железо и Мониторинг", "Глубокий системный анализ метрик производительности Windows"),
+    "system information": ("11. Железо и Мониторинг", "Сводная информация о конфигурации оборудования и драйверах"),
+    "сведения о системе": ("11. Железо и Мониторинг", "Сводная информация о конфигурации оборудования и драйверах"),
+    "msinfo32": ("11. Железо и Мониторинг", "Сводная информация о конфигурации оборудования и драйверах"),
+    "windows memory diagnostic": ("11. Железо и Мониторинг", "Диагностика оперативной памяти Windows на ошибки"),
+    "средство проверки памяти windows": ("11. Железо и Мониторинг", "Диагностика оперативной памяти Windows на ошибки"),
+    "mdsched": ("11. Железо и Мониторинг", "Диагностика оперативной памяти Windows на ошибки"),
+
+    # 06. Удаленный доступ и Сеть
+    "iscsi initiator": ("06. Удаленный доступ и Сеть", "Подключение к удаленным блочным сетевым хранилищам данных (iSCSI)"),
+    "инициатор iscsi": ("06. Удаленный доступ и Сеть", "Подключение к удаленным блочным сетевым хранилищам данных (iSCSI)"),
+    "iscsicli": ("06. Удаленный доступ и Сеть", "Подключение к удаленным блочным сетевым хранилищам данных (iSCSI)"),
+    "remote desktop connection": ("06. Удаленный доступ и Сеть", "Встроенный Windows клиент для протокола RDP"),
+    "подключение к удаленному рабочему столу": ("06. Удаленный доступ и Сеть", "Встроенный Windows клиент для протокола RDP"),
+    "mstsc": ("06. Удаленный доступ и Сеть", "Встроенный Windows клиент для протокола RDP"),
+    "quick assist": ("06. Удаленный доступ и Сеть", "Удаленный доступ и быстрая техническая помощь через Интернет"),
+    "быстрая помощь": ("06. Удаленный доступ и Сеть", "Удаленный доступ и быстрая техническая помощь через Интернет"),
+
+    # 04. Интернет и Браузеры
+    "microsoft edge": ("04. Интернет и Браузеры", "Современный веб-браузер на движке Chromium от Microsoft"),
+    "google chrome": ("04. Интернет и Браузеры", "Быстрый и безопасный веб-браузер от компании Google"),
+    "mozilla firefox": ("04. Интернет и Браузеры", "Открытый веб-браузер с акцентом на приватность"),
+    "opera": ("04. Интернет и Браузеры", "Веб-браузер со встроенным блокировщиком рекламы"),
+    "opera gx": ("04. Интернет и Браузеры", "Специализированный браузер для геймеров с контролем ресурсов"),
+    "brave": ("04. Интернет и Браузеры", "Быстрый конфиденциальный браузер с блокировкой трекеров"),
+    "vivaldi": ("04. Интернет и Браузеры", "Гибко настраиваемый браузер с продвинутым управлением"),
+    "yandex": ("04. Интернет и Браузеры", "Яндекс Браузер с нейросетевыми технологиями и защитой Protect"),
+    "яндекс браузер": ("04. Интернет и Браузеры", "Яндекс Браузер с нейросетевыми технологиями и защитой Protect"),
+    "tor browser": ("04. Интернет и Браузеры", "Анонимный браузер для защищенного доступа через сеть Tor"),
+
+    # 07. Мультимедиа и Звук
+    "snipping tool": ("07. Мультимедиа и Звук", "Создание снимков и видеозаписи экрана Windows"),
+    "ножницы": ("07. Мультимедиа и Звук", "Создание снимков и видеозаписи экрана Windows"),
+    "paint": ("07. Мультимедиа и Звук", "Классический графический редактор Windows"),
+    "paint 3d": ("07. Мультимедиа и Звук", "Редактор трехмерных моделей и графики"),
+    "voice recorder": ("07. Мультимедиа и Звук", "Встроенная программа записи голоса и звука Windows"),
+    "запись голоса": ("07. Мультимедиа и Звук", "Встроенная программа записи голоса и звука Windows"),
+    "media player": ("07. Мультимедиа и Звук", "Стандартный проигрыватель мультимедиа Windows"),
+    "проигрыватель windows media": ("07. Мультимедиа и Звук", "Классический проигрыватель Windows Media"),
+
+    # 08. Офис и Документы
+    "notepad": ("08. Офис и Документы", "Легковесный стандартный текстовый редактор Блокнот"),
+    "блокнот": ("08. Офис и Документы", "Легковесный стандартный текстовый редактор Блокнот"),
+    "wordpad": ("08. Офис и Документы", "Текстовый процессор WordPad для форматированных документов"),
+}
+
+def match_keyword(keyword, text):
+    """
+    Checks if keyword matches text.
+    Uses regex word boundaries for single words or short tokens (<= 4 chars)
+    to prevent substrings like 'tor' matching 'editor', 'monitor', or 'initiator'.
+    """
+    kw = keyword.lower().strip()
+    if not kw or not text:
+        return False
+    if " " in kw:
+        return kw in text
+    pattern = r'(?<![a-zA-Z0-9_а-яА-ЯёЁ])' + re.escape(kw) + r'(?![a-zA-Z0-9_а-яА-ЯёЁ])'
+    return bool(re.search(pattern, text, re.IGNORECASE))
+
 def classify_app(name, path="", desc=""):
-    combined = f"{name} {path} {desc}".lower()
-    
-    # Check if exact match exists in EXACT_DESCRIPTIONS
-    for exact_k in EXACT_DESCRIPTIONS:
-        if exact_k.lower() in name.lower():
+    clean_name = name.strip()
+    clean_name_l = clean_name.lower()
+    base_exe = os.path.splitext(os.path.basename(path).lower())[0] if path else ""
+
+    # 1. Exact direct match in KNOWN_APPS by name
+    if clean_name_l in KNOWN_APPS:
+        cat = KNOWN_APPS[clean_name_l][0]
+        log_classification(name, path, desc, cat, f"KNOWN_APPS exact match for '{clean_name_l}'")
+        return cat
+
+    # 2. Match in KNOWN_APPS by executable base name (e.g. 'regedit', 'perfmon', 'resmon')
+    if base_exe and base_exe in KNOWN_APPS:
+        cat = KNOWN_APPS[base_exe][0]
+        log_classification(name, path, desc, cat, f"KNOWN_APPS executable match for '{base_exe}'")
+        return cat
+
+    # 3. Pattern match in KNOWN_APPS (e.g. "Windows PowerShell (x86)" matches "windows powershell")
+    for k, (cat, _) in KNOWN_APPS.items():
+        if match_keyword(k, clean_name_l) or (len(k) > 5 and k in clean_name_l):
+            log_classification(name, path, desc, cat, f"KNOWN_APPS pattern match for '{k}'")
+            return cat
+
+    # 4. Check EXACT_DESCRIPTIONS for mapped category
+    for exact_k, exact_desc in EXACT_DESCRIPTIONS.items():
+        if exact_k.lower() == clean_name_l or match_keyword(exact_k, clean_name):
             for cat, rules in CATEGORY_RULES.items():
                 for kw in rules["keywords"]:
-                    if kw in exact_k.lower() or kw in combined:
-                        pass
-    
+                    if match_keyword(kw, exact_k.lower()) or match_keyword(kw, exact_desc.lower()):
+                        log_classification(name, path, desc, cat, f"EXACT_DESCRIPTIONS match for '{exact_k}' via keyword '{kw}'")
+                        return cat
+
+    # 5. Rule-based scoring with word-boundary matching
+    combined = f"{clean_name} {path} {desc}".lower()
     scores = {}
+    matched_reasons = {}
     for cat, rules in CATEGORY_RULES.items():
         score = 0
+        reasons = []
         for kw in rules["keywords"]:
-            if kw in combined:
-                score += 4 if kw in name.lower() else 1
+            if match_keyword(kw, combined):
+                is_in_name = match_keyword(kw, clean_name_l)
+                pts = 4 if is_in_name else 1
+                score += pts
+                reasons.append(f"{kw} ({'+4' if is_in_name else '+1'})")
         if score > 0:
             scores[cat] = score
-            
+            matched_reasons[cat] = ", ".join(reasons)
+
     if scores:
         best_cat = max(scores.items(), key=lambda x: x[1])[0]
+        log_classification(name, path, desc, best_cat, f"Scored highest ({scores[best_cat]} pts): {matched_reasons[best_cat]}")
         return best_cat
-        
-    return "12. Система и Обслуживание"
+
+    fallback = "12. Система и Обслуживание"
+    log_classification(name, path, desc, fallback, "Fallback default (no rules matched)")
+    return fallback
 
 def get_app_description(name, category, path=""):
+    clean_name_l = name.strip().lower()
+    base_exe = os.path.splitext(os.path.basename(path).lower())[0] if path else ""
+
+    # 1. KNOWN_APPS exact or executable description
+    if clean_name_l in KNOWN_APPS:
+        return KNOWN_APPS[clean_name_l][1]
+    if base_exe and base_exe in KNOWN_APPS:
+        return KNOWN_APPS[base_exe][1]
+    for k, (_, known_desc) in KNOWN_APPS.items():
+        if match_keyword(k, clean_name_l) or (len(k) > 5 and k in clean_name_l):
+            return known_desc
+
+    # 2. EXACT_DESCRIPTIONS match
     for k, desc in EXACT_DESCRIPTIONS.items():
-        if k.lower() == name.lower() or k.lower() in name.lower():
+        if k.lower() == clean_name_l or match_keyword(k, name):
             return desc
-            
+
+    # 3. PE File Description
     pe_desc = get_pe_file_description(path) if path else ""
     if pe_desc and len(pe_desc) > 3:
         return f"{pe_desc}"
-        
+
+    # 4. Default category description
     if category in CATEGORY_RULES:
         return CATEGORY_RULES[category]["default_desc"]
-        
+
     return "Пользовательское приложение Windows"
 
 APP_SEARCH_ALIASES = {

@@ -264,6 +264,20 @@ class CatalogHTTPHandler(BaseHTTPRequestHandler):
             self.send_json(stats)
             return
 
+        if path == "/api/classification_log":
+            log_path = os.path.join(BASE_DIR, "classification_debug.log")
+            if os.path.exists(log_path):
+                try:
+                    with open(log_path, "r", encoding="utf-8", errors="replace") as f:
+                        lines = f.readlines()
+                        content = "".join(lines[-2000:])
+                    self.send_json({"success": True, "log": content})
+                except Exception as e:
+                    self.send_json({"success": False, "error": str(e), "log": ""}, 500)
+            else:
+                self.send_json({"success": True, "log": "Лог классификации пока пуст. Запустите сканирование или добавьте приложение."})
+            return
+
         # Secure icon file serving with realpath boundary check against Path Traversal
         if path.startswith("/icons/"):
             rel = path[len("/icons/"):].lstrip("/\\")
@@ -420,6 +434,18 @@ class CatalogHTTPHandler(BaseHTTPRequestHandler):
                 self.send_json({"success": True})
             else:
                 self.send_json({"success": False, "error": "Playnite не найден"}, 404)
+            return
+
+        if path == "/api/open_logs_folder":
+            log_path = os.path.join(BASE_DIR, "classification_debug.log")
+            try:
+                if os.path.exists(log_path):
+                    subprocess.Popen(["explorer.exe", f"/select,{log_path}"])
+                else:
+                    subprocess.Popen(["explorer.exe", BASE_DIR])
+                self.send_json({"success": True})
+            except Exception as e:
+                self.send_json({"success": False, "error": str(e)}, 500)
             return
 
         if path == "/api/position_window":

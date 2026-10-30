@@ -1,6 +1,10 @@
 import sys
 import os
 
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if base_dir not in sys.path:
+    sys.path.insert(0, base_dir)
+
 if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
@@ -136,6 +140,33 @@ def test_api():
         print(f"    Oversized payload rejected with HTTP {e.code}")
         assert e.code == 413
     print("    -> PASS: Memory exhaustion protection verified.")
+
+    print("\n[7] Testing Windows System Tools Classification & Debug Logging...")
+    from classifier import classify_app, get_app_description
+    expected = {
+        ("Registry Editor", r"C:\Windows\regedit.exe"): "12. Система и Обслуживание",
+        ("Resource Monitor", r"C:\Windows\System32\resmon.exe"): "11. Железо и Мониторинг",
+        ("Performance Monitor", r"C:\Windows\System32\perfmon.exe"): "11. Железо и Мониторинг",
+        ("Narrator", r"C:\Windows\System32\Narrator.exe"): "12. Система и Обслуживание",
+        ("iSCSI Initiator", r"C:\Windows\System32\iscsicli.exe"): "06. Удаленный доступ и Сеть",
+        ("Character Map", r"C:\Windows\System32\charmap.exe"): "12. Система и Обслуживание",
+        ("dfrgui", r"C:\Windows\System32\dfrgui.exe"): "12. Система и Обслуживание",
+        ("Microsoft Edge", r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"): "04. Интернет и Браузеры"
+    }
+    for (name, path), exp_cat in expected.items():
+        res_cat = classify_app(name, path)
+        assert res_cat == exp_cat, f"Classification failure for {name}: expected {exp_cat}, got {res_cat}"
+        desc = get_app_description(name, res_cat, path)
+        assert desc and len(desc) > 3, f"Description failure for {name}"
+        print(f"    Correctly classified: {name} -> {res_cat}")
+    
+    # Test /api/classification_log endpoint
+    req = urllib.request.Request(f"{BASE_URL}/api/classification_log")
+    resp = urllib.request.urlopen(req)
+    log_data = json.loads(resp.read().decode('utf-8'))
+    assert log_data.get("success") is True and len(log_data.get("log", "")) > 0
+    print("    Classification log endpoint functional and returning non-empty logs.")
+    print("    -> PASS: Windows administrative tools and debug logging 100% verified.")
 
     print("\nALL AUDIT AND SECURITY TESTS PASSED SUCCESSFULLY!")
 

@@ -1,8 +1,8 @@
 ; Inno Setup Script for SmartCatalog Hub
-; Compiles dist\SmartCatalogHub into SmartCatalog-Setup-v1.0.0.exe
+; Compiles dist\SmartCatalogHub into SmartCatalog-Setup-v1.0.1.exe
 
 #define MyAppName "SmartCatalog Hub"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "SmartCatalog Hub Team"
 #define MyAppURL "https://github.com/Pipetosik/SmartCatalog-Hub"
 #define MyAppExeName "SmartCatalog.exe"
@@ -21,7 +21,7 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=LICENSE
 OutputDir=dist_installer
-OutputBaseFilename=SmartCatalog-Setup-v1.0.0
+OutputBaseFilename=SmartCatalog-Setup-v1.0.1
 SetupIconFile=assets\icon.ico
 Compression=lzma2/ultra64
 SolidCompression=yes

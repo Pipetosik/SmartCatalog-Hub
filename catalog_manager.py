@@ -10,7 +10,7 @@ from ctypes import wintypes
 import psutil
 import pythoncom
 import win32com.client
-from classifier import classify_app, get_app_description, is_junk_or_uninstaller, CATEGORY_RULES, get_app_search_aliases
+from classifier import classify_app, get_app_description, is_junk_or_uninstaller, CATEGORY_RULES, get_app_search_aliases, KNOWN_APPS
 from icon_extractor import extract_icon_best
 
 SMART_CATALOG_ROOT = r"F:\SmartCatalog" if os.path.exists(r"F:\SmartCatalog") else os.path.join(
@@ -221,6 +221,22 @@ def scan_and_rebuild_catalog():
                     
                 name = f[:-4]
                 lnk_p = os.path.join(cat_path, f)
+
+                # Auto-heal legacy misclassifications (e.g. administrative tools in browsers)
+                name_l = name.strip().lower()
+                effective_cat = cat_dir
+                if cat_dir == "04. Интернет и Браузеры" and name_l in KNOWN_APPS:
+                    correct_cat = KNOWN_APPS[name_l][0]
+                    if correct_cat != cat_dir:
+                        new_cat_dir = os.path.join(SMART_CATALOG_ROOT, correct_cat)
+                        os.makedirs(new_cat_dir, exist_ok=True)
+                        new_lnk_p = os.path.join(new_cat_dir, f)
+                        try:
+                            shutil.move(lnk_p, new_lnk_p)
+                            lnk_p = new_lnk_p
+                            effective_cat = correct_cat
+                        except Exception:
+                            pass
                 
                 try:
                     lnk = shell.CreateShortCut(lnk_p)
@@ -239,7 +255,7 @@ def scan_and_rebuild_catalog():
                 if not os.path.exists(icon_full_path) or os.path.getsize(icon_full_path) == 0:
                     extract_icon_best(target, lnk_p, icon_full_path, 128)
                     
-                desc = get_app_description(name, cat_dir, target)
+                desc = get_app_description(name, effective_cat, target)
                 
                 try:
                     added_at = os.path.getctime(lnk_p)
@@ -249,7 +265,7 @@ def scan_and_rebuild_catalog():
                 apps.append({
                     "id": app_id,
                     "name": name,
-                    "category": cat_dir,
+                    "category": effective_cat,
                     "target": target,
                     "args": args,
                     "working_dir": working_dir,
@@ -265,7 +281,7 @@ def scan_and_rebuild_catalog():
     finally:
         pythoncom.CoUninitialize()
 
-def add_new_software(name, target_path, source_lnk=None):
+def add_new_software(name, target_path, source_lnk=None, save_now=True):
     if is_junk_or_uninstaller(name, target_path):
         return None
         
@@ -321,10 +337,11 @@ def add_new_software(name, target_path, source_lnk=None):
             "added_at": time.time()
         }
         
-        existing = load_catalog_data()
-        existing = [x for x in existing if x["id"] != app_id]
-        existing.append(app_entry)
-        save_catalog_data(existing)
+        if save_now:
+            existing = load_catalog_data()
+            existing = [x for x in existing if x["id"] != app_id]
+            existing.append(app_entry)
+            save_catalog_data(existing)
         
         return app_entry
     finally:

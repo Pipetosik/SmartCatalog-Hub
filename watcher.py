@@ -55,25 +55,35 @@ $notification = [Windows.UI.Notifications.ToastNotification]::new($template)
 $notifier.Show($notification)
 """
     try:
-        subprocess.Popen(['powershell', '-NoProfile', '-WindowStyle', 'Hidden', '-Command', ps_cmd],
-                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        startupinfo.wShowWindow = subprocess.SW_HIDE
+        subprocess.Popen(
+            ['powershell', '-NoProfile', '-NonInteractive', '-WindowStyle', 'Hidden', '-Command', ps_cmd],
+            creationflags=subprocess.CREATE_NO_WINDOW,
+            startupinfo=startupinfo,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
     except Exception:
         pass
 
-def process_discovered_file(file_path):
+def process_discovered_file(file_path, notify=True, save_now=True, delay=True):
     global known_targets, known_files
     
     file_path_lower = file_path.lower()
     with lock:
         if file_path_lower in known_files:
-            return
+            return None
         if "smartcatalog" in file_path_lower or "backup" in file_path_lower:
-            return
+            return None
         known_files.add(file_path_lower)
         
-    time.sleep(1.2)
+    if delay:
+        time.sleep(1.2)
+        
     if not os.path.exists(file_path):
-        return
+        return None
         
     base_name = os.path.basename(file_path)
     
@@ -83,29 +93,29 @@ def process_discovered_file(file_path):
         if file_path_lower.endswith(".lnk"):
             app_name = os.path.splitext(base_name)[0]
             if is_junk_or_uninstaller(app_name, file_path):
-                return
+                return None
                 
             try:
                 shell = win32com.client.Dispatch("WScript.Shell")
                 lnk = shell.CreateShortCut(file_path)
                 target = lnk.TargetPath
             except Exception:
-                return
+                return None
                 
             if not target or (not os.path.exists(target) and "explorer.exe" not in target.lower()):
-                return
+                return None
                     
             if is_junk_or_uninstaller(app_name, target):
-                return
+                return None
                 
             target_lower = target.lower()
             with lock:
                 if target_lower in known_targets and "explorer.exe" not in target_lower:
-                    return
+                    return None
                 known_targets.add(target_lower)
             
-            entry = add_new_software(app_name, target, source_lnk=file_path)
-            if entry:
+            entry = add_new_software(app_name, target, source_lnk=file_path, save_now=save_now)
+            if entry and notify:
                 cat_clean = entry["category"]
                 desc_clean = entry["description"]
                 print(f"[Watcher] Discovered and added: {app_name} -> {cat_clean}", flush=True)
@@ -113,23 +123,24 @@ def process_discovered_file(file_path):
                     "Новая программа добавлена",
                     f"{app_name} распределена в «{cat_clean}».\n{desc_clean}"
                 )
+            return entry
                 
         # 2. Handle standalone / portable .exe
         elif file_path_lower.endswith(".exe"):
             app_name = os.path.splitext(base_name)[0]
             if is_junk_or_uninstaller(app_name, file_path):
-                return
+                return None
             if any(term in app_name.lower() for term in ["setup", "install", "update", "patch"]):
-                return
+                return None
                 
             target_lower = file_path.lower()
             with lock:
                 if target_lower in known_targets:
-                    return
+                    return None
                 known_targets.add(target_lower)
             
-            entry = add_new_software(app_name, file_path)
-            if entry:
+            entry = add_new_software(app_name, file_path, save_now=save_now)
+            if entry and notify:
                 cat_clean = entry["category"]
                 desc_clean = entry["description"]
                 print(f"[Watcher] Added portable application: {app_name} -> {cat_clean}", flush=True)
@@ -137,12 +148,15 @@ def process_discovered_file(file_path):
                     "Обнаружена портативная программа",
                     f"{app_name} добавлена в «{cat_clean}».\n{desc_clean}"
                 )
+            return entry
     finally:
         pythoncom.CoUninitialize()
+    return None
 
-def scan_watch_dirs():
-    """Manual fallback and sync scan"""
+def scan_watch_dirs(is_initial_scan=False):
+    """Manual fallback and sync scan. In initial scan mode, operates in fast batch without per-item notifications."""
     pythoncom.CoInitialize()
+    discovered_entries = []
     try:
         for wdir in WATCH_DIRS:
             if not os.path.exists(wdir):
@@ -155,9 +169,31 @@ def scan_watch_dirs():
                         if f.lower().endswith(('.lnk', '.exe')):
                             fp = os.path.join(root, f)
                             if fp.lower() not in known_files:
-                                process_discovered_file(fp)
+                                entry = process_discovered_file(
+                                    fp, 
+                                    notify=not is_initial_scan, 
+                                    save_now=not is_initial_scan,
+                                    delay=not is_initial_scan
+                                )
+                                if entry:
+                                    discovered_entries.append(entry)
             except Exception:
                 pass
+
+        if is_initial_scan and discovered_entries:
+            existing = load_catalog_data()
+            existing_ids = {x["id"] for x in existing}
+            for e in discovered_entries:
+                if e["id"] not in existing_ids:
+                    existing.append(e)
+                    existing_ids.add(e["id"])
+            save_catalog_data(existing)
+            count = len(discovered_entries)
+            print(f"[Watcher] Initial scan complete: {count} applications indexed.", flush=True)
+            show_toast(
+                "Каталог готов к работе",
+                f"Первичное сканирование завершено: обнаружено {count} программ."
+            )
     finally:
         pythoncom.CoUninitialize()
 
@@ -216,7 +252,7 @@ def start_watcher_loop():
     data = load_catalog_data()
     if len(data) == 0:
         print("[Watcher] Empty catalog detected. Running initial discovery scan...", flush=True)
-        threading.Thread(target=scan_watch_dirs, daemon=True).start()
+        threading.Thread(target=scan_watch_dirs, args=(True,), daemon=True).start()
     
     # Low-frequency fallback scan (every 60s) just in case
     while True:
