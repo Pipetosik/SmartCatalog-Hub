@@ -29,7 +29,7 @@ jobs:
 
       - name: Run security and audit regression tests
         run: |
-          python scratch/test_audit_fixes.py
+          python tests/test_audit_fixes.py
 
       - name: Build standalone executables
         run: |
