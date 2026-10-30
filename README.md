@@ -73,7 +73,7 @@
 ## Установка и Запуск
 
 ### Вариант 1. Установщик Windows (Рекомендуется для пользователей)
-1. Перейдите в раздел [Releases](https://github.com/your-username/SmartCatalog-Hub/releases).
+1. Перейдите в раздел [Releases](https://github.com/Pipetosik/SmartCatalog-Hub/releases).
 2. Скачайте актуальный файл `SmartCatalog-Setup-v1.0.0.exe`.
 3. Запустите мастер установки и следуйте простым подсказкам на экране.
 
@@ -85,7 +85,7 @@
 
 1. **Клонируйте репозиторий**:
    ```bash
-   git clone https://github.com/your-username/SmartCatalog-Hub.git
+   git clone https://github.com/Pipetosik/SmartCatalog-Hub.git
    cd SmartCatalog-Hub
    ```
 

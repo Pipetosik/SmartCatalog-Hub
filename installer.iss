@@ -4,7 +4,7 @@
 #define MyAppName "SmartCatalog Hub"
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "SmartCatalog Hub Team"
-#define MyAppURL "https://github.com/your-username/SmartCatalog-Hub"
+#define MyAppURL "https://github.com/Pipetosik/SmartCatalog-Hub"
 #define MyAppExeName "SmartCatalog.exe"
 #define MyServiceExeName "SmartCatalogHub.exe"
 
