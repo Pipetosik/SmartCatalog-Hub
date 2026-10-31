@@ -32,7 +32,7 @@ def attach_to_default_desktop():
 
 def is_server_running():
     try:
-        with urllib.request.urlopen(f"{URL}/api/categories", timeout=0.6) as resp:
+        with urllib.request.urlopen(f"{URL}/api/version", timeout=0.6) as resp:
             return resp.status == 200
     except Exception:
         return False
@@ -41,18 +41,38 @@ def ensure_service_running():
     if is_server_running():
         return True
     log("Server not responding. Starting background service.py...")
-    python_dir = os.path.dirname(sys.executable)
-    cand_pythonw = os.path.join(python_dir, "pythonw.exe")
-    pythonw = cand_pythonw if os.path.exists(cand_pythonw) else sys.executable
-    subprocess.Popen([pythonw, SERVICE_PY], cwd=BASE_DIR)
+    if getattr(sys, "frozen", False):
+        service_exe = os.path.join(BASE_DIR, "SmartCatalogHub.exe")
+        cmd = [service_exe]
+    else:
+        python_dir = os.path.dirname(sys.executable)
+        cand_pythonw = os.path.join(python_dir, "pythonw.exe")
+        pythonw = cand_pythonw if os.path.exists(cand_pythonw) else sys.executable
+        cmd = [pythonw, SERVICE_PY]
+
+    DETACHED_PROCESS = 0x00000008
+    CREATE_NEW_PROCESS_GROUP = 0x00000200
+    try:
+        subprocess.Popen(
+            cmd,
+            cwd=BASE_DIR,
+            creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP,
+            close_fds=True
+        )
+    except Exception as e:
+        log(f"Failed to spawn detached service: {e}")
+        try:
+            subprocess.Popen(cmd, cwd=BASE_DIR)
+        except Exception:
+            pass
     
-    # Wait up to 3 seconds for server to come up
-    for _ in range(30):
+    # Wait up to 5 seconds for server to come up
+    for _ in range(50):
         time.sleep(0.1)
         if is_server_running():
             log("Background service verified healthy.")
             return True
-    log("Failed to start service within 3 seconds.")
+    log("Failed to start service within 5 seconds.")
     return False
 
 def get_target_window_bounds():
@@ -95,7 +115,11 @@ def focus_existing_window():
             log(f"Found existing window {hwnd}, bringing to front and positioning...")
             win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
             position_window(hwnd)
-            win32gui.SetForegroundWindow(hwnd)
+            try:
+                import catalog_manager
+                catalog_manager.force_foreground(hwnd)
+            except Exception:
+                win32gui.SetForegroundWindow(hwnd)
             return True
     except Exception as e:
         log(f"Focus window error: {e}")
