@@ -16,9 +16,10 @@ This document outlines planned improvements, feature ideas, and release roadmaps
 
 ---
 
-## 🎯 Planned for Upcoming Releases (v1.2.0)
+## 🎯 Current Milestone (v1.2.0 — Auto-Updater & Software Center)
+- [x] **In-App Auto-Updater for SmartCatalog Hub (Iteration 1)**: Semantic Versioning comparison, GitHub Releases API integration (`/api/app_update/check`), background chunked streaming downloader with progress bar/speed metrics, silent handover to Inno Setup installer, and status card in Settings.
+- [ ] **System Software Updater via winget (Iteration 2)**: Detect available updates for installed PC applications, correlation table, card badges, and 1-click batch upgrade.
 - [ ] **Drag-and-Drop Card Reordering**: Manually reorder application cards within categories with persistent order state.
-- [ ] **Package Manager Integration (winget / Chocolatey)**: Check for available software updates for installed applications with 1-click upgrade actions.
 - [ ] **Workspace Sync (Export / Import)**: Export and import Workspace app stacks in JSON format to sync configurations across multiple PCs.
 - [ ] **Extensible Classification Plugins**: Support custom user-defined Python rules and community classifiers.
 - [ ] **Global Hotkey Customization**: Custom key chord configuration directly from the Settings UI.

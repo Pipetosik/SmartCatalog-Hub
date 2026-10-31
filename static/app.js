@@ -204,6 +204,26 @@ const I18N = {
     starGithub: "Поставить ⭐ на GitHub",
     reportBug: "Сообщить об ошибке",
     changelogBtn: "История изменений",
+
+    // In-App Auto-Updater
+    updateUpToDate: "У вас установлена актуальная версия",
+    updateChecking: "Проверка наличия обновлений на GitHub...",
+    updateAvailable: "Доступно обновление {version}!",
+    updateError: "Ошибка проверки: {error}",
+    btnCheckUpdates: "Проверить обновления",
+    checkUpdateTitle: "Проверить наличие новой версии на GitHub",
+    btnDownloadInstall: "Скачать и установить",
+    btnViewOnGithub: "Открыть на GitHub ↗",
+    btnRestartInstall: "Перезапустить и обновить сейчас",
+    updateDownloading: "Скачивание обновления...",
+    updateReady: "Обновление готово к установке!",
+    updateBadgeTooltip: "Доступно обновление {version}! Нажмите для установки",
+    toastUpdateFound: "Доступно обновление!",
+    toastUpdateFoundMsg: "Вышла версия {version}. Нажмите на бейдж версии в шапке для установки.",
+    toastDownloadStarted: "Загрузка обновления запущена",
+    toastDownloadStartedMsg: "Установщик скачивается в фоновом режиме...",
+    toastInstallerLaunched: "Установщик запущен",
+    toastInstallerLaunchedMsg: "SmartCatalog перезапустится после завершения установки.",
     settingsHint: "Изменения сохраняются и применяются мгновенно",
 
     // Quick Look Modal
@@ -538,6 +558,26 @@ const I18N = {
     starGithub: "Star ⭐ on GitHub",
     reportBug: "Report a Bug",
     changelogBtn: "Changelog",
+
+    // In-App Auto-Updater
+    updateUpToDate: "You are using the latest version",
+    updateChecking: "Checking GitHub Releases for updates...",
+    updateAvailable: "New update {version} is available!",
+    updateError: "Check failed: {error}",
+    btnCheckUpdates: "Check for updates",
+    checkUpdateTitle: "Check for updates on GitHub",
+    btnDownloadInstall: "Download & Install",
+    btnViewOnGithub: "View on GitHub ↗",
+    btnRestartInstall: "Restart & Install Now",
+    updateDownloading: "Downloading update...",
+    updateReady: "Update is ready to install!",
+    updateBadgeTooltip: "Update {version} available! Click to install",
+    toastUpdateFound: "Update Available!",
+    toastUpdateFoundMsg: "Release {version} is available. Click the version badge in the header to update.",
+    toastDownloadStarted: "Update download started",
+    toastDownloadStartedMsg: "The installer is downloading in the background...",
+    toastInstallerLaunched: "Installer launched",
+    toastInstallerLaunchedMsg: "SmartCatalog will restart after the installation finishes.",
     settingsHint: "Changes are saved and applied instantly",
 
     // Quick Look Modal
@@ -1015,6 +1055,13 @@ function applyLanguage(lang) {
   }
   if (typeof quickLookModal !== 'undefined' && quickLookModal && quickLookModal.style.display !== 'none' && activeQuickLookApp) {
     openQuickLook(activeQuickLookApp);
+  }
+  if (typeof updateStatusText !== 'undefined' && updateStatusText) {
+    if (typeof activeUpdateRelease !== 'undefined' && activeUpdateRelease && activeUpdateRelease.update_available) {
+      updateStatusText.textContent = t('updateAvailable', '', { version: 'v' + activeUpdateRelease.latest_version });
+    } else {
+      updateStatusText.textContent = t('updateUpToDate') + (typeof activeUpdateRelease !== 'undefined' && activeUpdateRelease ? ' (v' + activeUpdateRelease.current_version + ')' : ' (v1.1.0)');
+    }
   }
 }
 
@@ -4016,3 +4063,200 @@ window.addEventListener('keydown', (e) => {
 
 // Start client
 initCatalog();
+
+
+// ==========================================
+// IN-APP AUTO-UPDATER CONTROLLER
+// ==========================================
+let activeUpdateRelease = null;
+let updateProgressInterval = null;
+
+const checkUpdateBtn = document.getElementById('checkUpdateBtn');
+const updateSpinIcon = document.getElementById('updateSpinIcon');
+const updateStatusDot = document.getElementById('updateStatusDot');
+const updateStatusText = document.getElementById('updateStatusText');
+const updateBanner = document.getElementById('updateBanner');
+const updateBannerVersion = document.getElementById('updateBannerVersion');
+const updateBannerName = document.getElementById('updateBannerName');
+const updateNotesPreview = document.getElementById('updateNotesPreview');
+const downloadUpdateBtn = document.getElementById('downloadUpdateBtn');
+const viewReleaseUrlBtn = document.getElementById('viewReleaseUrlBtn');
+const updateProgressContainer = document.getElementById('updateProgressContainer');
+const updateProgressBar = document.getElementById('updateProgressBar');
+const updateProgressText = document.getElementById('updateProgressText');
+const updateProgressSpeed = document.getElementById('updateProgressSpeed');
+const installNowBtn = document.getElementById('installNowBtn');
+
+async function checkForAppUpdates(silent = false, force = false) {
+  if (!silent) {
+    if (updateSpinIcon) updateSpinIcon.classList.add('spinning');
+    if (updateStatusDot) {
+      updateStatusDot.className = 'update-status-dot checking';
+    }
+    if (updateStatusText) updateStatusText.textContent = t('updateChecking');
+    if (checkUpdateBtn) checkUpdateBtn.disabled = true;
+  }
+
+  try {
+    const res = await fetch(`/api/app_update/check?force=${force ? '1' : '0'}`);
+    const data = await res.json();
+
+    if (!data.success) {
+      if (!silent) {
+        if (updateStatusDot) updateStatusDot.className = 'update-status-dot error';
+        if (updateStatusText) updateStatusText.textContent = t('updateError', '', { error: data.error || 'Network error' });
+      }
+      return;
+    }
+
+    if (data.update_available) {
+      activeUpdateRelease = data;
+
+      // Update Header & Footer badges
+      if (appVersionBadge) {
+        appVersionBadge.classList.add('has-update');
+        appVersionBadge.title = t('updateBadgeTooltip', '', { version: 'v' + data.latest_version });
+        appVersionBadge.textContent = `v${data.current_version} ↑`;
+      }
+
+      // Update Card UI
+      if (updateStatusDot) updateStatusDot.className = 'update-status-dot has-update';
+      if (updateStatusText) updateStatusText.textContent = t('updateAvailable', '', { version: 'v' + data.latest_version });
+
+      if (updateBanner) updateBanner.style.display = 'flex';
+      if (updateBannerVersion) updateBannerVersion.textContent = 'v' + data.latest_version;
+      if (updateBannerName) updateBannerName.textContent = data.release_name || `SmartCatalog v${data.latest_version}`;
+      if (updateNotesPreview) updateNotesPreview.textContent = data.release_notes || 'No release notes provided.';
+      if (viewReleaseUrlBtn) viewReleaseUrlBtn.href = data.release_url || '#';
+
+      if (!silent) {
+        showToast(t('toastUpdateFound'), t('toastUpdateFoundMsg', '', { version: 'v' + data.latest_version }));
+      }
+    } else {
+      activeUpdateRelease = null;
+      if (appVersionBadge) {
+        appVersionBadge.classList.remove('has-update');
+        appVersionBadge.title = `SmartCatalog v${data.current_version}`;
+        appVersionBadge.textContent = `v${data.current_version}`;
+      }
+      if (updateStatusDot) updateStatusDot.className = 'update-status-dot';
+      if (updateStatusText) updateStatusText.textContent = t('updateUpToDate') + ` (v${data.current_version})`;
+      if (updateBanner) updateBanner.style.display = 'none';
+    }
+  } catch (err) {
+    if (!silent) {
+      if (updateStatusDot) updateStatusDot.className = 'update-status-dot error';
+      if (updateStatusText) updateStatusText.textContent = t('updateError', '', { error: err.message });
+    }
+  } finally {
+    if (!silent) {
+      if (updateSpinIcon) updateSpinIcon.classList.remove('spinning');
+      if (checkUpdateBtn) checkUpdateBtn.disabled = false;
+    }
+  }
+}
+
+async function startUpdateDownload() {
+  if (!activeUpdateRelease || !activeUpdateRelease.download_url) {
+    if (activeUpdateRelease && activeUpdateRelease.release_url) {
+      window.open(activeUpdateRelease.release_url, '_blank');
+      return;
+    }
+    showToast(t('toastError'), 'No download URL available');
+    return;
+  }
+
+  if (downloadUpdateBtn) downloadUpdateBtn.disabled = true;
+  if (updateProgressContainer) updateProgressContainer.style.display = 'flex';
+  if (updateProgressBar) updateProgressBar.style.width = '0%';
+  if (updateProgressText) updateProgressText.textContent = '0%';
+  if (updateProgressSpeed) updateProgressSpeed.textContent = t('updateDownloading');
+
+  showToast(t('toastDownloadStarted'), t('toastDownloadStartedMsg'));
+
+  try {
+    const res = await fetch('/api/app_update/download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: activeUpdateRelease.download_url })
+    });
+    const data = await res.json();
+    if (!data.success) {
+      showToast(t('toastError'), data.message || 'Failed to start download');
+      if (downloadUpdateBtn) downloadUpdateBtn.disabled = false;
+      return;
+    }
+
+    if (updateProgressInterval) clearInterval(updateProgressInterval);
+    updateProgressInterval = setInterval(pollUpdateProgress, 400);
+  } catch (err) {
+    showToast(t('toastError'), err.message);
+    if (downloadUpdateBtn) downloadUpdateBtn.disabled = false;
+  }
+}
+
+async function pollUpdateProgress() {
+  try {
+    const res = await fetch('/api/app_update/progress');
+    const p = await res.json();
+
+    if (p.status === 'downloading') {
+      const pct = p.percent || 0;
+      if (updateProgressBar) updateProgressBar.style.width = `${pct}%`;
+      const mbDl = (p.downloaded_bytes / (1024 * 1024)).toFixed(1);
+      const mbTot = (p.total_bytes / (1024 * 1024)).toFixed(1);
+      if (updateProgressText) updateProgressText.textContent = `${pct}% (${mbDl} / ${mbTot} MB)`;
+      if (updateProgressSpeed) updateProgressSpeed.textContent = `${Math.round(p.speed_kbps)} KB/s`;
+    } else if (p.status === 'ready') {
+      clearInterval(updateProgressInterval);
+      updateProgressInterval = null;
+      if (updateProgressBar) updateProgressBar.style.width = '100%';
+      if (updateProgressText) updateProgressText.textContent = '100% (' + t('updateReady') + ')';
+      if (updateProgressSpeed) updateProgressSpeed.textContent = '';
+      if (installNowBtn) installNowBtn.style.display = 'inline-flex';
+      showToast(t('updateReady'), t('btnRestartInstall'));
+    } else if (p.status === 'error') {
+      clearInterval(updateProgressInterval);
+      updateProgressInterval = null;
+      if (updateProgressText) updateProgressText.textContent = t('toastError') + ': ' + (p.error || '');
+      if (downloadUpdateBtn) downloadUpdateBtn.disabled = false;
+    }
+  } catch (err) {
+    clearInterval(updateProgressInterval);
+    updateProgressInterval = null;
+  }
+}
+
+async function installDownloadedUpdate() {
+  if (installNowBtn) installNowBtn.disabled = true;
+  showToast(t('toastInstallerLaunched'), t('toastInstallerLaunchedMsg'));
+  try {
+    await fetch('/api/app_update/install', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ silent: false })
+    });
+  } catch (e) {}
+}
+
+if (checkUpdateBtn) checkUpdateBtn.addEventListener('click', () => checkForAppUpdates(false, true));
+if (downloadUpdateBtn) downloadUpdateBtn.addEventListener('click', startUpdateDownload);
+if (installNowBtn) installNowBtn.addEventListener('click', installDownloadedUpdate);
+
+if (appVersionBadge) {
+  appVersionBadge.addEventListener('click', () => {
+    openSettings();
+    setTimeout(() => {
+      const card = document.getElementById('updateCard');
+      const body = document.querySelector('#settingsModal .modal-body');
+      if (card && body) {
+        body.scrollTo({ top: card.offsetTop - 20, behavior: 'smooth' });
+      }
+    }, 150);
+  });
+}
+
+// Check for updates automatically in background on launch (debounced)
+setTimeout(() => {
+  checkForAppUpdates(true, false);
+}, 3500);

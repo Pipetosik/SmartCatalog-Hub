@@ -521,6 +521,63 @@
                 </a>
               </div>
             </div>
+
+            <!-- In-App Auto-Updater Card -->
+            <div class="update-card" id="updateCard">
+              <div class="update-status-row">
+                <div class="update-status-info">
+                  <span class="update-status-dot" id="updateStatusDot"></span>
+                  <span class="update-status-text" id="updateStatusText" data-i18n="updateUpToDate">У вас установлена актуальная версия</span>
+                </div>
+                <button class="action-btn" id="checkUpdateBtn" type="button" data-i18n-title="checkUpdateTitle" title="Проверить наличие новой версии на GitHub">
+                  <svg class="update-spin-icon" id="updateSpinIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                  </svg>
+                  <span data-i18n="btnCheckUpdates">Проверить обновления</span>
+                </button>
+              </div>
+
+              <!-- Available Update Banner -->
+              <div class="update-banner" id="updateBanner" style="display: none;">
+                <div class="update-banner-header">
+                  <div class="update-badge-pill">
+                    <span class="update-pill-icon">🚀</span>
+                    <span id="updateBannerVersion">v1.2.0</span>
+                  </div>
+                  <span class="update-release-name" id="updateBannerName">SmartCatalog Hub Update</span>
+                </div>
+                <div class="update-notes-preview" id="updateNotesPreview"></div>
+                
+                <div class="update-banner-actions" id="updateBannerActions">
+                  <button class="action-btn primary-action-btn" id="downloadUpdateBtn" type="button">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                    </svg>
+                    <span data-i18n="btnDownloadInstall">Скачать и установить</span>
+                  </button>
+                  <a href="#" target="_blank" rel="noopener" class="action-btn" id="viewReleaseUrlBtn">
+                    <span data-i18n="btnViewOnGithub">Открыть на GitHub ↗</span>
+                  </a>
+                </div>
+
+                <!-- Download Progress -->
+                <div class="update-progress-container" id="updateProgressContainer" style="display: none;">
+                  <div class="update-progress-bar-wrap">
+                    <div class="update-progress-bar" id="updateProgressBar" style="width: 0%;"></div>
+                  </div>
+                  <div class="update-progress-meta">
+                    <span id="updateProgressText">0%</span>
+                    <span id="updateProgressSpeed">0 KB/s</span>
+                  </div>
+                  <button class="action-btn primary-action-btn pulse-glow" id="installNowBtn" type="button" style="display: none; margin-top: 10px; width: 100%;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span data-i18n="btnRestartInstall">Перезапустить и обновить сейчас</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

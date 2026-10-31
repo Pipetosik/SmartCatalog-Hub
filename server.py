@@ -6,6 +6,7 @@ import subprocess
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 import catalog_manager
 import watcher
+import updater
 from classifier import CATEGORY_RULES
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -286,6 +287,20 @@ class CatalogHTTPHandler(BaseHTTPRequestHandler):
                 self.send_json({"success": True, "log": "Лог классификации пока пуст. Запустите сканирование или добавьте приложение."})
             return
 
+        if path == "/api/app_update/check":
+            force = False
+            if "?" in self.path:
+                q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+                force = q.get("force", ["0"])[0].lower() in ("1", "true", "yes")
+            result = updater.check_for_updates(force=force)
+            self.send_json(result)
+            return
+
+        if path == "/api/app_update/progress":
+            progress = updater.get_download_progress()
+            self.send_json(progress)
+            return
+
         # Secure icon file serving with realpath boundary check against Path Traversal
         if path.startswith("/icons/"):
             rel = path[len("/icons/"):].lstrip("/\\")
@@ -546,6 +561,18 @@ class CatalogHTTPHandler(BaseHTTPRequestHandler):
                 print(f"[API Rescan] Watcher scan error: {e}", flush=True)
             apps = catalog_manager.scan_and_rebuild_catalog()
             self.send_json({"success": True, "total": len(apps)})
+            return
+
+        if path == "/api/app_update/download":
+            url = req_data.get("url")
+            ok, msg = updater.start_download(url)
+            self.send_json({"success": ok, "message": msg}, 200 if ok else 400)
+            return
+
+        if path == "/api/app_update/install":
+            silent = bool(req_data.get("silent", False))
+            ok, msg = updater.install_update(silent=silent)
+            self.send_json({"success": ok, "message": msg}, 200 if ok else 400)
             return
 
         self.send_error(404, "Not Found")
