@@ -2,7 +2,7 @@
 ; Compiles dist\SmartCatalogHub into SmartCatalog-Setup-v1.0.2.exe
 
 #define MyAppName "SmartCatalog Hub"
-#define MyAppVersion "1.0.2"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "SmartCatalog Hub Team"
 #define MyAppURL "https://github.com/Pipetosik/SmartCatalog-Hub"
 #define MyAppExeName "SmartCatalog.exe"
@@ -21,7 +21,7 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=LICENSE
 OutputDir=dist_installer
-OutputBaseFilename=SmartCatalog-Setup-v1.0.2
+OutputBaseFilename=SmartCatalog-Setup-v1.1.0
 SetupIconFile=assets\icon.ico
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -43,10 +43,10 @@ Source: "assets\icon.ico"; DestDir: "{app}"; DestName: "icon.ico"; Flags: ignore
 Source: "dist\SmartCatalogHub\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\assets\icon.ico"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\assets\icon.ico"; IconIndex: 0
 Name: "{group}\Деинсталлировать {#MyAppName}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{app}\assets\icon.ico"
-Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyServiceExeName}"; Tasks: startupentry; IconFilename: "{app}\assets\icon.ico"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{app}\assets\icon.ico"; IconIndex: 0
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyServiceExeName}"; Tasks: startupentry; IconFilename: "{app}\assets\icon.ico"; IconIndex: 0
 
 [Run]
 Filename: "{app}\{#MyServiceExeName}"; Description: "Запустить фоновую службу SmartCatalog"; Flags: nowait postinstall skipifsilent

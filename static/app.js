@@ -12,6 +12,237 @@ let runningApps = {};
 let playtimeStats = null;
 let workspacesList = [];
 let clipboardHistory = [];
+const APP_VERSION = '1.1.0';
+
+const CATEGORY_NAMES_EN = {
+  "01. Разработка и Код": "01. Development & Code",
+  "02. Базы данных": "02. Databases",
+  "03. Нейросети и ИИ": "03. AI & Neural Networks",
+  "04. Интернет и Браузеры": "04. Internet & Browsers",
+  "05. Мессенджеры и Связь": "05. Communication & Chat",
+  "06. Удаленный доступ и Сеть": "06. Remote Access & Network",
+  "07. Медиа и Звук": "07. Media & Audio",
+  "08. Игры и Развлечения": "08. Games & Entertainment",
+  "09. Офис и Документы": "09. Office & Documents",
+  "10. Графика и Дизайн": "10. Graphics & Design",
+  "11. Железо и Мониторинг": "11. Hardware & Monitoring",
+  "12. Система и Обслуживание": "12. System & Maintenance",
+  "13. Безопасность и Архивы": "13. Security & Utilities"
+};
+
+const I18N = {
+  ru: {
+    statusReady: "Каталог готов",
+    programsSuffix: "программ",
+    inFavoritesSuffix: "в избранном",
+    allPrograms: "Все программы",
+    frequentApps: "Часто запускаемые (Топ 15)",
+    favoriteApps: "Избранные программы",
+    runningAppsTitle: "Запущенные программы",
+    searchResultsFor: "Результаты поиска: ",
+    runningCountSuffix: "запущены",
+    emptyFavTitle: "В избранном пока пусто",
+    emptyFavDesc: "Нажмите на звездочку на карточке любой программы, чтобы добавить её в быстрый доступ",
+    emptyFreqTitle: "Нет часто используемых программ",
+    emptyFreqDesc: "Запускайте приложения из каталога, и они автоматически появятся в этом списке.",
+    emptyRunningTitle: "Нет запущенных программ",
+    emptyRunningDesc: "В данный момент ни одна из программ каталога не запущена в системе.",
+    emptySearchTitle: "Ничего не найдено",
+    emptySearchDesc: "Попробуйте изменить поисковый запрос или переключить категорию",
+    searchPlaceholder: "Поиск по названию или описанию...",
+    keyLaunch: "Запустить",
+    keyQuickLook: "Инфо",
+    keyFavorite: "В избранное",
+    keyFolder: "Папка",
+    keyCompact: "Компакт",
+    keySettings: "Настройки",
+    keySearch: "Поиск",
+    keyReset: "Сброс",
+    quickLookTitle: "Быстрый просмотр",
+    qlPath: "Расположение файла:",
+    qlPlaytime: "Экранное время:",
+    qlLaunches: "Количество запусков:",
+    qlLastRun: "Последний запуск:",
+    keyClose: "Закрыть",
+    favAdd: "В избранное",
+    favRemove: "Из избранного",
+    openFolder: "Папка",
+    launchApp: "Запустить",
+    starGithub: "Поставить ⭐ на GitHub",
+    reportBug: "Сообщить об ошибке",
+    changelogBtn: "История изменений",
+    aboutAppDesc: "Умный лаунчер и каталог программ с автоматической классификацией для Windows 10/11",
+    secNavTitle: "Язык и навигация",
+    settingLangTitle: "Язык интерфейса / Language",
+    settingLangDesc: "Язык надписей, кнопок и категорий программ",
+    settingStartupTitle: "Стартовая вкладка по умолчанию",
+    settingStartupDesc: "Раздел, который открывается при старте или разворачивании лаунчера",
+    settingThemeTitle: "Тема оформления и эффект стекла",
+    settingThemeDesc: "Визуальный стиль интерфейса и прозрачность оконного фона",
+    settingAccentTitle: "Акцентный цвет интерфейса",
+    settingAccentDesc: "Цветовой тон кнопок, бейджей и выделения элементов",
+    secAboutTitle: "О программе и обратная связь",
+    btnViewLog: "Просмотреть лог",
+    ctxQuickLook: "Быстрый просмотр (Space)",
+    ctxOpenFolder: "Открыть расположение файла",
+    badgeNew: "НОВОЕ"
+  },
+  en: {
+    statusReady: "Catalog ready",
+    programsSuffix: "apps",
+    inFavoritesSuffix: "in favorites",
+    allPrograms: "All Applications",
+    frequentApps: "Frequently Used (Top 15)",
+    favoriteApps: "Favorite Applications",
+    runningAppsTitle: "Running Applications",
+    searchResultsFor: "Search results: ",
+    runningCountSuffix: "running",
+    emptyFavTitle: "No favorite apps yet",
+    emptyFavDesc: "Click the star icon on any app card to add it to quick access",
+    emptyFreqTitle: "No frequently used apps",
+    emptyFreqDesc: "Launch apps from the catalog to have them automatically appear here.",
+    emptyRunningTitle: "No running apps",
+    emptyRunningDesc: "None of the catalog apps are currently running on your system.",
+    emptySearchTitle: "Nothing found",
+    emptySearchDesc: "Try a different search query or switch categories",
+    searchPlaceholder: "Search by app name or description...",
+    keyLaunch: "Launch",
+    keyQuickLook: "Info",
+    keyFavorite: "Favorite",
+    keyFolder: "Folder",
+    keyCompact: "Compact",
+    keySettings: "Settings",
+    keySearch: "Search",
+    keyReset: "Reset",
+    quickLookTitle: "Quick Look",
+    qlPath: "File Location:",
+    qlPlaytime: "Playtime:",
+    qlLaunches: "Launch count:",
+    qlLastRun: "Last launched:",
+    keyClose: "Close",
+    favAdd: "Add to Favorites",
+    favRemove: "Remove Favorite",
+    openFolder: "Open Folder",
+    launchApp: "Launch",
+    starGithub: "Star ⭐ on GitHub",
+    reportBug: "Report a Bug",
+    changelogBtn: "Changelog",
+    aboutAppDesc: "Smart app launcher & catalog with automatic Pe-header classification for Windows 10/11",
+    secNavTitle: "Language & Navigation",
+    settingLangTitle: "Interface Language",
+    settingLangDesc: "Language for labels, buttons, categories, and notifications",
+    settingStartupTitle: "Default Startup Tab",
+    settingStartupDesc: "The section opened whenever the launcher starts or restores",
+    settingThemeTitle: "Theme & Glass Effects",
+    settingThemeDesc: "Visual appearance and background window transparency",
+    settingAccentTitle: "Accent Color Theme",
+    settingAccentDesc: "Color tone for buttons, badges, and focus rings",
+    secAboutTitle: "About & Community Feedback",
+    btnViewLog: "View Log",
+    ctxQuickLook: "Quick Look (Space)",
+    ctxOpenFolder: "Open file location",
+    badgeNew: "NEW"
+  }
+};
+
+const ACCENT_PALETTES = {
+  blue: {
+    accent: '#38bdf8',
+    hover: '#0284c7',
+    subtle: 'rgba(56, 189, 248, 0.15)',
+    ring: 'rgba(56, 189, 248, 0.35)'
+  },
+  purple: {
+    accent: '#a855f7',
+    hover: '#9333ea',
+    subtle: 'rgba(168, 85, 247, 0.15)',
+    ring: 'rgba(168, 85, 247, 0.35)'
+  },
+  emerald: {
+    accent: '#10b981',
+    hover: '#059669',
+    subtle: 'rgba(16, 185, 129, 0.15)',
+    ring: 'rgba(16, 185, 129, 0.35)'
+  },
+  amber: {
+    accent: '#f59e0b',
+    hover: '#d97706',
+    subtle: 'rgba(245, 158, 11, 0.15)',
+    ring: 'rgba(245, 158, 11, 0.35)'
+  },
+  rose: {
+    accent: '#f43f5e',
+    hover: '#e11d48',
+    subtle: 'rgba(244, 63, 94, 0.15)',
+    ring: 'rgba(244, 63, 94, 0.35)'
+  },
+  slate: {
+    accent: '#94a3b8',
+    hover: '#64748b',
+    subtle: 'rgba(148, 163, 184, 0.15)',
+    ring: 'rgba(148, 163, 184, 0.35)'
+  }
+};
+
+function t(key, fallback = '') {
+  const lang = userData.settings?.language || 'ru';
+  return I18N[lang]?.[key] || I18N['ru']?.[key] || fallback;
+}
+
+function formatCategoryName(catName) {
+  const lang = userData.settings?.language || 'ru';
+  let displayName = catName;
+  if (lang === 'en' && CATEGORY_NAMES_EN[catName]) {
+    displayName = CATEGORY_NAMES_EN[catName];
+  }
+  return displayName.replace(/^\d+\.\s*/, '');
+}
+
+function applyAccentColor(colorKey) {
+  const palette = ACCENT_PALETTES[colorKey] || ACCENT_PALETTES.blue;
+  document.documentElement.style.setProperty('--accent', palette.accent);
+  document.documentElement.style.setProperty('--accent-hover', palette.hover);
+  document.documentElement.style.setProperty('--accent-subtle', palette.subtle);
+  document.documentElement.style.setProperty('--accent-ring', palette.ring);
+
+  document.querySelectorAll('.color-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.color === colorKey);
+  });
+}
+
+function applyLanguage(lang) {
+  if (!userData.settings) userData.settings = {};
+  userData.settings.language = lang;
+  document.documentElement.lang = lang;
+
+  // Translate all DOM elements marked with data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (I18N[lang]?.[key]) {
+      el.textContent = I18N[lang][key];
+    }
+  });
+
+  // Translate placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (I18N[lang]?.[key]) {
+      el.placeholder = I18N[lang][key];
+    }
+  });
+
+  // Translate titles
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.dataset.i18nTitle;
+    if (I18N[lang]?.[key]) {
+      el.title = I18N[lang][key];
+    }
+  });
+
+  renderCategories();
+  renderApps();
+  updateStats();
+}
 
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
@@ -37,6 +268,25 @@ const closeSettingsBtn = document.getElementById('closeSettingsBtn');
 const saveSettingsBtn = document.getElementById('saveSettingsBtn');
 const startupTabSelect = document.getElementById('startupTabSelect');
 const toastHub = document.getElementById('toastHub');
+const languageSelect = document.getElementById('languageSelect');
+const accentPalettePicker = document.getElementById('accentPalettePicker');
+const quickLookModal = document.getElementById('quickLookModal');
+const closeQuickLookBtn = document.getElementById('closeQuickLookBtn');
+const qlIcon = document.getElementById('qlIcon');
+const qlName = document.getElementById('qlName');
+const qlCatBadge = document.getElementById('qlCatBadge');
+const qlNewBadge = document.getElementById('qlNewBadge');
+const qlDesc = document.getElementById('qlDesc');
+const qlPath = document.getElementById('qlPath');
+const qlPlaytime = document.getElementById('qlPlaytime');
+const qlLaunches = document.getElementById('qlLaunches');
+const qlLastRun = document.getElementById('qlLastRun');
+const qlFavBtn = document.getElementById('qlFavBtn');
+const qlFavText = document.getElementById('qlFavText');
+const qlFolderBtn = document.getElementById('qlFolderBtn');
+const qlLaunchBtn = document.getElementById('qlLaunchBtn');
+const ctxQuickLook = document.getElementById('ctxQuickLook');
+let activeQuickLookApp = null;
 
 // Running processes filter on 'Все программы'
 const filterRunningBtn = document.getElementById('filterRunningBtn');
@@ -496,6 +746,57 @@ function isNewApp(app) {
 }
 
 // Settings Modal
+
+// Quick Look Controller
+function openQuickLook(app) {
+  if (!quickLookModal || !app) return;
+  activeQuickLookApp = app;
+  
+  if (qlIcon) qlIcon.src = app.icon || '/static/icons/default.png';
+  if (qlName) qlName.textContent = app.name;
+  if (qlCatBadge) qlCatBadge.textContent = formatCategoryName(app.category);
+  
+  if (qlNewBadge) {
+    qlNewBadge.style.display = isNewApp(app) ? 'inline-block' : 'none';
+    qlNewBadge.textContent = t('badgeNew', 'НОВОЕ');
+  }
+  
+  if (qlDesc) qlDesc.textContent = app.description || '—';
+  if (qlPath) qlPath.textContent = app.target || app.lnk_path || '—';
+  
+  // Stats
+  const stat = userData.launch_stats?.[app.id] || {};
+  const launches = stat.count || 0;
+  if (qlLaunches) qlLaunches.textContent = launches;
+  
+  if (qlLastRun) {
+    if (stat.last_launched) {
+      const d = new Date(stat.last_launched * 1000);
+      qlLastRun.textContent = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+      qlLastRun.textContent = '—';
+    }
+  }
+  
+  if (qlPlaytime) {
+    const pt = playtimeStats?.apps_playtime?.[app.id]?.total || 0;
+    qlPlaytime.textContent = formatPlaytime(pt);
+  }
+  
+  // Favorite button state
+  const isFav = (userData.favorites || []).includes(app.id);
+  if (qlFavText) qlFavText.textContent = isFav ? t('favRemove', 'Из избранного') : t('favAdd', 'В избранное');
+  if (qlFavBtn) qlFavBtn.classList.toggle('active', isFav);
+
+  quickLookModal.style.display = 'flex';
+}
+
+function closeQuickLook() {
+  if (!quickLookModal) return;
+  quickLookModal.style.display = 'none';
+  activeQuickLookApp = null;
+}
+
 function openSettings() {
   if (!settingsModal) return;
   populateSettings();
@@ -532,6 +833,13 @@ function populateSettings() {
   if (themeSelect) {
     themeSelect.value = userData.settings?.theme || 'win11';
   }
+
+  if (languageSelect) {
+    languageSelect.value = userData.settings?.language || 'ru';
+  }
+
+  const currentAccent = userData.settings?.accent_color || 'blue';
+  applyAccentColor(currentAccent);
 
   if (enableNewBadgeToggle) {
     enableNewBadgeToggle.checked = (userData.settings?.enable_new_badge !== false);
@@ -637,8 +945,10 @@ async function initCatalog() {
     runningApps = rData?.running || {};
     playtimeStats = pStats || {};
 
-    // Apply active theme
+    // Apply active theme & accent
     applyTheme(userData.settings?.theme || 'win11');
+    applyAccentColor(userData.settings?.accent_color || 'blue');
+    applyLanguage(userData.settings?.language || 'ru');
 
     // Apply configured view mode (compact or full)
     const configuredViewMode = userData.settings?.view_mode || 'full';
@@ -768,7 +1078,7 @@ function updateStats() {
   if (frequentCount) frequentCount.textContent = freqCount;
   if (favoritesCount) favoritesCount.textContent = favCount;
 
-  const text = `${total} программ • ${favCount} в избранном`;
+  const text = `${total} ${t('programsSuffix', 'программ')} • ${favCount} ${t('inFavoritesSuffix', 'в избранном')}`;
   if (statsSubtitle) statsSubtitle.textContent = text;
   if (footerStats) footerStats.textContent = text;
 }
@@ -805,7 +1115,7 @@ function renderCategories() {
     btn.className = `cat-pill ${activeCategory === cat.name ? 'active' : ''}`;
     btn.dataset.cat = cat.name;
 
-    const displayTitle = cat.name.replace(/^\d+\.\s*/, '');
+    const displayTitle = formatCategoryName(cat.name);
     const svgIcon = getCategorySvg(cat.name);
 
     btn.innerHTML = `
@@ -1052,7 +1362,7 @@ function renderApps() {
     currentCategoryTitle.textContent = 'Избранные программы';
     resultCount.textContent = `${filtered.length} программ`;
   } else {
-    currentCategoryTitle.textContent = activeCategory.replace(/^\d+\.\s*/, '');
+    currentCategoryTitle.textContent = formatCategoryName(activeCategory);
     resultCount.textContent = `${filtered.length} программ`;
   }
 
@@ -1588,6 +1898,72 @@ if (settingsBtn) {
 if (closeSettingsBtn) {
   closeSettingsBtn.addEventListener('click', closeSettings);
 }
+
+// Quick Look Modal Buttons
+if (closeQuickLookBtn) {
+  closeQuickLookBtn.addEventListener('click', closeQuickLook);
+}
+if (quickLookModal) {
+  quickLookModal.addEventListener('click', (e) => {
+    if (e.target === quickLookModal) closeQuickLook();
+  });
+}
+if (qlLaunchBtn) {
+  qlLaunchBtn.addEventListener('click', () => {
+    if (activeQuickLookApp) {
+      launchApp(activeQuickLookApp);
+      closeQuickLook();
+    }
+  });
+}
+if (qlFolderBtn) {
+  qlFolderBtn.addEventListener('click', () => {
+    if (activeQuickLookApp) {
+      openAppFolder(activeQuickLookApp);
+      closeQuickLook();
+    }
+  });
+}
+if (qlFavBtn) {
+  qlFavBtn.addEventListener('click', async () => {
+    if (activeQuickLookApp) {
+      await toggleFavorite(activeQuickLookApp);
+      const isFav = (userData.favorites || []).includes(activeQuickLookApp.id);
+      if (qlFavText) qlFavText.textContent = isFav ? t('favRemove', 'Из избранного') : t('favAdd', 'В избранное');
+      if (qlFavBtn) qlFavBtn.classList.toggle('active', isFav);
+    }
+  });
+}
+if (ctxQuickLook) {
+  ctxQuickLook.addEventListener('click', () => {
+    hideContextMenu();
+    if (activeContextApp) {
+      openQuickLook(activeContextApp);
+    }
+  });
+}
+
+// Language and Accent Pickers in Settings
+if (languageSelect) {
+  languageSelect.addEventListener('change', (e) => {
+    const val = e.target.value;
+    applyLanguage(val);
+    saveSetting('language', val);
+    showToast(val === 'en' ? 'Language switched' : 'Язык интерфейса', val === 'en' ? 'English (Global)' : 'Русский');
+  });
+}
+
+if (accentPalettePicker) {
+  accentPalettePicker.addEventListener('click', (e) => {
+    const chip = e.target.closest('.color-chip');
+    if (!chip) return;
+    const colorKey = chip.dataset.color;
+    applyAccentColor(colorKey);
+    saveSetting('accent_color', colorKey);
+    showToast(t('settingAccentTitle', 'Акцентный цвет'), chip.title || colorKey);
+  });
+}
+
 if (saveSettingsBtn) {
   saveSettingsBtn.addEventListener('click', () => {
     closeSettings();
@@ -2695,6 +3071,10 @@ window.addEventListener('keydown', (e) => {
       closeSystemMonitorModal();
       return;
     }
+    if (quickLookModal && quickLookModal.style.display !== 'none') {
+      closeQuickLook();
+      return;
+    }
     if (settingsModal && settingsModal.style.display !== 'none') {
       closeSettings();
       return;
@@ -2798,6 +3178,15 @@ window.addEventListener('keydown', (e) => {
       if (focusedIndex >= 0 && focusedIndex < filtered.length) {
         e.preventDefault();
         toggleFavorite(filtered[focusedIndex]);
+      }
+    } else if (e.key === ' ' || e.code === 'Space') {
+      if (focusedIndex >= 0 && focusedIndex < filtered.length) {
+        e.preventDefault();
+        if (quickLookModal && quickLookModal.style.display !== 'none') {
+          closeQuickLook();
+        } else {
+          openQuickLook(filtered[focusedIndex]);
+        }
       }
     }
   }

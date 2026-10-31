@@ -3210,7 +3210,7 @@ body.theme-oled .app-container {
 
 
 /* Responsive Header Actions & Settings Visibility */
-@media (max-width: 1350px) {
+@media (max-width: 1550px) {
   .header {
     padding: 10px 16px;
     gap: 8px;
@@ -3229,9 +3229,9 @@ body.theme-oled .app-container {
   }
   .header-actions .action-btn {
     padding: 0;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
     justify-content: center;
   }
   .header-actions .action-btn span {
@@ -3255,3 +3255,290 @@ body.theme-oled .app-container {
     min-width: 100px;
   }
 }
+
+/* Version Badge in Header */
+.brand-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.version-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent-subtle, rgba(56, 189, 248, 0.12));
+  color: var(--accent, #38bdf8);
+  border: 1px solid var(--accent-subtle, rgba(56, 189, 248, 0.25));
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 16px;
+}
+
+/* Footer Status Version */
+.status-version {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  opacity: 0.85;
+}
+
+/* Accent Palette Picker */
+.accent-palette-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+.color-chip {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--chip-color);
+  border: 2px solid transparent;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+}
+.color-chip:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 12px var(--chip-color);
+}
+.color-chip.active {
+  border-color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 14px var(--chip-color);
+}
+.color-chip.active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* About & Feedback Card in Settings */
+.about-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.about-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.about-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.about-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.about-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.about-app-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.about-version-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.about-app-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+.about-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.about-actions-row .action-btn {
+  text-decoration: none;
+  font-size: 12px;
+  padding: 0 12px;
+  height: 32px;
+}
+.github-star-btn:hover {
+  border-color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+}
+.feedback-issue-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+/* Quick Look Modal (macOS Space-preview style) */
+.quick-look-card {
+  max-width: 580px;
+  width: 90%;
+  animation: modalScaleIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ql-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.ql-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.ql-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ql-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+.ql-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.ql-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ql-app-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ql-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+.ql-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ql-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+}
+.ql-field:first-child {
+  grid-column: 1 / -1;
+}
+.ql-field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.ql-field-val {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ql-field-val.path-val {
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  direction: rtl;
+  text-align: left;
+}
+.ql-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+}
+.ql-footer-hints {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+.ql-footer-hints kbd {
+  font-family: inherit;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--text-secondary);
+}
+.ql-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.primary-action-btn {
+  background: var(--accent) !important;
+  color: #0b1320 !important;
+  border-color: var(--accent) !important;
+  font-weight: 600;
+}
+.primary-action-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+

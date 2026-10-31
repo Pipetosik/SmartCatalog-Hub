@@ -15,10 +15,16 @@ from catalog_manager import get_setting
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def get_tray_icon_path():
+    exe_dir = os.path.dirname(sys.executable)
+    parent_dir = os.path.dirname(BASE_DIR)
     candidates = [
         os.path.join(BASE_DIR, "assets", "icon.ico"),
         os.path.join(BASE_DIR, "icon.ico"),
         os.path.join(BASE_DIR, "_internal", "assets", "icon.ico"),
+        os.path.join(parent_dir, "assets", "icon.ico"),
+        os.path.join(parent_dir, "icon.ico"),
+        os.path.join(exe_dir, "assets", "icon.ico"),
+        os.path.join(exe_dir, "icon.ico"),
         os.path.join(BASE_DIR, "SmartCatalog_v3.ico"),
         os.path.join(BASE_DIR, "SmartCatalog.ico"),
     ]
@@ -143,8 +149,10 @@ class TrayIconWindow:
             icon_p = get_tray_icon_path()
             if icon_p:
                 try:
+                    cx = win32api.GetSystemMetrics(win32con.SM_CXSMICON)
+                    cy = win32api.GetSystemMetrics(win32con.SM_CYSMICON)
                     self.hicon = win32gui.LoadImage(
-                        0, icon_p, win32con.IMAGE_ICON, 16, 16, win32con.LR_LOADFROMFILE
+                        0, icon_p, win32con.IMAGE_ICON, cx, cy, win32con.LR_LOADFROMFILE
                     )
                 except Exception:
                     self.hicon = None

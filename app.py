@@ -52,17 +52,28 @@ def ensure_service_running():
 
     DETACHED_PROCESS = 0x00000008
     CREATE_NEW_PROCESS_GROUP = 0x00000200
+    CREATE_BREAKAWAY_FROM_JOB = 0x01000000
     try:
         subprocess.Popen(
             cmd,
             cwd=BASE_DIR,
-            creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP,
+            creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP | CREATE_BREAKAWAY_FROM_JOB,
             close_fds=True
         )
-    except Exception as e:
-        log(f"Failed to spawn detached service: {e}")
+    except Exception:
         try:
-            subprocess.Popen(cmd, cwd=BASE_DIR)
+            subprocess.Popen(
+                cmd,
+                cwd=BASE_DIR,
+                creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP,
+                close_fds=True
+            )
+        except Exception as e:
+            log(f"Failed to spawn detached service: {e}")
+            try:
+                subprocess.Popen(cmd, cwd=BASE_DIR)
+            except Exception:
+                pass
         except Exception:
             pass
     

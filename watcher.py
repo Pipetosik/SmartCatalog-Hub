@@ -41,6 +41,33 @@ def init_known_targets():
                             if f.lower().endswith(('.lnk', '.exe')):
                                 known_files.add(os.path.join(root, f).lower())
 
+CATEGORY_NAMES_EN = {
+    "01. Разработка и Код": "01. Development & Code",
+    "02. Базы данных": "02. Databases",
+    "03. Нейросети и ИИ": "03. AI & Neural Networks",
+    "04. Интернет и Браузеры": "04. Internet & Browsers",
+    "05. Мессенджеры и Связь": "05. Communication & Chat",
+    "06. Удаленный доступ и Сеть": "06. Remote Access & Network",
+    "07. Медиа и Звук": "07. Media & Audio",
+    "08. Игры и Развлечения": "08. Games & Entertainment",
+    "09. Офис и Документы": "09. Office & Documents",
+    "10. Графика и Дизайн": "10. Graphics & Design",
+    "11. Железо и Мониторинг": "11. Hardware & Monitoring",
+    "12. Система и Обслуживание": "12. System & Maintenance",
+    "13. Безопасность и Архивы": "13. Security & Utilities"
+}
+
+def notify_discovered_app(app_name, cat_clean, desc_clean, is_portable=False):
+    lang = catalog_manager.load_user_data().get("settings", {}).get("language", "ru")
+    if lang == "en":
+        cat_disp = CATEGORY_NAMES_EN.get(cat_clean, cat_clean)
+        title = "Portable Application Discovered" if is_portable else "New Application Added"
+        msg = f"{app_name} added to «{cat_disp}».\n{desc_clean}"
+    else:
+        title = "Обнаружена портативная программа" if is_portable else "Новая программа добавлена"
+        msg = f"{app_name} распределена в «{cat_clean}».\n{desc_clean}"
+    show_toast(title, msg)
+
 def show_toast(title, message):
     clean_title = title.replace("'", "’").replace('"', "”")
     clean_msg = message.replace("'", "’").replace('"', "”")[:200]
@@ -119,10 +146,7 @@ def process_discovered_file(file_path, notify=True, save_now=True, delay=True):
                 cat_clean = entry["category"]
                 desc_clean = entry["description"]
                 print(f"[Watcher] Discovered and added: {app_name} -> {cat_clean}", flush=True)
-                show_toast(
-                    "Новая программа добавлена",
-                    f"{app_name} распределена в «{cat_clean}».\n{desc_clean}"
-                )
+                notify_discovered_app(app_name, cat_clean, desc_clean, is_portable=False)
             return entry
                 
         # 2. Handle standalone / portable .exe
@@ -144,10 +168,7 @@ def process_discovered_file(file_path, notify=True, save_now=True, delay=True):
                 cat_clean = entry["category"]
                 desc_clean = entry["description"]
                 print(f"[Watcher] Added portable application: {app_name} -> {cat_clean}", flush=True)
-                show_toast(
-                    "Обнаружена портативная программа",
-                    f"{app_name} добавлена в «{cat_clean}».\n{desc_clean}"
-                )
+                notify_discovered_app(app_name, cat_clean, desc_clean, is_portable=True)
             return entry
     finally:
         pythoncom.CoUninitialize()

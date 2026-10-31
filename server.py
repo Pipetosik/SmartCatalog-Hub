@@ -11,6 +11,7 @@ from classifier import CATEGORY_RULES
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 ICONS_DIR = os.path.join(BASE_DIR, "icons_cache")
+APP_VERSION = "1.1.0"
 
 def attach_to_default_desktop():
     try:
@@ -209,7 +210,8 @@ class CatalogHTTPHandler(BaseHTTPRequestHandler):
         if path == "/api/version":
             self.send_json({
                 "version": catalog_manager.get_catalog_version(),
-                "total": len(catalog_manager.load_catalog_data())
+                "total": len(catalog_manager.load_catalog_data()),
+                "app_version": APP_VERSION
             })
             return
 

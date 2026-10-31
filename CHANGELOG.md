@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-10-31
+
+### Added
+- **Visual Version Badges**: Displayed active application version `v1.1.0` directly in the header adjacent to brand title, in the footer status bar, and in the new "About / О программе" settings module.
+- **Multilingual Support (i18n)**: Seamless instant runtime switching between **Russian (RU)** and **English (EN)** without page reload. All UI text, category names (e.g. `01. Разработка и Код` $\leftrightarrow$ `01. Development & Code`), toasts, hints, and modal dialogs are localized.
+- **Accent Color Themes**: Added Accent Color Picker in Settings featuring 6 curated Windows 11 Fluent themes: *Sky Blue*, *Ultraviolet Purple*, *Emerald Green*, *Amber Sunset*, *Ruby Rose*, and *Steel Slate*.
+- **macOS-style Quick Look (`Space`)**: Pressing `Space` while navigating the catalog grid opens an instant preview card with high-res icon, full path, total screen playtime, launch counter, last launched timestamp, and direct actions (`↵ Launch`, `Alt+↵ Folder`, `F Favorite`, `Space Close`).
+- **In-App Community & Feedback Loop**: Added dedicated "О программе / About" section with direct links to Star on GitHub (`⭐ Star on GitHub`), file bug reports or feature requests via GitHub issue templates, and view the release changelog.
+- **Shortcut Cold-Start Auto-Resurrection**: Double-clicking the Desktop, Start Menu, or Taskbar shortcut now verifies that the background catalog service is alive via `/api/version` (<1ms probe) and automatically resurrects `service.py` silently in a detached process if stopped, preventing `ERR_CONNECTION_REFUSED`.
+
+### Fixed
+- **Desktop Shortcut & System Tray Blank Icons**: Re-encoded `.ico` assets with native Windows DIB 32-bit bitmaps (16x16, 24x24, 32x32, 48x48, 64x64, 128x128, 256x256) instead of PNG-compressed streams, resolving Windows Explorer shortcut icon fallback to white sheet and Win32 tray fallback to generic window.
+- **Header Action Bar Responsive Layout**: Increased label collapse threshold to `<= 1550px`, collapsing action buttons to compact 34x34px icon buttons with tooltips, guaranteeing that the Settings button (`#settingsBtn`) is always visible in full at any display resolution.
+- **Favorites Counter Discrepancy**: Fixed initial scan state by enforcing `validAppIds` check and ensuring `userData.favorites` starts completely empty (`[]`) on clean installations without stale mock identifiers.
+- **Socket Disconnect Exception Handling**: Caught `ConnectionAbortedError` and `ConnectionResetError` during HTTP response streaming in `server.py` to eliminate socket noise when browser tabs close.
+
 ## [1.0.2] - 2026-10-30
 
 ### Fixed
