@@ -408,7 +408,35 @@ const I18N = {
     toastTrayIcon: "Значок в трее",
     toastPlaytimeTrack: "Учет экранного времени",
     toastLiveStatus: "Индикатор запущенных программ",
-    toastClipHistory: "История буфера обмена"
+    toastClipHistory: "История буфера обмена",
+    // Software Updates (winget)
+    topUpdatesTitle: "Обновления программ (winget)",
+    topBtnUpdates: "Обновления",
+    softwareUpdatesTitle: "Обновления программ",
+    softwareUpdatesSearchPlaceholder: "Поиск среди доступных обновлений...",
+    checkSoftwareUpdatesTitle: "Проверить обновления через winget",
+    checkUpdatesBtn: "Проверить",
+    upgradeAllSoftwareTitle: "Обновить все найденные программы",
+    upgradeAllBtn: "Обновить всё",
+    scanningWingetTitle: "Сканирование Windows Package Manager...",
+    scanningWingetSub: "Поиск актуальных версий программ в репозитории winget",
+    allSoftwareUpToDateTitle: "Все программы обновлены!",
+    allSoftwareUpToDateDesc: "В вашей системе установлены последние доступные версии приложений из каталога.",
+    wingetNotAvailableTitle: "Диспетчер пакетов WinGet не найден",
+    wingetNotAvailableDesc: "Для автоматического обновления программ установите Windows Package Manager из Microsoft Store (Установщик приложений).",
+    updateCardTooltip: "Доступно обновление: v{ver} (клик для перехода)",
+    updateAppAction: "Обновить",
+    updatingAppAction: "Обновление...",
+    updatedAppAction: "Обновлено",
+    updateFailedAction: "Ошибка",
+    updateAdminAction: "От имени Администратора",
+    updateLastChecked: "Проверено: {time}",
+    updateScanningInProgress: "Идет сканирование...",
+    upgradeAllConfirmTitle: "Обновить все программы?",
+    upgradeAllConfirmDesc: "Будет запущено последовательное обновление всех программ ({n} шт.) через winget.",
+    upgradeStartedToast: "Запущено обновление: {name}",
+    upgradeSuccessToast: "{name} успешно обновлен!",
+    upgradeFailedToast: "Не удалось обновить {name}",
   },
   en: {
     // Top Brand & Header
@@ -762,7 +790,35 @@ const I18N = {
     toastTrayIcon: "Tray Icon",
     toastPlaytimeTrack: "Playtime Tracking",
     toastLiveStatus: "Live Running Status",
-    toastClipHistory: "Clipboard History"
+    toastClipHistory: "Clipboard History",
+    // Software Updates (winget)
+    topUpdatesTitle: "Software Updates (winget)",
+    topBtnUpdates: "Updates",
+    softwareUpdatesTitle: "Software Updates",
+    softwareUpdatesSearchPlaceholder: "Search available updates...",
+    checkSoftwareUpdatesTitle: "Check updates via winget",
+    checkUpdatesBtn: "Check",
+    upgradeAllSoftwareTitle: "Upgrade all discovered software",
+    upgradeAllBtn: "Update All",
+    scanningWingetTitle: "Scanning Windows Package Manager...",
+    scanningWingetSub: "Looking for newer application versions in winget repository",
+    allSoftwareUpToDateTitle: "All applications are up to date!",
+    allSoftwareUpToDateDesc: "Your system has the latest available versions of cataloged applications.",
+    wingetNotAvailableTitle: "Windows Package Manager (WinGet) Not Found",
+    wingetNotAvailableDesc: "To enable automated software updates, install Windows Package Manager from Microsoft Store (App Installer).",
+    updateCardTooltip: "Update available: v{ver} (click to view)",
+    updateAppAction: "Update",
+    updatingAppAction: "Updating...",
+    updatedAppAction: "Updated",
+    updateFailedAction: "Failed",
+    updateAdminAction: "Run as Admin",
+    updateLastChecked: "Checked: {time}",
+    updateScanningInProgress: "Scanning in progress...",
+    upgradeAllConfirmTitle: "Upgrade all applications?",
+    upgradeAllConfirmDesc: "Sequential upgrade of all applications ({n} apps) will be started via winget.",
+    upgradeStartedToast: "Upgrade started: {name}",
+    upgradeSuccessToast: "{name} successfully upgraded!",
+    upgradeFailedToast: "Failed to upgrade {name}",
   }
 };;
 
@@ -2272,6 +2328,12 @@ function renderApps() {
 
     const newBadgeHtml = isNewApp(app) ? `<span class="app-badge-new" title="${t('badgeRecentlyAdded')}">${t('badgeNew', 'НОВОЕ')}</span>` : '';
 
+    let updateBadgeHtml = '';
+    const appUpdate = softwareUpdatesMap[app.id];
+    if (appUpdate) {
+      updateBadgeHtml = `<span class="app-update-badge" title="${t('updateCardTooltip', '', { ver: appUpdate.available_version })}" data-pkg-id="${appUpdate.package_id}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg><span>${appUpdate.available_version}</span></span>`;
+    }
+
     card.innerHTML = `
       <div class="card-actions">
         <button class="card-action-btn fav-btn ${isFav ? 'active' : ''}" title="${isFav ? t('favRemoveTooltip') : t('favAddTooltip')}">
@@ -2293,6 +2355,7 @@ function renderApps() {
         <div class="app-badges-row">
           ${launchBadgeHtml}
           ${playtimeBadgeHtml}
+          ${updateBadgeHtml}
           <span class="app-category-badge">${shortCat}</span>
         </div>
         <div class="app-description" title="${formatAppDescription(app)}">
@@ -2317,6 +2380,15 @@ function renderApps() {
       e.stopPropagation();
       openAppFolder(app);
     });
+
+    // Update Badge Click
+    const uBadge = card.querySelector('.app-update-badge');
+    if (uBadge) {
+      uBadge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openSoftwareUpdatesModal(app.id);
+      });
+    }
 
     // Left Click Launch
     card.addEventListener('click', () => {
@@ -4260,3 +4332,326 @@ if (appVersionBadge) {
 setTimeout(() => {
   checkForAppUpdates(true, false);
 }, 3500);
+
+
+/* ==========================================================================
+   Software Updates via Windows Package Manager (winget)
+   ========================================================================== */
+
+let softwareUpdatesData = {
+  winget_available: true,
+  winget_version: null,
+  scanning: false,
+  total_updates: 0,
+  updates: [],
+  active_upgrades: {},
+  is_batch_upgrading: false
+};
+let softwareUpdatesMap = {};
+let softwareUpdatesPollTimer = null;
+
+async function fetchSoftwareUpdatesStatus(triggerRerender = true) {
+  try {
+    const res = await fetch('/api/software_updates/status');
+    if (!res.ok) return;
+    const data = await res.json();
+    softwareUpdatesData = data;
+
+    // Build map for instant lookup by catalog app_id
+    softwareUpdatesMap = {};
+    if (data.updates && Array.isArray(data.updates)) {
+      data.updates.forEach(u => {
+        if (u.app_id) softwareUpdatesMap[u.app_id] = u;
+      });
+    }
+
+    updateSoftwareUpdatesHeaderPill();
+    renderSoftwareUpdatesUI();
+    if (triggerRerender && typeof renderApps === 'function') {
+      renderApps();
+    }
+
+    // If scanning or upgrading is active, poll periodically
+    const isBusy = data.scanning || data.is_batch_upgrading || Object.values(data.active_upgrades || {}).some(x => x.status === 'running');
+    if (isBusy) {
+      if (!softwareUpdatesPollTimer) {
+        softwareUpdatesPollTimer = setInterval(() => fetchSoftwareUpdatesStatus(false), 2000);
+      }
+    } else {
+      if (softwareUpdatesPollTimer) {
+        clearInterval(softwareUpdatesPollTimer);
+        softwareUpdatesPollTimer = null;
+      }
+    }
+  } catch (e) {
+    console.error('Error fetching software updates status:', e);
+  }
+}
+
+function updateSoftwareUpdatesHeaderPill() {
+  const counterBadge = document.getElementById('softwareUpdatesCounter');
+  if (!counterBadge) return;
+  const count = softwareUpdatesData.total_updates || 0;
+  if (count > 0) {
+    counterBadge.textContent = count;
+    counterBadge.classList.remove('hidden');
+  } else {
+    counterBadge.textContent = '0';
+    counterBadge.classList.add('hidden');
+  }
+}
+
+async function triggerSoftwareUpdatesScan() {
+  const scanBanner = document.getElementById('softwareUpdatesScanBanner');
+  if (scanBanner) scanBanner.style.display = 'flex';
+  const refreshBtn = document.getElementById('refreshSoftwareUpdatesBtn');
+  if (refreshBtn) refreshBtn.disabled = true;
+
+  try {
+    await fetch('/api/software_updates/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ force: true })
+    });
+    // Immediately poll status
+    await fetchSoftwareUpdatesStatus(false);
+  } catch (e) {
+    console.error('Error triggering winget scan:', e);
+  } finally {
+    if (refreshBtn) refreshBtn.disabled = false;
+  }
+}
+
+async function upgradeSinglePackage(packageId, elevated = false, btnElement = null) {
+  if (btnElement) {
+    btnElement.disabled = true;
+    btnElement.innerHTML = `<span class="updates-spinner" style="width:14px;height:14px;border-width:2px;display:inline-block;vertical-align:middle;margin-right:6px;"></span> ${t('updatingAppAction')}`;
+  }
+
+  try {
+    const res = await fetch('/api/software_updates/upgrade', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ package_id: packageId, elevated: elevated })
+    });
+    const result = await res.json();
+    if (res.ok) {
+      showToast(t('softwareUpdatesTitle'), t('upgradeStartedToast', '', { name: packageId }));
+    } else {
+      showToast(t('toastError'), result.message || t('upgradeFailedToast', '', { name: packageId }));
+    }
+    fetchSoftwareUpdatesStatus(false);
+  } catch (e) {
+    console.error('Error upgrading package:', e);
+  }
+}
+
+async function upgradeAllPackages(elevated = false) {
+  const total = softwareUpdatesData.total_updates || 0;
+  if (total === 0) return;
+
+  const confirmed = confirm(
+    `${t('upgradeAllConfirmTitle')}\n\n${t('upgradeAllConfirmDesc', '', { n: total })}`
+  );
+  if (!confirmed) return;
+
+  const upgradeAllBtn = document.getElementById('upgradeAllSoftwareBtn');
+  if (upgradeAllBtn) upgradeAllBtn.disabled = true;
+
+  try {
+    await fetch('/api/software_updates/upgrade_all', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ elevated: elevated })
+    });
+    showToast(t('softwareUpdatesTitle'), t('upgradeStartedToast', '', { name: `${total} apps` }));
+    fetchSoftwareUpdatesStatus(false);
+  } catch (e) {
+    console.error('Error upgrading all packages:', e);
+  }
+}
+
+function openSoftwareUpdatesModal(focusAppId = null) {
+  const modal = document.getElementById('softwareUpdatesModal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  renderSoftwareUpdatesUI();
+
+  if (focusAppId) {
+    setTimeout(() => {
+      const row = document.querySelector(`.update-item-card[data-app-id="${focusAppId}"]`);
+      if (row) {
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        row.style.outline = '2px solid var(--accent, #38bdf8)';
+        setTimeout(() => { row.style.outline = ''; }, 2500);
+      }
+    }, 150);
+  }
+}
+
+function closeSoftwareUpdatesModal() {
+  const modal = document.getElementById('softwareUpdatesModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function renderSoftwareUpdatesUI() {
+  const modal = document.getElementById('softwareUpdatesModal');
+  if (!modal || modal.style.display === 'none') return;
+
+  const modalBadge = document.getElementById('softwareUpdatesModalBadge');
+  const lastScanTimeElem = document.getElementById('softwareUpdatesLastScanTime');
+  const scanBanner = document.getElementById('softwareUpdatesScanBanner');
+  const emptyState = document.getElementById('softwareUpdatesEmptyState');
+  const noWingetState = document.getElementById('softwareUpdatesNoWingetState');
+  const listContainer = document.getElementById('softwareUpdatesList');
+  const upgradeAllBtn = document.getElementById('upgradeAllSoftwareBtn');
+  const searchInput = document.getElementById('softwareUpdatesSearchInput');
+
+  const filterQuery = (searchInput ? searchInput.value : '').toLowerCase().trim();
+
+  if (modalBadge) {
+    modalBadge.textContent = softwareUpdatesData.total_updates || 0;
+  }
+
+  if (lastScanTimeElem) {
+    if (softwareUpdatesData.last_scan) {
+      try {
+        const d = new Date(softwareUpdatesData.last_scan);
+        lastScanTimeElem.textContent = t('updateLastChecked', '', { time: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+      } catch (e) {
+        lastScanTimeElem.textContent = softwareUpdatesData.last_scan;
+      }
+    } else {
+      lastScanTimeElem.textContent = '--';
+    }
+  }
+
+  if (scanBanner) {
+    scanBanner.style.display = softwareUpdatesData.scanning ? 'flex' : 'none';
+  }
+
+  if (!softwareUpdatesData.winget_available) {
+    if (noWingetState) noWingetState.style.display = 'flex';
+    if (emptyState) emptyState.style.display = 'none';
+    if (listContainer) listContainer.style.display = 'none';
+    if (upgradeAllBtn) upgradeAllBtn.disabled = true;
+    return;
+  }
+
+  if (noWingetState) noWingetState.style.display = 'none';
+
+  const updates = softwareUpdatesData.updates || [];
+  const filtered = filterQuery
+    ? updates.filter(u =>
+        (u.catalog_name && u.catalog_name.toLowerCase().includes(filterQuery)) ||
+        (u.package_id && u.package_id.toLowerCase().includes(filterQuery)) ||
+        (u.winget_name && u.winget_name.toLowerCase().includes(filterQuery))
+      )
+    : updates;
+
+  if (upgradeAllBtn) {
+    upgradeAllBtn.disabled = updates.length === 0 || softwareUpdatesData.is_batch_upgrading;
+  }
+
+  if (updates.length === 0 && !softwareUpdatesData.scanning) {
+    if (emptyState) emptyState.style.display = 'flex';
+    if (listContainer) listContainer.innerHTML = '';
+    return;
+  }
+
+  if (emptyState) emptyState.style.display = 'none';
+  if (!listContainer) return;
+
+  listContainer.style.display = 'flex';
+  listContainer.innerHTML = '';
+
+  filtered.forEach(u => {
+    const card = document.createElement('div');
+    card.className = 'update-item-card';
+    card.dataset.appId = u.app_id || '';
+    card.dataset.pkgId = u.package_id || '';
+
+    const iconSrc = u.icon ? `${u.icon}?v=20261029_v7` : '/static/icons/default.png';
+    const activeUpgrade = softwareUpdatesData.active_upgrades?.[u.package_id];
+
+    let actionBtnHtml = '';
+    if (activeUpgrade?.status === 'running') {
+      actionBtnHtml = `<span class="update-status-badge running"><span class="updates-spinner" style="width:12px;height:12px;border-width:2px;"></span> ${t('updatingAppAction')}</span>`;
+    } else if (activeUpgrade?.status === 'success') {
+      actionBtnHtml = `<span class="update-status-badge success">✓ ${t('updatedAppAction')}</span>`;
+    } else if (activeUpgrade?.status === 'failed') {
+      actionBtnHtml = `
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="update-status-badge failed" title="${activeUpgrade.error || ''}">✕ ${t('updateFailedAction')}</span>
+          <button class="action-btn update-item-btn update-admin-btn" title="${t('updateAdminAction')}">🛡️ ${t('updateAdminAction')}</button>
+        </div>
+      `;
+    } else {
+      actionBtnHtml = `<button class="action-btn primary-action-btn update-item-btn update-single-btn">${t('updateAppAction')}</button>`;
+    }
+
+    card.innerHTML = `
+      <div class="update-item-left">
+        <img class="update-item-icon" src="${iconSrc}" alt="" onerror="this.src='/static/icons/default.png'">
+        <div class="update-item-info">
+          <div class="update-item-header">
+            <span class="update-item-name" title="${u.catalog_name}">${u.catalog_name}</span>
+            <span class="update-item-pkg">${u.package_id}</span>
+          </div>
+          <div class="update-version-transition">
+            <span class="update-version-old">${u.current_version || '?'}</span>
+            <span class="update-version-arrow">→</span>
+            <span class="update-version-new">${u.available_version}</span>
+          </div>
+        </div>
+      </div>
+      <div class="update-item-right">
+        ${actionBtnHtml}
+      </div>
+    `;
+
+    const singleBtn = card.querySelector('.update-single-btn');
+    if (singleBtn) {
+      singleBtn.addEventListener('click', () => upgradeSinglePackage(u.package_id, false, singleBtn));
+    }
+
+    const adminBtn = card.querySelector('.update-admin-btn');
+    if (adminBtn) {
+      adminBtn.addEventListener('click', () => upgradeSinglePackage(u.package_id, true, adminBtn));
+    }
+
+    listContainer.appendChild(card);
+  });
+}
+
+// Event Listeners for Software Updates Modal
+const softwareUpdatesBtn = document.getElementById('softwareUpdatesBtn');
+const closeSoftwareUpdatesBtn = document.getElementById('closeSoftwareUpdatesBtn');
+const closeSoftwareUpdatesFooterBtn = document.getElementById('closeSoftwareUpdatesFooterBtn');
+const refreshSoftwareUpdatesBtn = document.getElementById('refreshSoftwareUpdatesBtn');
+const upgradeAllSoftwareBtn = document.getElementById('upgradeAllSoftwareBtn');
+const softwareUpdatesSearchInput = document.getElementById('softwareUpdatesSearchInput');
+const softwareUpdatesModal = document.getElementById('softwareUpdatesModal');
+
+if (softwareUpdatesBtn) softwareUpdatesBtn.addEventListener('click', () => openSoftwareUpdatesModal());
+if (closeSoftwareUpdatesBtn) closeSoftwareUpdatesBtn.addEventListener('click', closeSoftwareUpdatesModal);
+if (closeSoftwareUpdatesFooterBtn) closeSoftwareUpdatesFooterBtn.addEventListener('click', closeSoftwareUpdatesModal);
+if (refreshSoftwareUpdatesBtn) refreshSoftwareUpdatesBtn.addEventListener('click', triggerSoftwareUpdatesScan);
+if (upgradeAllSoftwareBtn) upgradeAllSoftwareBtn.addEventListener('click', () => upgradeAllPackages(false));
+
+if (softwareUpdatesSearchInput) {
+  softwareUpdatesSearchInput.addEventListener('input', () => {
+    renderSoftwareUpdatesUI();
+  });
+}
+
+if (softwareUpdatesModal) {
+  softwareUpdatesModal.addEventListener('click', (e) => {
+    if (e.target === softwareUpdatesModal) closeSoftwareUpdatesModal();
+  });
+}
+
+// Initial fetch of software updates in background
+setTimeout(() => {
+  fetchSoftwareUpdatesStatus(true);
+}, 2500);

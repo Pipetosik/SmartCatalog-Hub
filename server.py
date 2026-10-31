@@ -7,6 +7,7 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 import catalog_manager
 import watcher
 import updater
+import winget_manager
 from classifier import CATEGORY_RULES
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -301,6 +302,11 @@ class CatalogHTTPHandler(BaseHTTPRequestHandler):
             self.send_json(progress)
             return
 
+        if path == "/api/software_updates/status":
+            status = winget_manager.get_status()
+            self.send_json(status)
+            return
+
         # Secure icon file serving with realpath boundary check against Path Traversal
         if path.startswith("/icons/"):
             rel = path[len("/icons/"):].lstrip("/\\")
@@ -573,6 +579,26 @@ class CatalogHTTPHandler(BaseHTTPRequestHandler):
             silent = bool(req_data.get("silent", False))
             ok, msg = updater.install_update(silent=silent)
             self.send_json({"success": ok, "message": msg}, 200 if ok else 400)
+            return
+
+        if path == "/api/software_updates/scan":
+            force = bool(req_data.get("force", False))
+            res = winget_manager.start_scan(force=force)
+            self.send_json(res)
+            return
+
+        if path == "/api/software_updates/upgrade":
+            pkg_id = req_data.get("package_id", "")
+            elevated = bool(req_data.get("elevated", False))
+            res = winget_manager.upgrade_package(pkg_id, elevated=elevated)
+            status_code = 200 if res.get("status") in ("started", "running") else 400
+            self.send_json(res, status_code)
+            return
+
+        if path == "/api/software_updates/upgrade_all":
+            elevated = bool(req_data.get("elevated", False))
+            res = winget_manager.upgrade_all(elevated=elevated)
+            self.send_json(res)
             return
 
         self.send_error(404, "Not Found")

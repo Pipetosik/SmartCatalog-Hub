@@ -16,6 +16,7 @@ playtime_data.json
 clipboard_history.json
 workspaces_data.json
 snippets_data.json
+software_updates.json
 icons_cache/
 *.log
 *.lnk

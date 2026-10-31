@@ -86,6 +86,15 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
           <span>Playnite</span>
         </button>
+        <button class="action-btn updates-btn" id="softwareUpdatesBtn" data-i18n-title="topUpdatesTitle" title="Обновления программ (winget)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+          <span data-i18n="topBtnUpdates">Обновления</span>
+          <span class="updates-counter-badge hidden" id="softwareUpdatesCounter">0</span>
+        </button>
         <button class="action-btn" id="openFolderBtn" data-i18n-title="topFolderTitle" title="Открыть папку каталога в Проводнике">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
           <span data-i18n="topBtnFolder">Папка</span>
@@ -1029,6 +1038,85 @@
               <span data-i18n="launchApp">Запустить</span>
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- Software Updates Modal (winget integration) -->
+    <div class="modal-backdrop" id="softwareUpdatesModal" style="display: none;">
+      <div class="modal-card wide-modal updates-modal-card">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+            <h3 data-i18n="softwareUpdatesTitle">Обновления программ</h3>
+            <span class="modal-badge-count" id="softwareUpdatesModalBadge">0</span>
+          </div>
+          <button class="modal-close-btn" id="closeSoftwareUpdatesBtn" data-i18n-title="keyClose" title="Закрыть (Esc)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div class="modal-body updates-modal-body">
+          <!-- Updates Top Bar (Search, Actions) -->
+          <div class="updates-toolbar">
+            <div class="updates-search-box">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="softwareUpdatesSearchInput" placeholder="Поиск среди доступных обновлений..." data-i18n-placeholder="softwareUpdatesSearchPlaceholder">
+            </div>
+            <div class="updates-toolbar-actions">
+              <button class="action-btn" id="refreshSoftwareUpdatesBtn" data-i18n-title="checkSoftwareUpdatesTitle" title="Проверить обновления через winget">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                <span data-i18n="checkUpdatesBtn">Проверить</span>
+              </button>
+              <button class="action-btn primary-action-btn" id="upgradeAllSoftwareBtn" data-i18n-title="upgradeAllSoftwareTitle" title="Обновить все найденные программы">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 11 12 6 17 11"/><polyline points="7 18 12 13 17 18"/></svg>
+                <span data-i18n="upgradeAllBtn">Обновить всё</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Scanning Banner -->
+          <div class="updates-scan-banner" id="softwareUpdatesScanBanner" style="display: none;">
+            <div class="updates-spinner"></div>
+            <div class="updates-scan-text">
+              <span class="scan-title" data-i18n="scanningWingetTitle">Сканирование Windows Package Manager...</span>
+              <span class="scan-sub" data-i18n="scanningWingetSub">Поиск актуальных версий программ в репозитории winget</span>
+            </div>
+          </div>
+
+          <!-- Updates List Container -->
+          <div class="software-updates-list" id="softwareUpdatesList">
+            <!-- Dynamically generated rows -->
+          </div>
+
+          <!-- Empty State (All Up to Date) -->
+          <div class="updates-empty-state" id="softwareUpdatesEmptyState" style="display: none;">
+            <div class="empty-icon-circle">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h4 data-i18n="allSoftwareUpToDateTitle">Все программы обновлены!</h4>
+            <p data-i18n="allSoftwareUpToDateDesc">В вашей системе установлены последние доступные версии приложений из каталога.</p>
+          </div>
+
+          <!-- Winget Not Available Notice -->
+          <div class="updates-empty-state" id="softwareUpdatesNoWingetState" style="display: none;">
+            <div class="empty-icon-circle warning">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h4 data-i18n="wingetNotAvailableTitle">Диспетчер пакетов WinGet не найден</h4>
+            <p data-i18n="wingetNotAvailableDesc">Для автоматического обновления программ установите Windows Package Manager из Microsoft Store (Установщик приложений).</p>
+          </div>
+        </div>
+
+        <div class="modal-footer updates-modal-footer">
+          <div class="updates-footer-info">
+            <span id="softwareUpdatesLastScanTime">Проверено: --</span>
+          </div>
+          <button class="action-btn" id="closeSoftwareUpdatesFooterBtn" data-i18n="btnDone">Готово</button>
         </div>
       </div>
     </div>
