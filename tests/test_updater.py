@@ -72,6 +72,26 @@ class TestUpdater(unittest.TestCase):
         self.assertFalse(ok)
         self.assertIn("Untrusted", msg)
 
+    def test_ssl_cert_verify_failed_fallback(self):
+        calls = []
+        mock_resp = MagicMock()
+        mock_resp.status = 200
+
+        def fake_urlopen(req, timeout=10, context=None):
+            calls.append(context)
+            if len(calls) == 1:
+                import ssl
+                import urllib.error
+                raise urllib.error.URLError("[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1006)")
+            return mock_resp
+
+        with patch("urllib.request.urlopen", side_effect=fake_urlopen):
+            res = updater.urlopen_robust("https://api.github.com/test", timeout=5)
+            self.assertEqual(res, mock_resp)
+            self.assertEqual(len(calls), 2)
+            # The second call should use an unverified context
+            self.assertFalse(calls[1].check_hostname)
+
     def test_install_update_security_rejection(self):
         # Non-existent file
         ok, msg = updater.install_update(r"C:\Windows\System32\cmd.exe")

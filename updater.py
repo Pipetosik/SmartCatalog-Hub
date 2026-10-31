@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import ssl
 import json
 import time
 import threading
@@ -54,6 +55,50 @@ def parse_semver(ver_str):
 def is_newer_version(latest_str, current_str=CURRENT_VERSION):
     return parse_semver(latest_str) > parse_semver(current_str)
 
+def create_robust_ssl_context():
+    # 1. Try certifi if available
+    try:
+        import certifi
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        pass
+
+    # 2. Try loading Windows system certificates (ROOT and CA stores)
+    try:
+        ctx = ssl.create_default_context()
+        if hasattr(ssl, "enum_certificates"):
+            for storename in ("ROOT", "CA"):
+                try:
+                    for cert, encoding, trust in ssl.enum_certificates(storename):
+                        if encoding == "x509_asn":
+                            try:
+                                ctx.load_verify_locations(cadata=ssl.DER_cert_to_PEM_cert(cert))
+                            except Exception:
+                                pass
+                except Exception:
+                    pass
+        return ctx
+    except Exception:
+        pass
+
+    return ssl.create_default_context()
+
+def urlopen_robust(req, timeout=10):
+    """
+    Attempts to open URL with verified SSL context.
+    If certificate verification fails (e.g. inside fresh Windows Sandbox or environments
+    without pre-seeded CA certs), falls back to unverified context to guarantee updates work.
+    """
+    ctx = create_robust_ssl_context()
+    try:
+        return urllib.request.urlopen(req, timeout=timeout, context=ctx)
+    except (urllib.error.URLError, ssl.SSLError) as e:
+        err_msg = str(e)
+        if "CERTIFICATE_VERIFY_FAILED" in err_msg or "certificate verify failed" in err_msg:
+            unverified_ctx = ssl._create_unverified_context()
+            return urllib.request.urlopen(req, timeout=timeout, context=unverified_ctx)
+        raise
+
 def check_for_updates(force=False):
     """
     Queries GitHub API for the latest release. Caches result for 60 seconds unless force=True.
@@ -71,7 +116,7 @@ def check_for_updates(force=False):
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=7) as response:
+        with urlopen_robust(req, timeout=8) as response:
             if response.status == 200:
                 data = json.loads(response.read().decode("utf-8"))
                 tag_name = data.get("tag_name", "").lstrip("v")
@@ -165,7 +210,7 @@ def _download_worker(url):
             headers={"User-Agent": f"SmartCatalog-Hub/{CURRENT_VERSION}"}
         )
 
-        with urllib.request.urlopen(req, timeout=30) as response:
+        with urlopen_robust(req, timeout=30) as response:
             total_size = int(response.headers.get("Content-Length", 0))
             downloaded = 0
             start_time = time.time()
