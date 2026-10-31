@@ -56,7 +56,7 @@
       <!-- Header Actions -->
       <div class="header-actions">
         <!-- System Monitor Badge -->
-        <button class="action-btn sys-monitor-pill" id="sysMonitorPill" title="Мониторинг ресурсов Windows (CPU, RAM, Диск C:)">
+        <button class="action-btn sys-monitor-pill" id="sysMonitorPill" data-i18n-title="sysMonitorTitle" title="Мониторинг ресурсов Windows (CPU, RAM, Диск C:)">
           <span class="sys-dot"></span>
           <span class="sys-metric" id="sysHeaderCpu">CPU --%</span>
           <span class="sys-sep">|</span>
@@ -64,36 +64,36 @@
         </button>
 
         <!-- Compact / Full view mode toggle -->
-        <button class="action-btn icon-only" id="toggleViewModeBtn" title="Компактный режим поиска (Ctrl+M)">
+        <button class="action-btn icon-only" id="toggleViewModeBtn" data-i18n-title="toggleViewTitle" title="Компактный режим поиска (Ctrl+M)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="viewModeIcon">
             <rect x="3" y="5" width="18" height="14" rx="3"/><line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
         </button>
 
-        <button class="action-btn" id="openWorkspacesBtn" title="Рабочие пространства (1-клик запуск наборов)">
+        <button class="action-btn" id="openWorkspacesBtn" data-i18n-title="topWorkspacesTitle" title="Рабочие пространства (1-клик запуск наборов)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          <span>Стеки</span>
+          <span data-i18n="topBtnWorkspaces">Стеки</span>
         </button>
-        <button class="action-btn" id="openInsightsBtn" title="Статистика активности и экранное время">
+        <button class="action-btn" id="openInsightsBtn" data-i18n-title="topInsightsTitle" title="Статистика активности и экранное время">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          <span>Аналитика</span>
+          <span data-i18n="topBtnInsights">Аналитика</span>
         </button>
-        <button class="action-btn" id="openClipboardBtn" title="История буфера обмена">
+        <button class="action-btn" id="openClipboardBtn" data-i18n-title="topClipboardTitle" title="История буфера обмена">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-          <span>Буфер</span>
+          <span data-i18n="topBtnClipboard">Буфер</span>
         </button>
         <button class="action-btn playnite-btn" id="openPlayniteBtn" title="Запустить библиотеку Playnite">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
           <span>Playnite</span>
         </button>
-        <button class="action-btn" id="openFolderBtn" title="Открыть папку каталога в Проводнике">
+        <button class="action-btn" id="openFolderBtn" data-i18n-title="topFolderTitle" title="Открыть папку каталога в Проводнике">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-          <span>Папка</span>
+          <span data-i18n="topBtnFolder">Папка</span>
         </button>
-        <button class="action-btn icon-only" id="rescanBtn" title="Синхронизировать каталог">
+        <button class="action-btn icon-only" id="rescanBtn" data-i18n-title="topRescanTitle" title="Синхронизировать каталог">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
         </button>
-        <button class="action-btn icon-only" id="settingsBtn" title="Настройки лаунчера (,)">
+        <button class="action-btn icon-only" id="settingsBtn" data-i18n-title="topSettingsTitle" title="Настройки лаунчера (,)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
       </div>
@@ -103,17 +103,17 @@
     <nav class="categories-bar" id="categoriesBar">
       <button class="cat-pill active" data-cat="all">
         <span class="cat-icon" id="iconAll"></span>
-        <span class="cat-title">Все</span>
+        <span class="cat-title" data-i18n="catAll">Все</span>
         <span class="cat-badge" id="allCount">134</span>
       </button>
       <button class="cat-pill" data-cat="frequent">
         <span class="cat-icon" id="iconFrequent"></span>
-        <span class="cat-title">Часто используемые</span>
+        <span class="cat-title" data-i18n="catFrequent">Часто используемые</span>
         <span class="cat-badge" id="frequentCount">15</span>
       </button>
       <button class="cat-pill" data-cat="favorites">
         <span class="cat-icon" id="iconFavorites"></span>
-        <span class="cat-title">Избранное</span>
+        <span class="cat-title" data-i18n="catFavorites">Избранное</span>
         <span class="cat-badge" id="favoritesCount">0</span>
       </button>
       <!-- Dynamic categories populated via JS -->
@@ -214,7 +214,7 @@
         <span class="menu-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </span>
-        <span class="menu-text">Запустить от имени администратора</span>
+        <span class="menu-text" data-i18n="ctxRunAdmin">Запустить от имени администратора</span>
       </div>
       <div class="menu-item" id="ctxQuickLook">
         <span class="menu-icon">
@@ -239,14 +239,14 @@
         <span class="menu-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </span>
-        <span class="menu-text">Переместить в категорию</span>
+        <span class="menu-text" data-i18n="ctxMoveCategory">Переместить в категорию</span>
         <div class="context-submenu" id="ctxCategorySubmenu"></div>
       </div>
       <div class="menu-item has-submenu" id="ctxAddToWorkspaceWrap">
         <span class="menu-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         </span>
-        <span class="menu-text">Стеки (Добавить в набор)</span>
+        <span class="menu-text" data-i18n="ctxAddToStack">Стеки (Добавить в набор)</span>
         <div class="context-submenu" id="ctxWorkspaceSubmenu"></div>
       </div>
       <div class="menu-separator"></div>
@@ -260,7 +260,7 @@
         <span class="menu-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
         </span>
-        <span class="menu-text">Скрыть из каталога</span>
+        <span class="menu-text" data-i18n="ctxHideApp">Скрыть из каталога</span>
       </div>
     </div>
 
@@ -363,8 +363,8 @@
 
             <div class="setting-group row-group">
               <div class="setting-label-row">
-                <span class="setting-title">Индикатор «Новое»</span>
-                <span class="setting-desc">Подсвечивать программы, обнаруженные в системе за последнее время</span>
+                <span class="setting-title" data-i18n="settingNewBadgeTitle">Индикатор «Новое»</span>
+                <span class="setting-desc" data-i18n="settingNewBadgeDesc">Подсвечивать программы, обнаруженные в системе за последнее время</span>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="enableNewBadgeToggle" checked>
@@ -374,8 +374,8 @@
 
             <div class="setting-group" id="badgePeriodGroup">
               <div class="setting-label-row">
-                <label for="badgePeriodSelect" class="setting-title">Период действия метки «Новое»</label>
-                <span class="setting-desc">В течение какого времени программа считается недавно установленной</span>
+                <label for="badgePeriodSelect" class="setting-title" data-i18n="settingBadgePeriodTitle">Период действия метки «Новое»</label>
+                <span class="setting-desc" data-i18n="settingBadgePeriodDesc">В течение какого времени программа считается недавно установленной</span>
               </div>
               <div class="custom-select-wrap">
                 <select id="badgePeriodSelect" class="setting-select">
@@ -393,8 +393,8 @@
             
             <div class="setting-group">
               <div class="setting-label-row">
-                <label for="hotkeySelect" class="setting-title">Глобальная горячая клавиша</label>
-                <span class="setting-desc">Комбинация для быстрого вызова и скрытия лаунчера из любой программы Windows</span>
+                <label for="hotkeySelect" class="setting-title" data-i18n="settingHotkeyTitle">Глобальная горячая клавиша</label>
+                <span class="setting-desc" data-i18n="settingHotkeyDesc">Комбинация для быстрого вызова и скрытия лаунчера из любой программы Windows</span>
               </div>
               <div class="custom-select-wrap">
                 <select id="hotkeySelect" class="setting-select">
@@ -409,8 +409,8 @@
 
             <div class="setting-group row-group">
               <div class="setting-label-row">
-                <span class="setting-title">Иконка в системном трее Windows</span>
-                <span class="setting-desc">Отображать значок SmartCatalog возле часов с контекстным меню</span>
+                <span class="setting-title" data-i18n="settingTrayTitle">Иконка в системном трее Windows</span>
+                <span class="setting-desc" data-i18n="settingTrayDesc">Отображать значок SmartCatalog возле часов с контекстным меню</span>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="enableTrayToggle" checked>
@@ -425,8 +425,8 @@
             
             <div class="setting-group row-group">
               <div class="setting-label-row">
-                <span class="setting-title">Учет экранного времени (Playtime)</span>
-                <span class="setting-desc">Анализировать время, проведенное в программах, для дашборда аналитики</span>
+                <span class="setting-title" data-i18n="settingPlaytimeTitle">Учет экранного времени (Playtime)</span>
+                <span class="setting-desc" data-i18n="settingPlaytimeDesc">Анализировать время, проведенное в программах, для дашборда аналитики</span>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="enablePlaytimeToggle" checked>
@@ -436,8 +436,8 @@
 
             <div class="setting-group row-group">
               <div class="setting-label-row">
-                <span class="setting-title">Индикатор запущенных программ (Live Status)</span>
-                <span class="setting-desc">Подсвечивать карточки работающих процессов зеленым индикатором</span>
+                <span class="setting-title" data-i18n="settingLiveTitle">Индикатор запущенных программ (Live Status)</span>
+                <span class="setting-desc" data-i18n="settingLiveDesc">Подсвечивать карточки работающих процессов зеленым индикатором</span>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="enableLiveStatusToggle" checked>
@@ -447,8 +447,8 @@
 
             <div class="setting-group row-group">
               <div class="setting-label-row">
-                <span class="setting-title">История буфера обмена</span>
-                <span class="setting-desc">Автоматически сохранять текстовые фрагменты для быстрого доступа</span>
+                <span class="setting-title" data-i18n="settingClipTitle">История буфера обмена</span>
+                <span class="setting-desc" data-i18n="settingClipDesc">Автоматически сохранять текстовые фрагменты для быстрого доступа</span>
               </div>
               <label class="toggle-switch">
                 <input type="checkbox" id="enableClipboardToggle" checked>
@@ -470,13 +470,13 @@
             <h4 class="setting-section-title">Диагностика и отладка</h4>
             <div class="setting-group">
               <div class="setting-label-row">
-                <span class="setting-title">Журнал классификации программ</span>
-                <span class="setting-desc">Файл classification_debug.log с подробным отчетом о распределении приложений по категориям</span>
+                <span class="setting-title" data-i18n="settingLogTitle">Журнал классификации программ</span>
+                <span class="setting-desc" data-i18n="settingLogDesc">Файл classification_debug.log с подробным отчетом о распределении приложений по категориям</span>
               </div>
               <div style="display: flex; gap: 8px; margin-top: 10px;">
                 <button class="action-btn" id="openLogsFolderBtn" type="button" title="Открыть папку с логами в Проводнике Windows">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                  <span>Папка с логами</span>
+                  <span data-i18n="btnLogFolder">Папка с логами</span>
                 </button>
                 <button class="action-btn" id="viewClassificationLogBtn" type="button" title="Просмотреть и скопировать лог">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -537,7 +537,7 @@
         <div class="modal-header">
           <div class="modal-title-wrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <h3>Журнал классификации (classification_debug.log)</h3>
+            <h3 data-i18n="logModalTitle">Журнал классификации (classification_debug.log)</h3>
           </div>
           <button class="modal-close-btn" id="closeLogViewerBtn" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -549,9 +549,9 @@
         <div class="modal-footer" style="justify-content: space-between;">
           <button class="action-btn" id="copyLogBtn">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span>Скопировать весь лог</span>
+            <span data-i18n="logCopyBtn">Скопировать весь лог</span>
           </button>
-          <button class="action-btn primary-action-btn" id="closeLogViewerFooterBtn">Закрыть</button>
+          <button class="action-btn primary-action-btn" id="closeLogViewerFooterBtn" data-i18n="keyClose">Закрыть</button>
         </div>
       </div>
     </div>
@@ -562,7 +562,7 @@
         <div class="modal-header">
           <div class="modal-title-wrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-            <h3>Аналитика активности и экранное время</h3>
+            <h3 data-i18n="insightsModalTitle">Аналитика активности и экранное время</h3>
           </div>
           <button class="modal-close-btn" id="closeInsightsBtn" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -571,22 +571,22 @@
         <div class="modal-body">
           <div class="insights-summary-grid">
             <div class="metric-card">
-              <span class="metric-label">Всего экранного времени</span>
+              <span class="metric-label" data-i18n="insTotalTime">Всего экранного времени</span>
               <span class="metric-value" id="insightTotalTime">0 ч 0 мин</span>
-              <span class="metric-sub">С момента установки</span>
+              <span class="metric-sub" data-i18n="insSinceInstall">С момента установки</span>
             </div>
             <div class="metric-card highlight">
-              <span class="metric-label">Активность сегодня</span>
+              <span class="metric-label" data-i18n="insToday">Активность сегодня</span>
               <span class="metric-value" id="insightTodayTime">0 ч 0 мин</span>
-              <span class="metric-sub">В активных окнах</span>
+              <span class="metric-sub" data-i18n="insActiveWindows">В активных окнах</span>
             </div>
             <div class="metric-card">
-              <span class="metric-label">Всего запусков</span>
+              <span class="metric-label" data-i18n="insTotalLaunches">Всего запусков</span>
               <span class="metric-value" id="insightTotalLaunches">0</span>
-              <span class="metric-sub">По всем программам</span>
+              <span class="metric-sub" data-i18n="insAllApps">По всем программам</span>
             </div>
             <div class="metric-card">
-              <span class="metric-label">Топ программа</span>
+              <span class="metric-label" data-i18n="insTopApp">Топ программа</span>
               <span class="metric-value small" id="insightTopApp">—</span>
               <span class="metric-sub" id="insightTopAppTime">—</span>
             </div>
@@ -594,18 +594,18 @@
 
           <div class="insights-columns">
             <div class="insights-col">
-              <h4 class="sub-heading">Распределение по категориям</h4>
+              <h4 class="sub-heading" data-i18n="insCatBreakdown">Распределение по категориям</h4>
               <div class="category-bars-list" id="insightCategoryBars"></div>
             </div>
             <div class="insights-col">
-              <h4 class="sub-heading">Топ-5 приложений по времени</h4>
+              <h4 class="sub-heading" data-i18n="insTop5Apps">Топ-5 приложений по времени</h4>
               <div class="top-apps-list" id="insightTopAppsList"></div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <span class="modal-hint">Статистика обновляется в реальном времени при активности окна</span>
-          <button class="action-btn primary-action-btn" id="closeInsightsBottomBtn">Закрыть</button>
+          <span class="modal-hint" data-i18n="insModalHint">Статистика обновляется в реальном времени при активности окна</span>
+          <button class="action-btn primary-action-btn" id="closeInsightsBottomBtn" data-i18n="keyClose">Закрыть</button>
         </div>
       </div>
     </div>
@@ -616,7 +616,7 @@
         <div class="modal-header">
           <div class="modal-title-wrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <h3>Рабочие пространства (Стеки программ)</h3>
+            <h3 data-i18n="wsModalTitle">Рабочие пространства (Стеки программ)</h3>
           </div>
           <button class="modal-close-btn" id="closeWorkspacesBtn" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -626,10 +626,10 @@
           <!-- View 1: Stacks list -->
           <div id="workspacesListView">
             <div class="ws-top-bar">
-              <p class="modal-intro-text">Запускайте целые рабочие среды в один клик. Создавайте свои стеки для разработки, игр, офиса или стриминга.</p>
+              <p class="modal-intro-text" data-i18n="wsModalIntro">Запускайте целые рабочие среды в один клик. Создавайте свои стеки для разработки, игр, офиса или стриминга.</p>
               <button class="action-btn primary-action-btn" id="createNewWorkspaceBtn">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                <span>Новый стек</span>
+                <span data-i18n="wsBtnNew">Новый стек</span>
               </button>
             </div>
             <div class="workspaces-grid" id="workspacesListContainer"></div>
@@ -704,8 +704,8 @@
           </div>
         </div>
         <div class="modal-footer" id="workspacesModalFooter">
-          <span class="modal-hint">Нажмите «Запустить всё» для одновременного старта всех программ набора</span>
-          <button class="action-btn primary-action-btn" id="closeWorkspacesBottomBtn">Закрыть</button>
+          <span class="modal-hint" data-i18n="wsModalHint">Нажмите «Запустить всё» для одновременного старта всех программ набора</span>
+          <button class="action-btn primary-action-btn" id="closeWorkspacesBottomBtn" data-i18n="keyClose">Закрыть</button>
         </div>
       </div>
     </div>
@@ -718,7 +718,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
             </svg>
-            <h3>Мониторинг системы и диспетчер задач</h3>
+            <h3 data-i18n="sysModalTitle">Мониторинг системы и диспетчер задач</h3>
           </div>
           <div class="modal-header-actions">
             <button class="modal-icon-btn" id="refreshSysStatsBtn" title="Обновить сейчас">
@@ -735,18 +735,18 @@
           <div class="sys-gauges-grid">
             <div class="sys-gauge-card">
               <div class="gauge-header">
-                <span class="gauge-title">Процессор (CPU)</span>
+                <span class="gauge-title" data-i18n="sysCpuName">Процессор (CPU)</span>
                 <span class="gauge-val" id="sysGaugeCpuVal">0%</span>
               </div>
               <div class="gauge-bar-track">
                 <div class="gauge-bar-fill" id="sysGaugeCpuBar" style="width: 0%;"></div>
               </div>
-              <span class="gauge-sub" id="sysGaugeCpuSub">Загрузка ядер</span>
+              <span class="gauge-sub" id="sysGaugeCpuSub" data-i18n="sysCpuDesc">Загрузка ядер</span>
             </div>
 
             <div class="sys-gauge-card">
               <div class="gauge-header">
-                <span class="gauge-title">Память (RAM)</span>
+                <span class="gauge-title" data-i18n="sysRamName">Память (RAM)</span>
                 <span class="gauge-val" id="sysGaugeRamVal">0%</span>
               </div>
               <div class="gauge-bar-track">
@@ -757,7 +757,7 @@
 
             <div class="sys-gauge-card">
               <div class="gauge-header">
-                <span class="gauge-title">Диск C:</span>
+                <span class="gauge-title" data-i18n="sysDiskName">Диск C:</span>
                 <span class="gauge-val" id="sysGaugeDiskVal">0%</span>
               </div>
               <div class="gauge-bar-track">
@@ -772,7 +772,7 @@
             <div class="sys-procs-col">
               <div class="sys-col-header">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                <h4>Топ процессов по RAM</h4>
+                <h4 data-i18n="sysTopRam">Топ процессов по RAM</h4>
               </div>
               <div class="sys-procs-list" id="sysTopRamList"></div>
             </div>
@@ -780,7 +780,7 @@
             <div class="sys-procs-col">
               <div class="sys-col-header">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                <h4>Топ процессов по CPU</h4>
+                <h4 data-i18n="sysTopCpu">Топ процессов по CPU</h4>
               </div>
               <div class="sys-procs-list" id="sysTopCpuList"></div>
             </div>
@@ -788,8 +788,8 @@
         </div>
 
         <div class="modal-footer">
-          <span class="modal-hint">Нажмите «Снять задачу», чтобы принудительно завершить фоновый или зависший процесс</span>
-          <button class="action-btn primary-action-btn" id="closeSysMonitorBottomBtn">Закрыть</button>
+          <span class="modal-hint" data-i18n="sysModalHint">Нажмите «Снять задачу», чтобы принудительно завершить фоновый или зависший процесс</span>
+          <button class="action-btn primary-action-btn" id="closeSysMonitorBottomBtn" data-i18n="keyClose">Закрыть</button>
         </div>
       </div>
     </div>
@@ -800,7 +800,7 @@
         <div class="modal-header">
           <div class="modal-title-wrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-            <h3>Буфер обмена и быстрые сниппеты</h3>
+            <h3 data-i18n="clipModalTitle">Буфер обмена и быстрые сниппеты</h3>
           </div>
           <button class="modal-close-btn" id="closeClipboardBtn" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -811,12 +811,12 @@
         <div class="modal-tabs-bar">
           <button class="modal-tab-btn active" id="tabClipHistoryBtn">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>История буфера</span>
+            <span data-i18n="clipTabHistory">История буфера</span>
             <span class="tab-badge" id="clipHistoryCount">0</span>
           </button>
           <button class="modal-tab-btn" id="tabClipSnippetsBtn">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span>Закрепленные сниппеты</span>
+            <span data-i18n="clipTabSnippets">Закрепленные сниппеты</span>
             <span class="tab-badge" id="clipSnippetsCount">0</span>
           </button>
         </div>
@@ -825,8 +825,8 @@
           <!-- View 1: Clipboard History -->
           <div id="clipHistoryView">
             <div class="clipboard-search-bar">
-              <input type="text" id="clipboardSearchInput" placeholder="Поиск по истории буфера..." autocomplete="off">
-              <button class="action-btn small-btn" id="clearClipboardBtn" title="Очистить историю">Очистить всё</button>
+              <input type="text" id="clipboardSearchInput" placeholder="Поиск по истории буфера..." data-i18n-placeholder="clipSearchPlaceholder" autocomplete="off">
+              <button class="action-btn small-btn" id="clearClipboardBtn" data-i18n-title="clipClearTitle" title="Очистить историю" data-i18n="clipBtnClear">Очистить всё</button>
             </div>
             <div class="clipboard-items-list" id="clipboardItemsContainer"></div>
           </div>
@@ -835,17 +835,17 @@
           <div id="clipSnippetsView" style="display: none;">
             <div class="snippets-top-bar">
               <div class="snippets-search-wrap">
-                <input type="text" id="snippetsSearchInput" placeholder="Поиск по сниппетам, ссылкам и шаблонам..." autocomplete="off">
+                <input type="text" id="snippetsSearchInput" placeholder="Поиск по сниппетам, ссылкам и шаблонам..." data-i18n-placeholder="snipSearchPlaceholder" autocomplete="off">
               </div>
               <button class="action-btn primary-action-btn small-btn" id="newSnippetBtn">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                <span>Новый сниппет</span>
+                <span data-i18n="clipBtnNew">Новый сниппет</span>
               </button>
             </div>
 
             <!-- Snippet Category Chips -->
             <div class="snippet-chips-bar" id="snippetChipsBar">
-              <button class="snip-chip active" data-snip-cat="all">Все</button>
+              <button class="snip-chip active" data-snip-cat="all" data-i18n="catAll">Все</button>
               <button class="snip-chip" data-snip-cat="Команды">Команды</button>
               <button class="snip-chip" data-snip-cat="Ссылки">Ссылки</button>
               <button class="snip-chip" data-snip-cat="Шаблоны">Шаблоны</button>
@@ -900,8 +900,8 @@
         </div>
 
         <div class="modal-footer">
-          <span class="modal-hint">Кликните «Копировать» на сниппете или строке истории для мгновенной вставки</span>
-          <button class="action-btn primary-action-btn" id="closeClipboardBottomBtn">Готово</button>
+          <span class="modal-hint" data-i18n="clipModalHint">Кликните «Копировать» на сниппете или строке истории для мгновенной вставки</span>
+          <button class="action-btn primary-action-btn" id="closeClipboardBottomBtn" data-i18n="btnDone">Готово</button>
         </div>
       </div>
     </div>

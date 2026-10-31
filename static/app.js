@@ -85,7 +85,98 @@ const I18N = {
     btnViewLog: "Просмотреть лог",
     ctxQuickLook: "Быстрый просмотр (Space)",
     ctxOpenFolder: "Открыть расположение файла",
-    badgeNew: "НОВОЕ"
+    badgeNew: "НОВОЕ",
+    catAll: "Все",
+    catFrequent: "Часто используемые",
+    catFavorites: "Избранное",
+    sysMonitorTitle: "Мониторинг ресурсов Windows (CPU, RAM, Диск C:)",
+    toggleViewTitle: "Компактный режим поиска (Ctrl+M)",
+    topWorkspacesTitle: "Рабочие пространства (1-клик запуск наборов)",
+    topBtnWorkspaces: "Стеки",
+    topInsightsTitle: "Статистика активности и экранное время",
+    topBtnInsights: "Аналитика",
+    topClipboardTitle: "История буфера обмена",
+    topBtnClipboard: "Буфер",
+    topFolderTitle: "Открыть папку каталога в Проводнике",
+    topBtnFolder: "Папка",
+    topRescanTitle: "Синхронизировать каталог",
+    topSettingsTitle: "Настройки лаунчера (,)",
+    sortLabel: "Сортировка:",
+    sortLaunches: "По запускам",
+    sortPlaytime: "По времени",
+    sortRecent: "Недавние",
+    sortName: "А — Я",
+    sortLaunchesTitle: "По числу запусков",
+    sortPlaytimeTitle: "По экранному времени использования",
+    sortRecentTitle: "По недавним запускам",
+    sortNameTitle: "По алфавиту",
+    filterRunningTitle: "Показать только запущенные в данный момент программы",
+    filterRunningText: "Запущенные",
+    ctxRunAdmin: "Запустить от имени администратора",
+    ctxMoveCategory: "Переместить в категорию",
+    ctxAddToStack: "Стеки (Добавить в набор)",
+    ctxKillProcess: "Завершить процесс (Снять задачу)",
+    ctxHideApp: "Скрыть из каталога",
+    secViewTitle: "Внешний вид и стиль",
+    settingViewModeTitle: "Режим отображения лаунчера",
+    settingViewModeDesc: "Полноразмерный каталог программ или компактный поисковый док (Raycast)",
+    secBadgesTitle: "Бейджи и индикаторы",
+    settingNewBadgeTitle: "Индикатор «Новое»",
+    settingNewBadgeDesc: "Подсвечивать программы, обнаруженные в системе за последнее время",
+    settingBadgePeriodTitle: "Период действия метки «Новое»",
+    settingBadgePeriodDesc: "В течение какого времени программа считается недавно установленной",
+    secSysTitle: "Системная интеграция",
+    settingHotkeyTitle: "Глобальная горячая клавиша",
+    settingHotkeyDesc: "Комбинация для быстрого вызова и скрытия лаунчера из любой программы Windows",
+    settingTrayTitle: "Иконка в системном трее Windows",
+    settingTrayDesc: "Отображать значок SmartCatalog возле часов с контекстным меню",
+    secProdTitle: "Мониторинг и продуктивность",
+    settingPlaytimeTitle: "Учет экранного времени (Playtime)",
+    settingPlaytimeDesc: "Анализировать время, проведенное в программах, для дашборда аналитики",
+    settingLiveTitle: "Индикатор запущенных программ (Live Status)",
+    settingLiveDesc: "Подсвечивать карточки работающих процессов зеленым индикатором",
+    settingClipTitle: "История буфера обмена",
+    settingClipDesc: "Автоматически сохранять текстовые фрагменты для быстрого доступа",
+    secHiddenTitle: "Скрытые программы",
+    secDiagTitle: "Диагностика и отладка",
+    settingLogTitle: "Журнал классификации программ",
+    settingLogDesc: "Файл classification_debug.log с подробным отчетом о распределении приложений по категориям",
+    btnLogFolder: "Папка с логами",
+    wsModalTitle: "Рабочие пространства (Стеки программ)",
+    wsModalIntro: "Запускайте целые рабочие среды в один клик. Создавайте свои стеки для разработки, игр, офиса или стриминга.",
+    wsBtnNew: "Новый стек",
+    wsModalHint: "Нажмите «Запустить всё» для одновременного старта всех программ набора",
+    insightsModalTitle: "Аналитика активности и экранное время",
+    insTotalTime: "Всего экранного времени",
+    insSinceInstall: "С момента установки",
+    insToday: "Активность сегодня",
+    insActiveWindows: "В активных окнах",
+    insTotalLaunches: "Всего запусков",
+    insAllApps: "По всем программам",
+    insTopApp: "Топ программа",
+    insCatBreakdown: "Распределение по категориям",
+    insTop5Apps: "Топ-5 приложений по времени",
+    insModalHint: "Статистика обновляется в реальном времени при активности окна",
+    sysModalTitle: "Мониторинг системы и диспетчер задач",
+    sysCpuName: "Процессор (CPU)",
+    sysCpuDesc: "Загрузка ядер",
+    sysRamName: "Память (RAM)",
+    sysDiskName: "Диск C:",
+    sysTopRam: "Топ процессов по RAM",
+    sysTopCpu: "Топ процессов по CPU",
+    sysModalHint: "Нажмите «Снять задачу», чтобы принудительно завершить фоновый или зависший процесс",
+    clipModalTitle: "Буфер обмена и быстрые сниппеты",
+    clipTabHistory: "История буфера",
+    clipTabSnippets: "Закрепленные сниппеты",
+    clipBtnClear: "Очистить всё",
+    clipClearTitle: "Очистить историю",
+    clipBtnNew: "Новый сниппет",
+    clipSearchPlaceholder: "Поиск по истории буфера...",
+    snipSearchPlaceholder: "Поиск по сниппетам, ссылкам и шаблонам...",
+    clipModalHint: "Кликните «Копировать» на сниппете или строке истории для мгновенной вставки",
+    logModalTitle: "Журнал классификации (classification_debug.log)",
+    logCopyBtn: "Скопировать весь лог",
+    btnDone: "Готово"
   },
   en: {
     statusReady: "Catalog ready",
@@ -141,7 +232,98 @@ const I18N = {
     btnViewLog: "View Log",
     ctxQuickLook: "Quick Look (Space)",
     ctxOpenFolder: "Open file location",
-    badgeNew: "NEW"
+    badgeNew: "NEW",
+    catAll: "All",
+    catFrequent: "Frequently Used",
+    catFavorites: "Favorites",
+    sysMonitorTitle: "Windows Resource Monitor (CPU, RAM, Drive C:)",
+    toggleViewTitle: "Compact Search Mode (Ctrl+M)",
+    topWorkspacesTitle: "Workspaces (1-click app stacks)",
+    topBtnWorkspaces: "Stacks",
+    topInsightsTitle: "Usage Insights & Screen Time",
+    topBtnInsights: "Analytics",
+    topClipboardTitle: "Clipboard History",
+    topBtnClipboard: "Clipboard",
+    topFolderTitle: "Open catalog folder in Explorer",
+    topBtnFolder: "Folder",
+    topRescanTitle: "Rescan and sync catalog",
+    topSettingsTitle: "Launcher Settings (,)",
+    sortLabel: "Sort by:",
+    sortLaunches: "By Launches",
+    sortPlaytime: "By Time",
+    sortRecent: "Recent",
+    sortName: "A — Z",
+    sortLaunchesTitle: "Sort by launch count",
+    sortPlaytimeTitle: "Sort by total playtime",
+    sortRecentTitle: "Sort by recent launches",
+    sortNameTitle: "Alphabetical order",
+    filterRunningTitle: "Show only currently running programs",
+    filterRunningText: "Running",
+    ctxRunAdmin: "Run as Administrator",
+    ctxMoveCategory: "Move to Category",
+    ctxAddToStack: "Add to Workspace Stack",
+    ctxKillProcess: "End Process (Taskkill)",
+    ctxHideApp: "Hide from Catalog",
+    secViewTitle: "Appearance & Theme",
+    settingViewModeTitle: "Launcher Display Mode",
+    settingViewModeDesc: "Full-size 3-column app catalog or compact spotlight dock",
+    secBadgesTitle: "Badges & Indicators",
+    settingNewBadgeTitle: "«New» Badge Indicator",
+    settingNewBadgeDesc: "Highlight newly discovered software on cards",
+    settingBadgePeriodTitle: "«New» Badge Duration",
+    settingBadgePeriodDesc: "How long an app is considered recently installed",
+    secSysTitle: "System Integration",
+    settingHotkeyTitle: "Global Hotkey",
+    settingHotkeyDesc: "Key combination to invoke or hide catalog from anywhere",
+    settingTrayTitle: "Windows System Tray Icon",
+    settingTrayDesc: "Show SmartCatalog icon in notification area with menu",
+    secProdTitle: "Monitoring & Productivity",
+    settingPlaytimeTitle: "Screen Time Tracking",
+    settingPlaytimeDesc: "Track active window duration for screen time insights",
+    settingLiveTitle: "Live Running Status Indicator",
+    settingLiveDesc: "Show green pulsating dots on currently running apps",
+    settingClipTitle: "Clipboard History",
+    settingClipDesc: "Record copied text snippets for quick search & reuse",
+    secHiddenTitle: "Hidden Applications",
+    secDiagTitle: "Diagnostics & Logs",
+    settingLogTitle: "Classification Debug Log",
+    settingLogDesc: "classification_debug.log with full PE metadata heuristics",
+    btnLogFolder: "Open Logs Folder",
+    wsModalTitle: "Workspaces (App Stacks)",
+    wsModalIntro: "Launch entire workspace environments in one click. Create stacks for dev, gaming, office, or streaming.",
+    wsBtnNew: "New Stack",
+    wsModalHint: "Click «Launch All» to launch all applications in the stack simultaneously",
+    insightsModalTitle: "Usage Insights & Screen Time",
+    insTotalTime: "Total Screen Time",
+    insSinceInstall: "Since Installation",
+    insToday: "Today's Activity",
+    insActiveWindows: "In Active Windows",
+    insTotalLaunches: "Total Launches",
+    insAllApps: "Across All Apps",
+    insTopApp: "Top Application",
+    insCatBreakdown: "Distribution by Category",
+    insTop5Apps: "Top 5 Apps by Time",
+    insModalHint: "Stats update in real-time as windows become active",
+    sysModalTitle: "System Monitor & Task Manager",
+    sysCpuName: "Processor (CPU)",
+    sysCpuDesc: "Core Load",
+    sysRamName: "Memory (RAM)",
+    sysDiskName: "Drive C:",
+    sysTopRam: "Top Processes by RAM",
+    sysTopCpu: "Top Processes by CPU",
+    sysModalHint: "Click «Kill Task» to forcefully terminate background or frozen processes",
+    clipModalTitle: "Clipboard & Snippets",
+    clipTabHistory: "Clipboard History",
+    clipTabSnippets: "Pinned Snippets",
+    clipBtnClear: "Clear All",
+    clipClearTitle: "Clear history",
+    clipBtnNew: "New Snippet",
+    clipSearchPlaceholder: "Search clipboard history...",
+    snipSearchPlaceholder: "Search snippets, links, templates...",
+    clipModalHint: "Click «Copy» on any snippet or history item to copy to clipboard",
+    logModalTitle: "Classification Log (classification_debug.log)",
+    logCopyBtn: "Copy entire log",
+    btnDone: "Done"
   }
 };
 
@@ -239,9 +421,16 @@ function applyLanguage(lang) {
     }
   });
 
+  // Update sort name button
+  const sortNameSpan = document.querySelector('[data-sort="name"] span');
+  if (sortNameSpan) sortNameSpan.textContent = t('sortName', 'А — Я');
+
   renderCategories();
   renderApps();
   updateStats();
+  if (settingsModal && settingsModal.style.display !== 'none') {
+    populateSettings();
+  }
 }
 
 // DOM Elements
@@ -811,19 +1000,39 @@ function closeSettings() {
 
 function populateSettings() {
   const currentTab = getStartupTab();
+  const isEn = (userData.settings?.language === 'en');
   if (startupTabSelect) {
     startupTabSelect.innerHTML = `
-      <option value="all">Все программы</option>
-      <option value="frequent">Часто используемые (Топ 15)</option>
-      <option value="favorites">Избранное</option>
+      <option value="all">${t('allPrograms', 'Все программы')}</option>
+      <option value="frequent">${t('frequentApps', 'Часто используемые (Топ 15)')}</option>
+      <option value="favorites">${t('favoriteApps', 'Избранное')}</option>
     `;
     allCategories.forEach(cat => {
       const opt = document.createElement('option');
       opt.value = cat.name;
-      opt.textContent = cat.name.replace(/^\d+\.\s*/, '');
+      opt.textContent = formatCategoryName(cat.name);
       startupTabSelect.appendChild(opt);
     });
     startupTabSelect.value = currentTab;
+  }
+
+  if (themeSelect && themeSelect.options.length >= 5) {
+    themeSelect.options[0].textContent = isEn ? 'Start Menu (Windows 11 Acrylic Glass)' : 'Меню «Пуск» (Windows 11 Acrylic — Полупрозрачное стекло)';
+    themeSelect.options[1].textContent = isEn ? 'Obsidian — Dark Slate (Subtle)' : 'Obsidian — Тёмный сланец (Сдержанный)';
+    themeSelect.options[2].textContent = isEn ? 'Fluent Acrylic — Deep Frosted Blur' : 'Fluent Acrylic — Глубокое матовое размытие';
+    themeSelect.options[3].textContent = isEn ? 'Mica Alt — Windows 11 Desktop Style' : 'Mica Alt — Стиль Windows 11';
+    themeSelect.options[4].textContent = isEn ? 'OLED — True Pure Black' : 'OLED — Глубокий абсолютно чёрный';
+  }
+
+  if (viewModeSelect && viewModeSelect.options.length >= 2) {
+    viewModeSelect.options[0].textContent = isEn ? 'Standard (Tile Grid, 3 columns)' : 'Стандартный (Плиточный каталог, 3 колонки)';
+    viewModeSelect.options[1].textContent = isEn ? 'Compact Search (Raycast / Spotlight mini-dock)' : 'Компактный поиск (Мини-док Raycast / Spotlight)';
+  }
+
+  if (badgePeriodSelect && badgePeriodSelect.options.length >= 3) {
+    badgePeriodSelect.options[0].textContent = isEn ? '24 hours' : '24 часа';
+    badgePeriodSelect.options[1].textContent = isEn ? '48 hours (2 days)' : '48 часов (2 дня)';
+    badgePeriodSelect.options[2].textContent = isEn ? '7 days (1 week)' : '7 дней (1 неделя)';
   }
 
   if (viewModeSelect) {
@@ -1088,7 +1297,14 @@ function renderCategories() {
   categoriesBar.innerHTML = '';
 
   staticPills.forEach(p => {
-    p.classList.toggle('active', activeCategory === p.dataset.cat);
+    const cat = p.dataset.cat;
+    const titleEl = p.querySelector('.cat-title');
+    if (titleEl) {
+      if (cat === 'all') titleEl.textContent = t('catAll', 'Все');
+      else if (cat === 'frequent') titleEl.textContent = t('catFrequent', 'Часто используемые');
+      else if (cat === 'favorites') titleEl.textContent = t('catFavorites', 'Избранное');
+    }
+    p.classList.toggle('active', activeCategory === cat);
     categoriesBar.appendChild(p);
     p.onclick = () => {
       document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
@@ -1158,11 +1374,15 @@ function getFrequentAppsRaw() {
 }
 
 function formatPlaytime(seconds) {
-  if (!seconds || seconds < 60) return 'меньше 1 мин';
+  const isEn = (userData.settings?.language === 'en');
+  if (!seconds || seconds < 60) return isEn ? '< 1 min' : 'меньше 1 мин';
   const mins = Math.floor(seconds / 60);
-  if (mins < 60) return `${mins} мин`;
+  if (mins < 60) return `${mins} ${isEn ? 'min' : 'мин'}`;
   const hours = Math.floor(mins / 60);
   const remMins = mins % 60;
+  if (isEn) {
+    return remMins > 0 ? `${hours} h ${remMins} m` : `${hours} h`;
+  }
   return remMins > 0 ? `${hours} ч ${remMins} мин` : `${hours} ч`;
 }
 
@@ -1349,37 +1569,37 @@ function renderApps() {
 
   if (activeCategory === 'all') {
     if (isFilterRunningActive) {
-      currentCategoryTitle.textContent = searchQuery ? `Запущенные: "${searchQuery}"` : 'Запущенные программы';
-      resultCount.textContent = `${filtered.length} из ${allApps.length} запущены`;
+      currentCategoryTitle.textContent = searchQuery ? `${t('runningAppsTitle', 'Запущенные')}: "${searchQuery}"` : t('runningAppsTitle', 'Запущенные программы');
+      resultCount.textContent = `${filtered.length} / ${allApps.length} ${t('runningCountSuffix', 'запущены')}`;
     } else {
-      currentCategoryTitle.textContent = searchQuery ? `Результаты поиска: "${searchQuery}"` : 'Все программы';
-      resultCount.textContent = `${filtered.length} программ`;
+      currentCategoryTitle.textContent = searchQuery ? `${t('searchResultsFor', 'Результаты поиска: ')}"${searchQuery}"` : t('allPrograms', 'Все программы');
+      resultCount.textContent = `${filtered.length} ${t('programsSuffix', 'программ')}`;
     }
   } else if (activeCategory === 'frequent') {
-    currentCategoryTitle.textContent = 'Часто запускаемые (Топ 15)';
-    resultCount.textContent = `${filtered.length} программ`;
+    currentCategoryTitle.textContent = t('frequentApps', 'Часто запускаемые (Топ 15)');
+    resultCount.textContent = `${filtered.length} ${t('programsSuffix', 'программ')}`;
   } else if (activeCategory === 'favorites') {
-    currentCategoryTitle.textContent = 'Избранные программы';
-    resultCount.textContent = `${filtered.length} программ`;
+    currentCategoryTitle.textContent = t('favoriteApps', 'Избранные программы');
+    resultCount.textContent = `${filtered.length} ${t('programsSuffix', 'программ')}`;
   } else {
     currentCategoryTitle.textContent = formatCategoryName(activeCategory);
-    resultCount.textContent = `${filtered.length} программ`;
+    resultCount.textContent = `${filtered.length} ${t('programsSuffix', 'программ')}`;
   }
 
   if (filtered.length === 0 && !web) {
     emptyState.style.display = 'flex';
     if (activeCategory === 'all' && isFilterRunningActive && !searchQuery) {
-      emptyState.querySelector('h3').textContent = 'Нет запущенных программ';
-      emptyState.querySelector('p').textContent = 'В данный момент ни одна из программ каталога не запущена в системе.';
+      emptyState.querySelector('h3').textContent = t('emptyRunningTitle', 'Нет запущенных программ');
+      emptyState.querySelector('p').textContent = t('emptyRunningDesc', 'В данный момент ни одна из программ каталога не запущена в системе.');
     } else if (activeCategory === 'favorites' && !searchQuery) {
-      emptyState.querySelector('h3').textContent = 'В избранном пока пусто';
-      emptyState.querySelector('p').textContent = 'Нажмите на звездочку на карточке любой программы, чтобы добавить её в быстрый доступ';
+      emptyState.querySelector('h3').textContent = t('emptyFavTitle', 'В избранном пока пусто');
+      emptyState.querySelector('p').textContent = t('emptyFavDesc', 'Нажмите на звездочку на карточке любой программы, чтобы добавить её в быстрый доступ');
     } else if (activeCategory === 'frequent' && !searchQuery) {
-      emptyState.querySelector('h3').textContent = 'Нет часто используемых программ';
-      emptyState.querySelector('p').textContent = 'Запускайте приложения из каталога, и они автоматически появятся в этом списке.';
+      emptyState.querySelector('h3').textContent = t('emptyFreqTitle', 'Нет часто используемых программ');
+      emptyState.querySelector('p').textContent = t('emptyFreqDesc', 'Запускайте приложения из каталога, и они автоматически появятся в этом списке.');
     } else {
-      emptyState.querySelector('h3').textContent = 'Ничего не найдено';
-      emptyState.querySelector('p').textContent = 'Попробуйте изменить поисковый запрос или переключить категорию';
+      emptyState.querySelector('h3').textContent = t('emptySearchTitle', 'Ничего не найдено');
+      emptyState.querySelector('p').textContent = t('emptySearchDesc', 'Попробуйте изменить поисковый запрос или переключить категорию');
     }
     return;
   }
@@ -1394,7 +1614,7 @@ function renderApps() {
     card.dataset.id = app.id;
     card.dataset.index = idx;
 
-    const shortCat = app.category.replace(/^\d+\.\s*/, '');
+    const shortCat = formatCategoryName(app.category);
     const iconUrl = app.icon ? `${app.icon}?v=20261029_v7` : '/static/icons/default.png';
 
     let launchBadgeHtml = '';
