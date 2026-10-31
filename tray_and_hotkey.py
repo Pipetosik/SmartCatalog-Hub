@@ -205,7 +205,7 @@ class TrayIconWindow:
         else:
             win32gui.AppendMenu(menu, win32con.MF_STRING | win32con.MF_DEFAULT, CMD_OPEN, "Открыть SmartCatalog Hub")
             win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_RESCAN, "Синхронизировать каталог")
-            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_OPEN_FOLDER, "Открыть папку F:\\SmartCatalog")
+            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_OPEN_FOLDER, "Открыть папку каталога")
             win32gui.AppendMenu(menu, win32con.MF_SEPARATOR, 0, "")
             win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_EXIT, "Закрыть лаунчер")
         pos = win32gui.GetCursorPos()
