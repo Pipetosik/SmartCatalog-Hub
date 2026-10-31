@@ -11,7 +11,7 @@
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/Language-English-blue.svg" alt="English" /></a>
   <a href="README_RU.md"><img src="https://img.shields.io/badge/Language-Русский-lightgrey.svg" alt="Русский" /></a>
-  <img src="https://img.shields.io/badge/Release-v1.1.0-emerald.svg?style=flat-square" alt="Version 1.1.0" />
+  <img src="https://img.shields.io/badge/Release-v1.2.0-emerald.svg?style=flat-square" alt="Version 1.2.0" />
   <img src="https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078d4?style=flat-square&logo=windows" alt="Platform" />
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776ab?style=flat-square&logo=python" alt="Python" />
   <img src="https://img.shields.io/badge/License-MIT-success?style=flat-square" alt="License" />
@@ -102,7 +102,7 @@ Launching the app via its Desktop, Start Menu, or Taskbar shortcut performs an u
 
 ### Option 1. Standalone Windows Installer (Recommended for Users)
 1. Head over to the [Releases](https://github.com/Pipetosik/SmartCatalog-Hub/releases) page.
-2. Download the latest installer executable: `SmartCatalog-Setup-v1.1.0.exe`.
+2. Download the latest installer executable: `SmartCatalog-Setup-v1.2.0.exe`.
 3. Run the installer and follow the on-screen setup instructions.
 
 ---

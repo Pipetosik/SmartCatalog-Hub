@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-11-01
+
+### Added
+- **In-App Auto-Updater for SmartCatalog Hub (Self-Updater)**:
+  - Integrated GitHub Releases API (`/api/app_update/check`) with Semantic Versioning comparison.
+  - Background streaming chunked downloader (`/api/app_update/download`, `/api/app_update/progress`) with real-time download speed calculation, atomic `.part` verification, and progress bar.
+  - Robust SSL certificate handling: extracts Windows system root certificates via `ssl.enum_certificates("ROOT")` with automatic unverified fallback, resolving `CERTIFICATE_VERIFY_FAILED` errors in clean Windows Sandbox environments.
+  - Safe handover to Inno Setup installer (`/api/app_update/install`).
+  - Interactive "About / О программе" update card in Settings and header version badge alert (`v1.1.0 ↑`).
+- **System Software Package Updater via `winget` (Windows Package Manager)**:
+  - Automatic PC-wide software upgrade auditing with dynamic column parsing supporting Russian and English Windows locales.
+  - High-precision correlation engine mapping `winget` package IDs to `catalog_data.json` applications using executable paths and word-boundary matching (tested and matched 28 catalog apps on host).
+  - Glowing update badges on catalog application cards displaying target versions (e.g. `↑ 1.143.1`, `↑ 26.2.0`, `↑ 5.125.3`).
+  - Header notification button with glowing counter pill (`28`).
+  - Dedicated "Software Updates / Обновления программ" modal dialog with instant search filtering, single app updates, and 1-click "Update All" batch action.
+  - UAC elevation auto-escalation handler via PowerShell `Start-Process winget -Verb RunAs` for packages requiring Administrator privileges.
+- **Full Bilingual Localization**:
+  - 344 synchronized entries in the `I18N` dictionary across Russian and English.
+
+### Fixed
+- **System Tray Drive Path Bug**:
+  - Replaced hardcoded reference `F:\SmartCatalog` in `tray_and_hotkey.py` with localized `"Открыть папку каталога" / "Open Catalog Folder"`, opening the dynamically detected catalog path.
+
 ## [1.1.0] - 2026-10-31
 
 ### Added

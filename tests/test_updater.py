@@ -26,15 +26,15 @@ class TestUpdater(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.status = 200
         mock_resp.read.return_value = b'''{
-            "tag_name": "v1.2.0",
-            "name": "SmartCatalog Hub v1.2.0",
+            "tag_name": "v1.3.0",
+            "name": "SmartCatalog Hub v1.3.0",
             "body": "Changelog details",
-            "html_url": "https://github.com/Pipetosik/SmartCatalog-Hub/releases/tag/v1.2.0",
+            "html_url": "https://github.com/Pipetosik/SmartCatalog-Hub/releases/tag/v1.3.0",
             "published_at": "2026-11-01T12:00:00Z",
             "assets": [
                 {
-                    "name": "SmartCatalog-Setup-v1.2.0.exe",
-                    "browser_download_url": "https://github.com/Pipetosik/SmartCatalog-Hub/releases/download/v1.2.0/SmartCatalog-Setup-v1.2.0.exe",
+                    "name": "SmartCatalog-Setup-v1.3.0.exe",
+                    "browser_download_url": "https://github.com/Pipetosik/SmartCatalog-Hub/releases/download/v1.3.0/SmartCatalog-Setup-v1.3.0.exe",
                     "size": 42000000
                 }
             ]
@@ -45,17 +45,17 @@ class TestUpdater(unittest.TestCase):
         res = updater.check_for_updates(force=True)
         self.assertTrue(res["success"])
         self.assertTrue(res["update_available"])
-        self.assertEqual(res["latest_version"], "1.2.0")
-        self.assertEqual(res["download_url"], "https://github.com/Pipetosik/SmartCatalog-Hub/releases/download/v1.2.0/SmartCatalog-Setup-v1.2.0.exe")
-        self.assertEqual(res["asset_name"], "SmartCatalog-Setup-v1.2.0.exe")
+        self.assertEqual(res["latest_version"], "1.3.0")
+        self.assertEqual(res["download_url"], "https://github.com/Pipetosik/SmartCatalog-Hub/releases/download/v1.3.0/SmartCatalog-Setup-v1.3.0.exe")
+        self.assertEqual(res["asset_name"], "SmartCatalog-Setup-v1.3.0.exe")
 
     @patch("urllib.request.urlopen")
     def test_check_for_updates_none_available(self, mock_urlopen):
         mock_resp = MagicMock()
         mock_resp.status = 200
         mock_resp.read.return_value = b'''{
-            "tag_name": "v1.1.0",
-            "name": "SmartCatalog Hub v1.1.0",
+            "tag_name": "v1.2.0",
+            "name": "SmartCatalog Hub v1.2.0",
             "body": "Current release",
             "assets": []
         }'''
@@ -65,7 +65,7 @@ class TestUpdater(unittest.TestCase):
         res = updater.check_for_updates(force=True)
         self.assertTrue(res["success"])
         self.assertFalse(res["update_available"])
-        self.assertEqual(res["latest_version"], "1.1.0")
+        self.assertEqual(res["latest_version"], "1.2.0")
 
     def test_start_download_untrusted_domain(self):
         ok, msg = updater.start_download("https://malicious-site.com/setup.exe")

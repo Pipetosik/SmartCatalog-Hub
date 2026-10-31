@@ -13,7 +13,7 @@ from classifier import CATEGORY_RULES
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 ICONS_DIR = os.path.join(BASE_DIR, "icons_cache")
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.2.0"
 
 def attach_to_default_desktop():
     try:

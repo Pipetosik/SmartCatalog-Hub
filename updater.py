@@ -11,7 +11,7 @@ import urllib.error
 import tempfile
 import subprocess
 
-CURRENT_VERSION = "1.1.0"
+CURRENT_VERSION = "1.2.0"
 GITHUB_REPO = "Pipetosik/SmartCatalog-Hub"
 GITHUB_API_URL = f"https://api.github.com/repos/{GITHUB_REPO}/releases/latest"
 
