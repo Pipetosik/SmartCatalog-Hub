@@ -31,6 +31,7 @@ jobs:
 
       - name: Run security and audit regression tests
         run: |
+          python -m unittest discover tests
           python tests/test_audit_fixes.py
 
       - name: Build standalone executables
