@@ -792,6 +792,79 @@ function formatCategoryName(catName) {
   return clean;
 }
 
+const APP_DESCRIPTIONS_EN = {
+  "Discord": "Voice, video, and text communication service",
+  "Telegram Desktop": "Fast and secure cloud-based messaging client",
+  "Google Chrome": "Fast and secure web browser by Google",
+  "Visual Studio Code": "Extensible code editor with rich ecosystem",
+  "Steam": "Ultimate gaming platform and digital game store",
+  "Яндекс Музыка": "Music streaming client for tracks and podcasts",
+  "Yandex Music": "Music streaming client for tracks and podcasts",
+  "Antigravity": "Agentic AI development environment and intelligent workspace",
+  "DBeaver": "Universal SQL client and database management tool",
+  "Playnite": "Open-source video game library manager and launcher",
+  "Docker Desktop": "Platform for building, running, and managing containers",
+  "Postman": "Comprehensive API platform for building and testing APIs",
+  "Samsung Magician": "Drive health monitoring, optimization, and benchmark tool",
+  "uTorrent Web": "Web-based torrent client for downloading files",
+  "VLC media player": "Free and open-source cross-platform multimedia player",
+  "AIDA64 Extreme": "Complete hardware diagnostics and system information",
+  "Git Bash": "Git command-line shell and version control tools",
+  "AmneziaVPN": "Client for private and censorship-resistant VPN protocols",
+  "Hydra Launcher": "Launcher and game library manager with embedded client",
+  "Ludusavi (Бэкап сохранений)": "Backup tool for PC video game save files",
+  "Ludusavi": "Backup tool for PC video game save files"
+};
+
+const CATEGORY_DEFAULT_DESC_EN = {
+  "01. Разработка и Код": "Development environment, compiler, or programming tool",
+  "Разработка и Код": "Development environment, compiler, or programming tool",
+  "02. Базы данных": "Database management system and client tool",
+  "Базы данных": "Database management system and client tool",
+  "03. Нейросети и ИИ": "AI assistant, local neural network, or LLM tool",
+  "Нейросети и ИИ": "AI assistant, local neural network, or LLM tool",
+  "04. Интернет и Браузеры": "Web browser and internet navigation tool",
+  "Интернет и Браузеры": "Web browser and internet navigation tool",
+  "05. Связь и Мессенджеры": "Instant messenger, VoIP, and communication software",
+  "Связь и Мессенджеры": "Instant messenger, VoIP, and communication software",
+  "05. Мессенджеры и Связь": "Instant messenger, VoIP, and communication software",
+  "Мессенджеры и Связь": "Instant messenger, VoIP, and communication software",
+  "06. Удаленный доступ и Сеть": "Remote desktop client, VPN, or network tool",
+  "Удаленный доступ и Сеть": "Remote desktop client, VPN, or network tool",
+  "07. Мультимедиа и Звук": "Media player, audio editor, or streaming service",
+  "Мультимедиа и Звук": "Media player, audio editor, or streaming service",
+  "08. Компьютерные игры": "PC video game and interactive entertainment",
+  "09. Компьютерные игры": "PC video game and interactive entertainment",
+  "Компьютерные игры": "PC video game and interactive entertainment",
+  "09. Игровой софт и Лаунчеры": "Gaming platform, store launcher, or mod manager",
+  "10. Игровой софт и Лаунчеры": "Gaming platform, store launcher, or mod manager",
+  "Игровой софт и Лаунчеры": "Gaming platform, store launcher, or mod manager",
+  "10. Офис и Документы": "Office suite, document processor, or reader",
+  "11. Офис и Документы": "Office suite, document processor, or reader",
+  "Офис и Документы": "Office suite, document processor, or reader",
+  "11. Железо и Мониторинг": "Hardware monitoring, benchmark, or telemetry utility",
+  "Железо и Мониторинг": "Hardware monitoring, benchmark, or telemetry utility",
+  "12. Система и Обслуживание": "System utility, maintenance, or OS configuration tool",
+  "Система и Обслуживание": "System utility, maintenance, or OS configuration tool",
+  "13. Безопасность и Антивирусы": "Security suite, antivirus, or firewall utility",
+  "Безопасность и Антивирусы": "Security suite, antivirus, or firewall utility"
+};
+
+function formatAppDescription(app) {
+  if (!app) return '';
+  const lang = userData.settings?.language || 'ru';
+  if (lang === 'en') {
+    if (APP_DESCRIPTIONS_EN[app.name]) return APP_DESCRIPTIONS_EN[app.name];
+    if (CATEGORY_DEFAULT_DESC_EN[app.category]) return CATEGORY_DEFAULT_DESC_EN[app.category];
+    const cleanCat = (app.category || '').replace(/^\d+\.\s*/, '').trim();
+    if (CATEGORY_DEFAULT_DESC_EN[cleanCat]) return CATEGORY_DEFAULT_DESC_EN[cleanCat];
+    if (/[\u0400-\u04FF]/.test(app.description || '')) {
+      return formatCategoryName(app.category) || 'Windows Application';
+    }
+  }
+  return app.description || t('appDefaultDesc', 'Приложение Windows');
+}
+
 function applyAccentColor(colorKey) {
   const palette = ACCENT_PALETTES[colorKey] || ACCENT_PALETTES.blue;
   document.documentElement.style.setProperty('--accent', palette.accent);
@@ -1462,7 +1535,7 @@ function openQuickLook(app) {
     qlNewBadge.textContent = t('badgeNew', 'НОВОЕ');
   }
   
-  if (qlDesc) qlDesc.textContent = app.description || '—';
+  if (qlDesc) qlDesc.textContent = formatAppDescription(app) || '—';
   if (qlPath) qlPath.textContent = app.target || app.lnk_path || '—';
   
   // Stats
@@ -2175,8 +2248,8 @@ function renderApps() {
           ${playtimeBadgeHtml}
           <span class="app-category-badge">${shortCat}</span>
         </div>
-        <div class="app-description" title="${app.description || ''}">
-          ${app.description || t('appDefaultDesc', 'Приложение Windows')}
+        <div class="app-description" title="${formatAppDescription(app)}">
+          ${formatAppDescription(app)}
         </div>
       </div>
       <div class="compact-launch-hint">
@@ -3026,6 +3099,22 @@ async function renderWorkspacesList() {
       const card = document.createElement('div');
       card.className = 'workspace-card';
 
+      const isEn = (userData.settings?.language === 'en');
+      let displayName = ws.name;
+      let displayDesc = ws.description;
+      if (isEn) {
+        if (ws.id === 'ws_dev' || ws.name === 'Разработка') {
+          displayName = 'Development';
+          displayDesc = 'VS Code, Docker Desktop, Git Bash, DBeaver';
+        } else if (ws.id === 'ws_gaming' || ws.name.includes('Игры') || ws.name.includes('Связь')) {
+          displayName = 'Gaming & Communication';
+          displayDesc = 'Steam, Discord, Telegram';
+        } else if (ws.id === 'ws_office' || ws.name.includes('Офис')) {
+          displayName = 'Office & Productivity';
+          displayDesc = 'Google Chrome, Telegram, Office utilities';
+        }
+      }
+
       let iconsHtml = '';
       let tagsHtml = '';
       const appIds = ws.apps || [];
@@ -3042,8 +3131,8 @@ async function renderWorkspacesList() {
         <div class="ws-header">
           <span class="ws-icon">${ws.icon || '🚀'}</span>
           <div class="ws-title-wrap">
-            <div class="ws-name">${escapeHtml(ws.name)}</div>
-            <div class="ws-desc">${escapeHtml(ws.description || `${appIds.length} ${t('wsAppsInStack')}`)}</div>
+            <div class="ws-name">${escapeHtml(displayName)}</div>
+            <div class="ws-desc">${escapeHtml(displayDesc || `${appIds.length} ${t('wsAppsInStack')}`)}</div>
           </div>
           <div class="ws-card-actions">
             <button class="ws-icon-btn edit-ws-btn" title="${t('wsEditTitle')}">
