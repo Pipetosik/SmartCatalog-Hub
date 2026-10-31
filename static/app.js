@@ -16,23 +16,49 @@ const APP_VERSION = '1.1.0';
 
 const CATEGORY_NAMES_EN = {
   "01. Разработка и Код": "01. Development & Code",
+  "Разработка и Код": "Development & Code",
   "02. Базы данных": "02. Databases",
+  "Базы данных": "Databases",
   "03. Нейросети и ИИ": "03. AI & Neural Networks",
+  "Нейросети и ИИ": "AI & Neural Networks",
   "04. Интернет и Браузеры": "04. Internet & Browsers",
+  "Интернет и Браузеры": "Internet & Browsers",
+  "05. Связь и Мессенджеры": "05. Communication & Chat",
+  "Связь и Мессенджеры": "Communication & Chat",
   "05. Мессенджеры и Связь": "05. Communication & Chat",
+  "Мессенджеры и Связь": "Communication & Chat",
   "06. Удаленный доступ и Сеть": "06. Remote Access & Network",
+  "Удаленный доступ и Сеть": "Remote Access & Network",
+  "07. Мультимедиа и Звук": "07. Media & Audio",
+  "Мультимедиа и Звук": "Media & Audio",
   "07. Медиа и Звук": "07. Media & Audio",
-  "08. Игры и Развлечения": "08. Games & Entertainment",
-  "09. Офис и Документы": "09. Office & Documents",
+  "Медиа и Звук": "Media & Audio",
+  "08. Офис и Документы": "08. Office & Documents",
+  "Офис и Документы": "Office & Documents",
+  "09. Компьютерные игры": "09. PC Games",
+  "Компьютерные игры": "PC Games",
+  "09. Игры и Развлечения": "09. Games & Entertainment",
+  "Игры и Развлечения": "Games & Entertainment",
+  "10. Игровой софт и Лаунчеры": "10. Gaming Software & Launchers",
+  "Игровой софт и Лаунчеры": "Gaming Software & Launchers",
   "10. Графика и Дизайн": "10. Graphics & Design",
+  "Графика и Дизайн": "Graphics & Design",
   "11. Железо и Мониторинг": "11. Hardware & Monitoring",
+  "Железо и Мониторинг": "Hardware & Monitoring",
   "12. Система и Обслуживание": "12. System & Maintenance",
-  "13. Безопасность и Архивы": "13. Security & Utilities"
+  "Система и Обслуживание": "System & Maintenance",
+  "13. Безопасность и Архивы": "13. Security & Utilities",
+  "Безопасность и Архивы": "Security & Utilities",
+  "Команды": "Commands",
+  "Ссылки": "Links",
+  "Шаблоны": "Templates",
+  "Заметки": "Notes"
 };
 
 const I18N = {
   ru: {
-    statusReady: "Каталог готов",
+    // Top Brand & Header
+    brandTitle: "SmartCatalog",
     programsSuffix: "программ",
     inFavoritesSuffix: "в избранном",
     allPrograms: "Все программы",
@@ -41,54 +67,17 @@ const I18N = {
     runningAppsTitle: "Запущенные программы",
     searchResultsFor: "Результаты поиска: ",
     runningCountSuffix: "запущены",
-    emptyFavTitle: "В избранном пока пусто",
-    emptyFavDesc: "Нажмите на звездочку на карточке любой программы, чтобы добавить её в быстрый доступ",
-    emptyFreqTitle: "Нет часто используемых программ",
-    emptyFreqDesc: "Запускайте приложения из каталога, и они автоматически появятся в этом списке.",
-    emptyRunningTitle: "Нет запущенных программ",
-    emptyRunningDesc: "В данный момент ни одна из программ каталога не запущена в системе.",
-    emptySearchTitle: "Ничего не найдено",
-    emptySearchDesc: "Попробуйте изменить поисковый запрос или переключить категорию",
-    searchPlaceholder: "Поиск по названию или описанию...",
-    keyLaunch: "Запустить",
-    keyQuickLook: "Инфо",
-    keyFavorite: "В избранное",
-    keyFolder: "Папка",
-    keyCompact: "Компакт",
-    keySettings: "Настройки",
-    keySearch: "Поиск",
-    keyReset: "Сброс",
-    quickLookTitle: "Быстрый просмотр",
-    qlPath: "Расположение файла:",
-    qlPlaytime: "Экранное время:",
-    qlLaunches: "Количество запусков:",
-    qlLastRun: "Последний запуск:",
-    keyClose: "Закрыть",
-    favAdd: "В избранное",
-    favRemove: "Из избранного",
-    openFolder: "Папка",
-    launchApp: "Запустить",
-    starGithub: "Поставить ⭐ на GitHub",
-    reportBug: "Сообщить об ошибке",
-    changelogBtn: "История изменений",
-    aboutAppDesc: "Умный лаунчер и каталог программ с автоматической классификацией для Windows 10/11",
-    secNavTitle: "Язык и навигация",
-    settingLangTitle: "Язык интерфейса / Language",
-    settingLangDesc: "Язык надписей, кнопок и категорий программ",
-    settingStartupTitle: "Стартовая вкладка по умолчанию",
-    settingStartupDesc: "Раздел, который открывается при старте или разворачивании лаунчера",
-    settingThemeTitle: "Тема оформления и эффект стекла",
-    settingThemeDesc: "Визуальный стиль интерфейса и прозрачность оконного фона",
-    settingAccentTitle: "Акцентный цвет интерфейса",
-    settingAccentDesc: "Цветовой тон кнопок, бейджей и выделения элементов",
-    secAboutTitle: "О программе и обратная связь",
-    btnViewLog: "Просмотреть лог",
-    ctxQuickLook: "Быстрый просмотр (Space)",
-    ctxOpenFolder: "Открыть расположение файла",
-    badgeNew: "НОВОЕ",
+    statusReady: "Каталог готов",
+
+    // Navigation & Tabs
     catAll: "Все",
     catFrequent: "Часто используемые",
     catFavorites: "Избранное",
+
+    // Search & Actions
+    searchPlaceholder: "Поиск по названию или описанию...",
+    clearSearchTitle: "Очистить поиск (Esc)",
+    openPlayniteTitle: "Запустить библиотеку Playnite",
     sysMonitorTitle: "Мониторинг ресурсов Windows (CPU, RAM, Диск C:)",
     toggleViewTitle: "Компактный режим поиска (Ctrl+M)",
     topWorkspacesTitle: "Рабочие пространства (1-клик запуск наборов)",
@@ -101,6 +90,10 @@ const I18N = {
     topBtnFolder: "Папка",
     topRescanTitle: "Синхронизировать каталог",
     topSettingsTitle: "Настройки лаунчера (,)",
+
+    // Running filter & Sorts
+    filterRunningTitle: "Показать только запущенные в данный момент программы",
+    filterRunningText: "Запущенные",
     sortLabel: "Сортировка:",
     sortLaunches: "По запускам",
     sortPlaytime: "По времени",
@@ -110,16 +103,74 @@ const I18N = {
     sortPlaytimeTitle: "По экранному времени использования",
     sortRecentTitle: "По недавним запускам",
     sortNameTitle: "По алфавиту",
-    filterRunningTitle: "Показать только запущенные в данный момент программы",
-    filterRunningText: "Запущенные",
+
+    // Empty States
+    emptyFavTitle: "В избранном пока пусто",
+    emptyFavDesc: "Нажмите на звездочку на карточке любой программы, чтобы добавить её в быстрый доступ",
+    emptyFreqTitle: "Нет часто используемых программ",
+    emptyFreqDesc: "Запускайте приложения из каталога, и они автоматически появятся в этом списке.",
+    emptyRunningTitle: "Нет запущенных программ",
+    emptyRunningDesc: "В данный момент ни одна из программ каталога не запущена в системе.",
+    emptySearchTitle: "Ничего не найдено",
+    emptySearchDesc: "Попробуйте изменить поисковый запрос или переключить категорию",
+
+    // Loader
+    loaderTitle: "Инициализация каталога...",
+    loaderSub: "Поиск и автоматическая категоризация установленных программ Windows",
+
+    // Footer & Hotkey legend
+    keyLaunch: "Запустить",
+    keyQuickLook: "Инфо",
+    keyFavorite: "В избранное",
+    keyFolder: "Папка",
+    keyCompact: "Компакт",
+    keySettings: "Настройки",
+    keySearch: "Поиск",
+    keyReset: "Сброс",
+    keyClose: "Закрыть",
+    btnDone: "Готово",
+    cancelBtn: "Отмена",
+
+    // Card badges & actions
+    badgeNew: "НОВОЕ",
+    badgeRecentlyAdded: "Недавно добавлено в систему",
+    launchApp: "Запустить",
+    openApp: "Открыть",
+    favAdd: "В избранное",
+    favRemove: "Из избранного",
+    openFolder: "Папка",
+    appDefaultDesc: "Приложение Windows",
+    launchedCountTitle: "Запущено {n} раз",
+    screenTimeTitle: "Экранное время: {t}",
+    runningSystemTitle: "Программа запущена в системе ({n} процессов)",
+    favAddTooltip: "Добавить в избранное (F)",
+    favRemoveTooltip: "Удалить из избранного (F)",
+    folderTooltip: "Открыть папку (Alt+Enter)",
+
+    // Context Menu
     ctxRunAdmin: "Запустить от имени администратора",
+    ctxQuickLook: "Быстрый просмотр (Space)",
+    ctxOpenFolder: "Открыть расположение файла",
     ctxMoveCategory: "Переместить в категорию",
     ctxAddToStack: "Стеки (Добавить в набор)",
     ctxKillProcess: "Завершить процесс (Снять задачу)",
     ctxHideApp: "Скрыть из каталога",
+    ctxNewStackWithApp: "Новый стек с этой программой",
+
+    // Settings Modal
+    settingsModalTitle: "Параметры SmartCatalog",
+    secNavTitle: "Язык и навигация",
+    settingLangTitle: "Язык интерфейса / Language",
+    settingLangDesc: "Язык надписей, кнопок и категорий программ",
+    settingStartupTitle: "Стартовая вкладка по умолчанию",
+    settingStartupDesc: "Раздел, который открывается при старте или разворачивании лаунчера",
     secViewTitle: "Внешний вид и стиль",
     settingViewModeTitle: "Режим отображения лаунчера",
     settingViewModeDesc: "Полноразмерный каталог программ или компактный поисковый док (Raycast)",
+    settingThemeTitle: "Тема оформления и эффект стекла",
+    settingThemeDesc: "Визуальный стиль интерфейса и прозрачность оконного фона",
+    settingAccentTitle: "Акцентный цвет интерфейса",
+    settingAccentDesc: "Цветовой тон кнопок, бейджей и выделения элементов",
     secBadgesTitle: "Бейджи и индикаторы",
     settingNewBadgeTitle: "Индикатор «Новое»",
     settingNewBadgeDesc: "Подсвечивать программы, обнаруженные в системе за последнее время",
@@ -138,14 +189,38 @@ const I18N = {
     settingClipTitle: "История буфера обмена",
     settingClipDesc: "Автоматически сохранять текстовые фрагменты для быстрого доступа",
     secHiddenTitle: "Скрытые программы",
+    hiddenEmptyText: "Нет скрытых программ",
+    hiddenRestoreBtn: "Восстановить",
+    hiddenErrorText: "Ошибка загрузки скрытых программ",
     secDiagTitle: "Диагностика и отладка",
     settingLogTitle: "Журнал классификации программ",
     settingLogDesc: "Файл classification_debug.log с подробным отчетом о распределении приложений по категориям",
     btnLogFolder: "Папка с логами",
-    wsModalTitle: "Рабочие пространства (Стеки программ)",
-    wsModalIntro: "Запускайте целые рабочие среды в один клик. Создавайте свои стеки для разработки, игр, офиса или стриминга.",
-    wsBtnNew: "Новый стек",
-    wsModalHint: "Нажмите «Запустить всё» для одновременного старта всех программ набора",
+    openLogsFolderTitle: "Открыть папку с логами в Проводнике Windows",
+    btnViewLog: "Просмотреть лог",
+    viewLogTitle: "Просмотреть и скопировать лог",
+    secAboutTitle: "О программе и обратная связь",
+    aboutAppDesc: "Умный лаунчер и каталог программ с автоматической классификацией для Windows 10/11",
+    starGithub: "Поставить ⭐ на GitHub",
+    reportBug: "Сообщить об ошибке",
+    changelogBtn: "История изменений",
+    settingsHint: "Изменения сохраняются и применяются мгновенно",
+
+    // Quick Look Modal
+    quickLookTitle: "Быстрый просмотр",
+    qlPath: "Расположение файла:",
+    qlPlaytime: "Экранное время:",
+    qlLaunches: "Количество запусков:",
+    qlLastRun: "Последний запуск:",
+    qlDescPlaceholder: "Описание программы...",
+
+    // Classification Log Modal
+    logModalTitle: "Журнал классификации (classification_debug.log)",
+    logCopyBtn: "Скопировать весь лог",
+    logLoading: "Загрузка журнала классификации...",
+    logEmpty: "(Журнал пуст)",
+
+    // Insights Modal
     insightsModalTitle: "Аналитика активности и экранное время",
     insTotalTime: "Всего экранного времени",
     insSinceInstall: "С момента установки",
@@ -157,7 +232,39 @@ const I18N = {
     insCatBreakdown: "Распределение по категориям",
     insTop5Apps: "Топ-5 приложений по времени",
     insModalHint: "Статистика обновляется в реальном времени при активности окна",
+    insTotalSuffix: "всего",
+
+    // Workspaces Modal
+    wsModalTitle: "Рабочие пространства (Стеки программ)",
+    wsModalIntro: "Запускайте целые рабочие среды в один клик. Создавайте свои стеки для разработки, игр, офиса или стриминга.",
+    wsBtnNew: "Новый стек",
+    wsModalHint: "Нажмите «Запустить всё» для одновременного старта всех программ набора",
+    wsEditorHeadingCreate: "Создать стек ПО",
+    wsEditorHeadingEdit: "Редактировать стек: {name}",
+    wsEditorSub: "Настройте состав программ, иконку и название",
+    wsBackToList: "Вернуться к списку",
+    wsFormName: "Название стека",
+    wsPlaceholderName: "Например: Стриминг, Аналитика, 3D Графика...",
+    wsFormIcon: "Иконка (эмодзи)",
+    wsFormDesc: "Описание набора (необязательно)",
+    wsPlaceholderDesc: "Краткое описание назначения стека...",
+    wsSelectedApps: "Выбранные программы",
+    wsPickerHint: "Кликните на чип с крестиком для удаления из набора",
+    wsNoAppsSelected: "Пока не выбрано ни одной программы",
+    wsSearchAppPlaceholder: "Поиск программы каталога для добавления в стек...",
+    wsSaveBtn: "Сохранить стек",
+    wsEmptyTitle: "Стеков пока нет",
+    wsEmptyDesc: "Создайте свой первый стек программ для быстрого запуска в 1 клик",
+    wsAppsInStack: "программ в стеке",
+    wsNoApps: "Нет программ",
+    wsLaunchAll: "Запустить всё",
+    wsEditTitle: "Редактировать стек",
+    wsDeleteTitle: "Удалить стек",
+    wsConfirmDelete: "Удалить стек «{name}»?",
+
+    // System Monitor Modal
     sysModalTitle: "Мониторинг системы и диспетчер задач",
+    sysRefreshTitle: "Обновить сейчас",
     sysCpuName: "Процессор (CPU)",
     sysCpuDesc: "Загрузка ядер",
     sysRamName: "Память (RAM)",
@@ -165,6 +272,14 @@ const I18N = {
     sysTopRam: "Топ процессов по RAM",
     sysTopCpu: "Топ процессов по CPU",
     sysModalHint: "Нажмите «Снять задачу», чтобы принудительно завершить фоновый или зависший процесс",
+    sysEndTask: "Снять задачу",
+    sysNoProcesses: "Нет данных о процессах",
+    sysCoresThreads: "ядер (потоков)",
+    sysGbFreeOf: "ГБ свободно из",
+    sysMbUnit: "МБ",
+    sysGbUnit: "ГБ",
+
+    // Clipboard & Snippets Modal
     clipModalTitle: "Буфер обмена и быстрые сниппеты",
     clipTabHistory: "История буфера",
     clipTabSnippets: "Закрепленные сниппеты",
@@ -174,12 +289,110 @@ const I18N = {
     clipSearchPlaceholder: "Поиск по истории буфера...",
     snipSearchPlaceholder: "Поиск по сниппетам, ссылкам и шаблонам...",
     clipModalHint: "Кликните «Копировать» на сниппете или строке истории для мгновенной вставки",
-    logModalTitle: "Журнал классификации (classification_debug.log)",
-    logCopyBtn: "Скопировать весь лог",
-    btnDone: "Готово"
+    clipEmptyHistory: "История буфера обмена пуста",
+    clipChars: "символов",
+    clipPinBtn: "📌 В сниппеты",
+    clipPinTitle: "Сохранить как постоянный сниппет",
+    clipCopyBtn: "Копировать",
+    snipEmptyList: "Нет подходящих сниппетов",
+    snipCharsShort: "симв.",
+    snipCopyTitle: "Скопировать в буфер",
+    snipEditTitle: "Редактировать",
+    snipDeleteTitle: "Удалить",
+    snipEditorHeadingCreate: "Новый сниппет",
+    snipEditorHeadingEdit: "Редактировать сниппет",
+    snipEditorSub: "Сохраните часто используемый текст, команду или шаблон",
+    snipBack: "Вернуться к сниппетам",
+    snipFormTitle: "Название сниппета",
+    snipPlaceholderTitle: "Например: Git Pull Rebase, Docker Prune, Шаблон...",
+    snipFormCategory: "Категория",
+    snipPlaceholderCat: "Команды, Ссылки...",
+    snipFormContent: "Содержимое (текст, код или ссылка)",
+    snipPlaceholderContent: "Вставьте текст шаблона, код или ссылку...",
+    snipSaveBtn: "Сохранить сниппет",
+    snipCatCommands: "Команды",
+    snipCatLinks: "Ссылки",
+    snipCatTemplates: "Шаблоны",
+    snipCatNotes: "Заметки",
+
+    // Toast Notifications
+    toastCompactMode: "Компактный поиск",
+    toastFullMode: "Полный каталог",
+    toastCompactDesc: "Включен режим Raycast Mini-Dock (Ctrl+M для переключения)",
+    toastFullDesc: "Включен стандартный вид каталога (Ctrl+M для переключения)",
+    toastStartupSaved: "Стартовая вкладка сохранена",
+    toastStartupDesc: "Лаунчер будет открываться с раздела: {title}",
+    toastStackUpdated: "Стек обновлен",
+    toastStackAppAdded: "«{app}» добавлена в стек «{ws}»",
+    toastStackAppRemoved: "«{app}» удалена из стека «{ws}»",
+    toastKillTaskPending: "Завершение задачи...",
+    toastKillTaskPendingMsg: "Останавливаем процессы {app}",
+    toastKillTaskSuccess: "Процесс завершен",
+    toastKillTaskSuccessMsg: "Программа «{app}» остановлена",
+    toastError: "Ошибка",
+    toastAdminLaunch: "Запуск от имени администратора",
+    toastAdminLaunchMsg: "Запрос прав для {app}...",
+    toastUacDenied: "UAC отклонен",
+    toastLaunchError: "Ошибка запуска",
+    toastExplorer: "Проводник",
+    toastExplorerOpened: "Папка открыта: {app}",
+    toastCategoryChanged: "Категория изменена",
+    toastCategoryMoved: "{app} перемещена в {cat}",
+    toastAppHidden: "Программа скрыта",
+    toastAppHiddenMsg: "{app} скрыта из каталога (можно вернуть в Настройках)",
+    toastAppRestored: "Программа восстановлена",
+    toastAppRestoredMsg: "{app} возвращена в каталог",
+    toastFavAdded: "Добавлено в Избранное",
+    toastFavRemoved: "Удалено из Избранного",
+    toastAppLaunching: "Запуск программы",
+    toastAppLaunchingMsg: "Запуск {app}...",
+    toastPlayniteRunning: "Библиотека игр запущена",
+    toastPlayniteNotFound: "Playnite не найден",
+    toastPlayniteNotFoundMsg: "Установите Playnite или проверьте путь",
+    toastRescanStarting: "Синхронизация...",
+    toastRescanStartingMsg: "Сканирование системы и проверка каталогов...",
+    toastRescanDone: "Синхронизация завершена",
+    toastRescanDoneMsg: "Проверена система и каталоги (всего программ: {total})",
+    toastLogsFolder: "Папка с логами",
+    toastLogsFolderMsg: "Папка открыта в Проводнике Windows",
+    toastLogCopied: "Лог скопирован",
+    toastLogCopiedMsg: "Содержимое лога классификации скопировано в буфер обмена",
+    toastWsLaunching: "Запуск пространства...",
+    toastWsLaunchingMsg: "Запускаем набор «{ws}» ({count} программ)",
+    toastWsLaunched: "Стек запущен",
+    toastWsDeleted: "Стек удалён",
+    toastWsDeletedMsg: "Стек «{ws}» удалён",
+    toastWsNameRequired: "Введите название для стека ПО",
+    toastWsSaved: "Стек сохранён",
+    toastWsSavedMsg: "Стек «{name}» успешно сохранён ({count} программ)",
+    toastTaskTerminated: "Задача снята",
+    toastTaskTerminatedMsg: "Процесс {name} (PID: {pid}) успешно завершен",
+    toastCopied: "Скопировано!",
+    toastCopiedMsg: "Фрагмент помещен в буфер обмена",
+    toastSnipCopied: "Сниппет «{title}» в буфере обмена",
+    toastSnipDeleted: "Сниппет удален",
+    toastSnipTitleRequired: "Введите название сниппета",
+    toastSnipContentRequired: "Введите содержимое сниппета",
+    toastSnipSaved: "Сниппет сохранен",
+    toastClipCleared: "Буфер очищен",
+    toastClipClearedMsg: "История буфера обмена успешно удалена",
+    toastEnabled: "Включен",
+    toastDisabled: "Отключен",
+    toastEnabledFemale: "Включена",
+    toastDisabledFemale: "Отключена",
+    toastViewMode: "Режим лаунчера",
+    toastTheme: "Тема оформления",
+    toastBadgeIndicator: "Индикатор «Новое»",
+    toastBadgePeriod: "Период индикатора «Новое»",
+    toastHotkey: "Горячая клавиша",
+    toastTrayIcon: "Значок в трее",
+    toastPlaytimeTrack: "Учет экранного времени",
+    toastLiveStatus: "Индикатор запущенных программ",
+    toastClipHistory: "История буфера обмена"
   },
   en: {
-    statusReady: "Catalog ready",
+    // Top Brand & Header
+    brandTitle: "SmartCatalog",
     programsSuffix: "apps",
     inFavoritesSuffix: "in favorites",
     allPrograms: "All Applications",
@@ -188,54 +401,17 @@ const I18N = {
     runningAppsTitle: "Running Applications",
     searchResultsFor: "Search results: ",
     runningCountSuffix: "running",
-    emptyFavTitle: "No favorite apps yet",
-    emptyFavDesc: "Click the star icon on any app card to add it to quick access",
-    emptyFreqTitle: "No frequently used apps",
-    emptyFreqDesc: "Launch apps from the catalog to have them automatically appear here.",
-    emptyRunningTitle: "No running apps",
-    emptyRunningDesc: "None of the catalog apps are currently running on your system.",
-    emptySearchTitle: "Nothing found",
-    emptySearchDesc: "Try a different search query or switch categories",
-    searchPlaceholder: "Search by app name or description...",
-    keyLaunch: "Launch",
-    keyQuickLook: "Info",
-    keyFavorite: "Favorite",
-    keyFolder: "Folder",
-    keyCompact: "Compact",
-    keySettings: "Settings",
-    keySearch: "Search",
-    keyReset: "Reset",
-    quickLookTitle: "Quick Look",
-    qlPath: "File Location:",
-    qlPlaytime: "Playtime:",
-    qlLaunches: "Launch count:",
-    qlLastRun: "Last launched:",
-    keyClose: "Close",
-    favAdd: "Add to Favorites",
-    favRemove: "Remove Favorite",
-    openFolder: "Open Folder",
-    launchApp: "Launch",
-    starGithub: "Star ⭐ on GitHub",
-    reportBug: "Report a Bug",
-    changelogBtn: "Changelog",
-    aboutAppDesc: "Smart app launcher & catalog with automatic Pe-header classification for Windows 10/11",
-    secNavTitle: "Language & Navigation",
-    settingLangTitle: "Interface Language",
-    settingLangDesc: "Language for labels, buttons, categories, and notifications",
-    settingStartupTitle: "Default Startup Tab",
-    settingStartupDesc: "The section opened whenever the launcher starts or restores",
-    settingThemeTitle: "Theme & Glass Effects",
-    settingThemeDesc: "Visual appearance and background window transparency",
-    settingAccentTitle: "Accent Color Theme",
-    settingAccentDesc: "Color tone for buttons, badges, and focus rings",
-    secAboutTitle: "About & Community Feedback",
-    btnViewLog: "View Log",
-    ctxQuickLook: "Quick Look (Space)",
-    ctxOpenFolder: "Open file location",
-    badgeNew: "NEW",
+    statusReady: "Catalog ready",
+
+    // Navigation & Tabs
     catAll: "All",
     catFrequent: "Frequently Used",
     catFavorites: "Favorites",
+
+    // Search & Actions
+    searchPlaceholder: "Search by app name or description...",
+    clearSearchTitle: "Clear search (Esc)",
+    openPlayniteTitle: "Launch Playnite game library",
     sysMonitorTitle: "Windows Resource Monitor (CPU, RAM, Drive C:)",
     toggleViewTitle: "Compact Search Mode (Ctrl+M)",
     topWorkspacesTitle: "Workspaces (1-click app stacks)",
@@ -248,6 +424,10 @@ const I18N = {
     topBtnFolder: "Folder",
     topRescanTitle: "Rescan and sync catalog",
     topSettingsTitle: "Launcher Settings (,)",
+
+    // Running filter & Sorts
+    filterRunningTitle: "Show only currently running programs",
+    filterRunningText: "Running",
     sortLabel: "Sort by:",
     sortLaunches: "By Launches",
     sortPlaytime: "By Time",
@@ -257,16 +437,74 @@ const I18N = {
     sortPlaytimeTitle: "Sort by total playtime",
     sortRecentTitle: "Sort by recent launches",
     sortNameTitle: "Alphabetical order",
-    filterRunningTitle: "Show only currently running programs",
-    filterRunningText: "Running",
+
+    // Empty States
+    emptyFavTitle: "No favorite apps yet",
+    emptyFavDesc: "Click the star icon on any app card to add it to quick access",
+    emptyFreqTitle: "No frequently used apps",
+    emptyFreqDesc: "Launch apps from the catalog to have them automatically appear here.",
+    emptyRunningTitle: "No running apps",
+    emptyRunningDesc: "None of the catalog apps are currently running on your system.",
+    emptySearchTitle: "Nothing found",
+    emptySearchDesc: "Try a different search query or switch categories",
+
+    // Loader
+    loaderTitle: "Initializing catalog...",
+    loaderSub: "Discovering and automatically categorizing installed Windows software",
+
+    // Footer & Hotkey legend
+    keyLaunch: "Launch",
+    keyQuickLook: "Info",
+    keyFavorite: "Favorite",
+    keyFolder: "Folder",
+    keyCompact: "Compact",
+    keySettings: "Settings",
+    keySearch: "Search",
+    keyReset: "Reset",
+    keyClose: "Close",
+    btnDone: "Done",
+    cancelBtn: "Cancel",
+
+    // Card badges & actions
+    badgeNew: "NEW",
+    badgeRecentlyAdded: "Recently added to system",
+    launchApp: "Launch",
+    openApp: "Open",
+    favAdd: "Add to Favorites",
+    favRemove: "Remove Favorite",
+    openFolder: "Open Folder",
+    appDefaultDesc: "Windows Application",
+    launchedCountTitle: "Launched {n} times",
+    screenTimeTitle: "Screen time: {t}",
+    runningSystemTitle: "Application is running ({n} processes)",
+    favAddTooltip: "Add to Favorites (F)",
+    favRemoveTooltip: "Remove from Favorites (F)",
+    folderTooltip: "Open folder (Alt+Enter)",
+
+    // Context Menu
     ctxRunAdmin: "Run as Administrator",
+    ctxQuickLook: "Quick Look (Space)",
+    ctxOpenFolder: "Open file location",
     ctxMoveCategory: "Move to Category",
     ctxAddToStack: "Add to Workspace Stack",
     ctxKillProcess: "End Process (Taskkill)",
     ctxHideApp: "Hide from Catalog",
+    ctxNewStackWithApp: "New stack with this app",
+
+    // Settings Modal
+    settingsModalTitle: "SmartCatalog Settings",
+    secNavTitle: "Language & Navigation",
+    settingLangTitle: "Interface Language",
+    settingLangDesc: "Language for labels, buttons, categories, and notifications",
+    settingStartupTitle: "Default Startup Tab",
+    settingStartupDesc: "The section opened whenever the launcher starts or restores",
     secViewTitle: "Appearance & Theme",
     settingViewModeTitle: "Launcher Display Mode",
     settingViewModeDesc: "Full-size 3-column app catalog or compact spotlight dock",
+    settingThemeTitle: "Theme & Glass Effects",
+    settingThemeDesc: "Visual appearance and background window transparency",
+    settingAccentTitle: "Accent Color Theme",
+    settingAccentDesc: "Color tone for buttons, badges, and focus rings",
     secBadgesTitle: "Badges & Indicators",
     settingNewBadgeTitle: "«New» Badge Indicator",
     settingNewBadgeDesc: "Highlight newly discovered software on cards",
@@ -285,14 +523,38 @@ const I18N = {
     settingClipTitle: "Clipboard History",
     settingClipDesc: "Record copied text snippets for quick search & reuse",
     secHiddenTitle: "Hidden Applications",
+    hiddenEmptyText: "No hidden applications",
+    hiddenRestoreBtn: "Restore",
+    hiddenErrorText: "Failed to load hidden applications",
     secDiagTitle: "Diagnostics & Logs",
     settingLogTitle: "Classification Debug Log",
     settingLogDesc: "classification_debug.log with full PE metadata heuristics",
     btnLogFolder: "Open Logs Folder",
-    wsModalTitle: "Workspaces (App Stacks)",
-    wsModalIntro: "Launch entire workspace environments in one click. Create stacks for dev, gaming, office, or streaming.",
-    wsBtnNew: "New Stack",
-    wsModalHint: "Click «Launch All» to launch all applications in the stack simultaneously",
+    openLogsFolderTitle: "Open logs folder in Windows Explorer",
+    btnViewLog: "View Log",
+    viewLogTitle: "View and copy classification debug log",
+    secAboutTitle: "About & Community Feedback",
+    aboutAppDesc: "Smart app launcher & catalog with automatic Pe-header classification for Windows 10/11",
+    starGithub: "Star ⭐ on GitHub",
+    reportBug: "Report a Bug",
+    changelogBtn: "Changelog",
+    settingsHint: "Changes are saved and applied instantly",
+
+    // Quick Look Modal
+    quickLookTitle: "Quick Look",
+    qlPath: "File Location:",
+    qlPlaytime: "Playtime:",
+    qlLaunches: "Launch count:",
+    qlLastRun: "Last launched:",
+    qlDescPlaceholder: "Application description...",
+
+    // Classification Log Modal
+    logModalTitle: "Classification Log (classification_debug.log)",
+    logCopyBtn: "Copy entire log",
+    logLoading: "Loading classification log...",
+    logEmpty: "(Log is empty)",
+
+    // Insights Modal
     insightsModalTitle: "Usage Insights & Screen Time",
     insTotalTime: "Total Screen Time",
     insSinceInstall: "Since Installation",
@@ -304,7 +566,39 @@ const I18N = {
     insCatBreakdown: "Distribution by Category",
     insTop5Apps: "Top 5 Apps by Time",
     insModalHint: "Stats update in real-time as windows become active",
+    insTotalSuffix: "total",
+
+    // Workspaces Modal
+    wsModalTitle: "Workspaces (App Stacks)",
+    wsModalIntro: "Launch entire workspace environments in one click. Create stacks for dev, gaming, office, or streaming.",
+    wsBtnNew: "New Stack",
+    wsModalHint: "Click «Launch All» to launch all applications in the stack simultaneously",
+    wsEditorHeadingCreate: "Create Software Stack",
+    wsEditorHeadingEdit: "Edit Stack: {name}",
+    wsEditorSub: "Configure applications, emoji icon, and name",
+    wsBackToList: "Back to list",
+    wsFormName: "Stack Name",
+    wsPlaceholderName: "e.g. Streaming, Analytics, 3D Graphics...",
+    wsFormIcon: "Icon (emoji)",
+    wsFormDesc: "Stack Description (optional)",
+    wsPlaceholderDesc: "Short summary of the stack's purpose...",
+    wsSelectedApps: "Selected Applications",
+    wsPickerHint: "Click a chip's cross to remove from stack",
+    wsNoAppsSelected: "No applications selected yet",
+    wsSearchAppPlaceholder: "Search catalog applications to add...",
+    wsSaveBtn: "Save Stack",
+    wsEmptyTitle: "No stacks yet",
+    wsEmptyDesc: "Create your first app stack for quick 1-click startup",
+    wsAppsInStack: "apps in stack",
+    wsNoApps: "No apps",
+    wsLaunchAll: "Launch All",
+    wsEditTitle: "Edit Stack",
+    wsDeleteTitle: "Delete Stack",
+    wsConfirmDelete: 'Delete stack "{name}"?',
+
+    // System Monitor Modal
     sysModalTitle: "System Monitor & Task Manager",
+    sysRefreshTitle: "Refresh Now",
     sysCpuName: "Processor (CPU)",
     sysCpuDesc: "Core Load",
     sysRamName: "Memory (RAM)",
@@ -312,6 +606,14 @@ const I18N = {
     sysTopRam: "Top Processes by RAM",
     sysTopCpu: "Top Processes by CPU",
     sysModalHint: "Click «Kill Task» to forcefully terminate background or frozen processes",
+    sysEndTask: "End Task",
+    sysNoProcesses: "No process data available",
+    sysCoresThreads: "cores (threads)",
+    sysGbFreeOf: "GB free of",
+    sysMbUnit: "MB",
+    sysGbUnit: "GB",
+
+    // Clipboard & Snippets Modal
     clipModalTitle: "Clipboard & Snippets",
     clipTabHistory: "Clipboard History",
     clipTabSnippets: "Pinned Snippets",
@@ -321,11 +623,108 @@ const I18N = {
     clipSearchPlaceholder: "Search clipboard history...",
     snipSearchPlaceholder: "Search snippets, links, templates...",
     clipModalHint: "Click «Copy» on any snippet or history item to copy to clipboard",
-    logModalTitle: "Classification Log (classification_debug.log)",
-    logCopyBtn: "Copy entire log",
-    btnDone: "Done"
+    clipEmptyHistory: "Clipboard history is empty",
+    clipChars: "characters",
+    clipPinBtn: "📌 Save",
+    clipPinTitle: "Save as pinned snippet",
+    clipCopyBtn: "Copy",
+    snipEmptyList: "No matching snippets found",
+    snipCharsShort: "chars",
+    snipCopyTitle: "Copy to clipboard",
+    snipEditTitle: "Edit",
+    snipDeleteTitle: "Delete",
+    snipEditorHeadingCreate: "New Snippet",
+    snipEditorHeadingEdit: "Edit Snippet",
+    snipEditorSub: "Save frequently used text, commands or templates",
+    snipBack: "Back to snippets",
+    snipFormTitle: "Snippet Title",
+    snipPlaceholderTitle: "e.g. Git Pull Rebase, Docker Prune, Email Template...",
+    snipFormCategory: "Category",
+    snipPlaceholderCat: "Commands, Links...",
+    snipFormContent: "Content (text, code or URL)",
+    snipPlaceholderContent: "Paste template text, code or link here...",
+    snipSaveBtn: "Save Snippet",
+    snipCatCommands: "Commands",
+    snipCatLinks: "Links",
+    snipCatTemplates: "Templates",
+    snipCatNotes: "Notes",
+
+    // Toast Notifications
+    toastCompactMode: "Compact Search Mode",
+    toastFullMode: "Full Catalog Mode",
+    toastCompactDesc: "Raycast Mini-Dock mode enabled (Ctrl+M to toggle)",
+    toastFullDesc: "Standard tile grid view enabled (Ctrl+M to toggle)",
+    toastStartupSaved: "Startup Tab Saved",
+    toastStartupDesc: "Launcher will open on: {title}",
+    toastStackUpdated: "Stack Updated",
+    toastStackAppAdded: '"{app}" added to stack "{ws}"',
+    toastStackAppRemoved: '"{app}" removed from stack "{ws}"',
+    toastKillTaskPending: "Terminating task...",
+    toastKillTaskPendingMsg: "Stopping processes for {app}",
+    toastKillTaskSuccess: "Process Terminated",
+    toastKillTaskSuccessMsg: 'Application "{app}" stopped',
+    toastError: "Error",
+    toastAdminLaunch: "Run as Administrator",
+    toastAdminLaunchMsg: "Requesting privileges for {app}...",
+    toastUacDenied: "UAC Denied",
+    toastLaunchError: "Launch Error",
+    toastExplorer: "Explorer",
+    toastExplorerOpened: "Folder opened: {app}",
+    toastCategoryChanged: "Category Changed",
+    toastCategoryMoved: "{app} moved to {cat}",
+    toastAppHidden: "Application Hidden",
+    toastAppHiddenMsg: "{app} hidden from catalog (can be restored in Settings)",
+    toastAppRestored: "Application Restored",
+    toastAppRestoredMsg: "{app} restored to catalog",
+    toastFavAdded: "Added to Favorites",
+    toastFavRemoved: "Removed from Favorites",
+    toastAppLaunching: "Launching Application",
+    toastAppLaunchingMsg: "Launching {app}...",
+    toastPlayniteRunning: "Game library launched",
+    toastPlayniteNotFound: "Playnite Not Found",
+    toastPlayniteNotFoundMsg: "Install Playnite or verify path",
+    toastRescanStarting: "Syncing...",
+    toastRescanStartingMsg: "Scanning system and checking catalog...",
+    toastRescanDone: "Sync Complete",
+    toastRescanDoneMsg: "System scan complete ({total} applications indexed)",
+    toastLogsFolder: "Logs Folder",
+    toastLogsFolderMsg: "Logs folder opened in Windows Explorer",
+    toastLogCopied: "Log Copied",
+    toastLogCopiedMsg: "Classification log copied to clipboard",
+    toastWsLaunching: "Launching Workspace...",
+    toastWsLaunchingMsg: 'Starting workspace "{ws}" ({count} apps)',
+    toastWsLaunched: "Stack Launched",
+    toastWsDeleted: "Stack Deleted",
+    toastWsDeletedMsg: 'Stack "{ws}" deleted',
+    toastWsNameRequired: "Enter a name for the application stack",
+    toastWsSaved: "Stack Saved",
+    toastWsSavedMsg: 'Stack "{name}" saved ({count} apps)',
+    toastTaskTerminated: "Task Terminated",
+    toastTaskTerminatedMsg: "Process {name} (PID: {pid}) terminated",
+    toastCopied: "Copied!",
+    toastCopiedMsg: "Copied to clipboard",
+    toastSnipCopied: 'Snippet "{title}" copied to clipboard',
+    toastSnipDeleted: "Snippet Deleted",
+    toastSnipTitleRequired: "Enter snippet title",
+    toastSnipContentRequired: "Enter snippet content",
+    toastSnipSaved: "Snippet Saved",
+    toastClipCleared: "Clipboard Cleared",
+    toastClipClearedMsg: "Clipboard history has been cleared",
+    toastEnabled: "Enabled",
+    toastDisabled: "Disabled",
+    toastEnabledFemale: "Enabled",
+    toastDisabledFemale: "Disabled",
+    toastViewMode: "Display Mode",
+    toastTheme: "Theme",
+    toastBadgeIndicator: "«New» Indicator",
+    toastBadgePeriod: "«New» Duration",
+    toastHotkey: "Global Hotkey",
+    toastTrayIcon: "Tray Icon",
+    toastPlaytimeTrack: "Playtime Tracking",
+    toastLiveStatus: "Live Running Status",
+    toastClipHistory: "Clipboard History"
   }
-};
+};;
 
 const ACCENT_PALETTES = {
   blue: {
@@ -366,18 +765,31 @@ const ACCENT_PALETTES = {
   }
 };
 
-function t(key, fallback = '') {
+function t(key, fallback = '', params = {}) {
   const lang = userData.settings?.language || 'ru';
-  return I18N[lang]?.[key] || I18N['ru']?.[key] || fallback;
+  let str = I18N[lang]?.[key] || I18N['ru']?.[key] || fallback;
+  if (params && typeof params === 'object') {
+    Object.entries(params).forEach(([k, v]) => {
+      str = str.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
+    });
+  }
+  return str;
 }
 
 function formatCategoryName(catName) {
+  if (!catName) return '';
   const lang = userData.settings?.language || 'ru';
-  let displayName = catName;
-  if (lang === 'en' && CATEGORY_NAMES_EN[catName]) {
-    displayName = CATEGORY_NAMES_EN[catName];
+  const clean = catName.replace(/^\d+\.\s*/, '').trim();
+  if (lang === 'en') {
+    if (CATEGORY_NAMES_EN[catName]) {
+      return CATEGORY_NAMES_EN[catName].replace(/^\d+\.\s*/, '');
+    }
+    if (CATEGORY_NAMES_EN[clean]) {
+      return CATEGORY_NAMES_EN[clean].replace(/^\d+\.\s*/, '');
+    }
+    return clean;
   }
-  return displayName.replace(/^\d+\.\s*/, '');
+  return clean;
 }
 
 function applyAccentColor(colorKey) {
@@ -396,6 +808,7 @@ function applyLanguage(lang) {
   if (!userData.settings) userData.settings = {};
   userData.settings.language = lang;
   document.documentElement.lang = lang;
+  const isEn = (lang === 'en');
 
   // Translate all DOM elements marked with data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -421,15 +834,114 @@ function applyLanguage(lang) {
     }
   });
 
-  // Update sort name button
-  const sortNameSpan = document.querySelector('[data-sort="name"] span');
-  if (sortNameSpan) sortNameSpan.textContent = t('sortName', 'А — Я');
+  // Update themeSelect options
+  if (typeof themeSelect !== 'undefined' && themeSelect && themeSelect.options.length >= 5) {
+    themeSelect.options[0].textContent = isEn ? 'Start Menu (Windows 11 Acrylic Glass)' : 'Меню «Пуск» (Windows 11 Acrylic — Полупрозрачное стекло)';
+    themeSelect.options[1].textContent = isEn ? 'Obsidian — Dark Slate (Subtle)' : 'Obsidian — Тёмный сланец (Сдержанный)';
+    themeSelect.options[2].textContent = isEn ? 'Fluent Acrylic — Deep Frosted Blur' : 'Fluent Acrylic — Глубокое матовое размытие';
+    themeSelect.options[3].textContent = isEn ? 'Mica Alt — Windows 11 Desktop Style' : 'Mica Alt — Стиль Windows 11';
+    themeSelect.options[4].textContent = isEn ? 'OLED — True Pure Black' : 'OLED — Глубокий абсолютно чёрный';
+  }
+
+  // Update viewModeSelect options
+  if (typeof viewModeSelect !== 'undefined' && viewModeSelect && viewModeSelect.options.length >= 2) {
+    viewModeSelect.options[0].textContent = isEn ? 'Standard (Tile Grid, 3 columns)' : 'Стандартный (Плиточный каталог, 3 колонки)';
+    viewModeSelect.options[1].textContent = isEn ? 'Compact Search (Raycast Mini-Dock)' : 'Компактный поиск (Мини-док Raycast / Spotlight)';
+  }
+
+  // Update badgePeriodSelect options
+  if (typeof badgePeriodSelect !== 'undefined' && badgePeriodSelect && badgePeriodSelect.options.length >= 3) {
+    badgePeriodSelect.options[0].textContent = isEn ? '24 hours' : '24 часа';
+    badgePeriodSelect.options[1].textContent = isEn ? '48 hours (2 days)' : '48 часов (2 дня)';
+    badgePeriodSelect.options[2].textContent = isEn ? '7 days (1 week)' : '7 дней (1 неделя)';
+  }
+
+  // Update startupTabSelect options
+  if (typeof startupTabSelect !== 'undefined' && startupTabSelect && startupTabSelect.options.length >= 3) {
+    startupTabSelect.options[0].textContent = isEn ? 'All Applications' : 'Все программы';
+    startupTabSelect.options[1].textContent = isEn ? 'Frequently Used (Top 15)' : 'Часто используемые (Топ 15)';
+    startupTabSelect.options[2].textContent = isEn ? 'Favorites' : 'Избранное';
+  }
+
+  // Update hotkeySelect options
+  if (typeof hotkeySelect !== 'undefined' && hotkeySelect && hotkeySelect.options.length >= 5) {
+    hotkeySelect.options[0].textContent = isEn ? 'Alt + Space (Recommended)' : 'Alt + Пробел (Рекомендуется)';
+    hotkeySelect.options[1].textContent = isEn ? 'Ctrl + Space' : 'Ctrl + Пробел';
+    hotkeySelect.options[2].textContent = isEn ? 'Ctrl + Alt + Space' : 'Ctrl + Alt + Пробел';
+    hotkeySelect.options[3].textContent = 'Alt + Q';
+    hotkeySelect.options[4].textContent = isEn ? 'Disabled' : 'Отключена';
+  }
+
+  // Update sort buttons
+  const sortBtnLaunches = document.querySelector('[data-sort="launches"]');
+  if (sortBtnLaunches) {
+    sortBtnLaunches.title = t('sortLaunchesTitle');
+    const span = sortBtnLaunches.querySelector('span');
+    if (span) span.textContent = t('sortLaunches');
+  }
+  const sortBtnPlaytime = document.querySelector('[data-sort="playtime"]');
+  if (sortBtnPlaytime) {
+    sortBtnPlaytime.title = t('sortPlaytimeTitle');
+    const span = sortBtnPlaytime.querySelector('span');
+    if (span) span.textContent = t('sortPlaytime');
+  }
+  const sortBtnRecent = document.querySelector('[data-sort="recent"]');
+  if (sortBtnRecent) {
+    sortBtnRecent.title = t('sortRecentTitle');
+    const span = sortBtnRecent.querySelector('span');
+    if (span) span.textContent = t('sortRecent');
+  }
+  const sortBtnName = document.querySelector('[data-sort="name"]');
+  if (sortBtnName) {
+    sortBtnName.title = t('sortNameTitle');
+    const span = sortBtnName.querySelector('span');
+    if (span) span.textContent = t('sortName');
+  }
+
+  // Update filter running button
+  const filterRunBtn = document.getElementById('filterRunningBtn');
+  if (filterRunBtn) {
+    filterRunBtn.title = t('filterRunningTitle');
+    const txt = filterRunBtn.querySelector('.filter-running-text');
+    if (txt) txt.textContent = t('filterRunningText');
+  }
+
+  // Update datalist for snippets
+  const snipCatList = document.getElementById('snippetCategoriesList');
+  if (snipCatList) {
+    snipCatList.innerHTML = isEn ? `
+      <option value="Commands">
+      <option value="Links">
+      <option value="Templates">
+      <option value="Notes">
+    ` : `
+      <option value="Команды">
+      <option value="Ссылки">
+      <option value="Шаблоны">
+      <option value="Заметки">
+    `;
+  }
 
   renderCategories();
   renderApps();
   updateStats();
-  if (settingsModal && settingsModal.style.display !== 'none') {
+  if (typeof settingsModal !== 'undefined' && settingsModal && settingsModal.style.display !== 'none') {
     populateSettings();
+  }
+  if (typeof workspacesModal !== 'undefined' && workspacesModal && workspacesModal.style.display !== 'none') {
+    renderWorkspacesList();
+  }
+  if (typeof insightsModal !== 'undefined' && insightsModal && insightsModal.style.display !== 'none') {
+    populateInsightsData();
+  }
+  if (typeof systemMonitorModal !== 'undefined' && systemMonitorModal && systemMonitorModal.style.display !== 'none') {
+    renderSystemMonitorModal();
+  }
+  if (typeof clipboardModal !== 'undefined' && clipboardModal && clipboardModal.style.display !== 'none') {
+    renderSnippetsList();
+  }
+  if (typeof quickLookModal !== 'undefined' && quickLookModal && quickLookModal.style.display !== 'none' && activeQuickLookApp) {
+    openQuickLook(activeQuickLookApp);
   }
 }
 
@@ -1088,7 +1600,7 @@ async function renderHiddenApps() {
     const res = await fetch('/api/hidden_apps');
     const hidden = await res.json();
     if (!hidden || hidden.length === 0) {
-      hiddenAppsContainer.innerHTML = '<div class="hidden-empty-text">Нет скрытых программ</div>';
+      hiddenAppsContainer.innerHTML = `<div class="hidden-empty-text">${t('hiddenEmptyText', 'Нет скрытых программ')}</div>`;
       return;
     }
     hiddenAppsContainer.innerHTML = '';
@@ -1101,7 +1613,7 @@ async function renderHiddenApps() {
           <img src="${iconUrl}" alt="" onerror="this.src='/static/icons/default.png'">
           <span class="hidden-name" title="${app.name}">${app.name}</span>
         </div>
-        <button class="restore-btn" data-id="${app.id}">Восстановить</button>
+        <button class="restore-btn" data-id="${app.id}">${t('hiddenRestoreBtn', 'Восстановить')}</button>
       `;
       item.querySelector('.restore-btn').onclick = async () => {
         await unhideApp(app.id, app.name);
@@ -1109,7 +1621,7 @@ async function renderHiddenApps() {
       hiddenAppsContainer.appendChild(item);
     });
   } catch (e) {
-    hiddenAppsContainer.innerHTML = '<div class="hidden-empty-text">Ошибка загрузки скрытых программ</div>';
+    hiddenAppsContainer.innerHTML = `<div class="hidden-empty-text">${t('hiddenErrorText', 'Ошибка загрузки скрытых программ')}</div>`;
   }
 }
 
@@ -1322,7 +1834,7 @@ function renderCategories() {
       localStorage.setItem('smartcatalog_startup_tab', p.dataset.cat);
       saveSetting('startup_tab', p.dataset.cat);
       const title = p.querySelector('.cat-title')?.textContent || p.dataset.cat;
-      showToast('Стартовая вкладка сохранена', `Лаунчер будет открываться с раздела: ${title}`);
+      showToast(t('toastStartupSaved'), t('toastStartupDesc', '', { title }));
     };
   });
 
@@ -1354,7 +1866,7 @@ function renderCategories() {
       e.preventDefault();
       localStorage.setItem('smartcatalog_startup_tab', cat.name);
       saveSetting('startup_tab', cat.name);
-      showToast('Стартовая вкладка сохранена', `Лаунчер будет открываться с раздела: ${displayTitle}`);
+      showToast(t('toastStartupSaved'), t('toastStartupDesc', '', { title: displayTitle }));
     });
 
     categoriesBar.appendChild(btn);
@@ -1389,6 +1901,7 @@ function formatPlaytime(seconds) {
 function getWebSearchFallback(q) {
   const trimmed = q.trim();
   if (!trimmed) return null;
+  const isEn = (userData.settings?.language === 'en');
 
   // 1. Google
   const gMatch = trimmed.match(/^(?:g|г)\s+(.+)$/i);
@@ -1396,8 +1909,8 @@ function getWebSearchFallback(q) {
     return {
       type: 'google',
       icon: '🔍',
-      title: `Искать в Google: "${gMatch[1]}"`,
-      sub: 'Открыть результаты веб-поиска в браузере по умолчанию',
+      title: isEn ? `Search Google: "${gMatch[1]}"` : `Искать в Google: "${gMatch[1]}"`,
+      sub: isEn ? 'Open web search in default browser' : 'Открыть результаты веб-поиска в браузере по умолчанию',
       url: `https://www.google.com/search?q=${encodeURIComponent(gMatch[1])}`
     };
   }
@@ -1408,8 +1921,8 @@ function getWebSearchFallback(q) {
     return {
       type: 'youtube',
       icon: '▶️',
-      title: `Искать на YouTube: "${ytMatch[1]}"`,
-      sub: 'Открыть поиск видео на YouTube',
+      title: isEn ? `Search YouTube: "${ytMatch[1]}"` : `Искать на YouTube: "${ytMatch[1]}"`,
+      sub: isEn ? 'Open YouTube video search' : 'Открыть поиск видео на YouTube',
       url: `https://www.youtube.com/results?search_query=${encodeURIComponent(ytMatch[1])}`
     };
   }
@@ -1420,8 +1933,8 @@ function getWebSearchFallback(q) {
     return {
       type: 'github',
       icon: '🐙',
-      title: `Искать на GitHub: "${ghMatch[1]}"`,
-      sub: 'Найти репозитории, исходный код и разработчиков',
+      title: isEn ? `Search GitHub: "${ghMatch[1]}"` : `Искать на GitHub: "${ghMatch[1]}"`,
+      sub: isEn ? 'Find repositories, source code and developers' : 'Найти репозитории, исходный код и разработчиков',
       url: `https://github.com/search?q=${encodeURIComponent(ghMatch[1])}`
     };
   }
@@ -1432,8 +1945,8 @@ function getWebSearchFallback(q) {
     return {
       type: 'wb',
       icon: '🟣',
-      title: `Искать на Wildberries: "${wbMatch[1]}"`,
-      sub: 'Открыть поиск товаров на маркетплейсе Wildberries',
+      title: isEn ? `Search Wildberries: "${wbMatch[1]}"` : `Искать на Wildberries: "${wbMatch[1]}"`,
+      sub: isEn ? 'Open marketplace product search on Wildberries' : 'Открыть поиск товаров на маркетплейсе Wildberries',
       url: `https://www.wildberries.ru/catalog/0/search.aspx?search=${encodeURIComponent(wbMatch[1])}`
     };
   }
@@ -1444,8 +1957,8 @@ function getWebSearchFallback(q) {
     return {
       type: 'ozon',
       icon: '🔵',
-      title: `Искать на Ozon: "${ozMatch[1]}"`,
-      sub: 'Открыть поиск товаров на Ozon',
+      title: isEn ? `Search Ozon: "${ozMatch[1]}"` : `Искать на Ozon: "${ozMatch[1]}"`,
+      sub: isEn ? 'Open marketplace product search on Ozon' : 'Открыть поиск товаров на Ozon',
       url: `https://www.ozon.ru/search/?text=${encodeURIComponent(ozMatch[1])}`
     };
   }
@@ -1455,8 +1968,8 @@ function getWebSearchFallback(q) {
     return {
       type: 'url',
       icon: '🌐',
-      title: `Перейти по ссылке: ${trimmed}`,
-      sub: 'Открыть веб-сайт в браузере по умолчанию',
+      title: isEn ? `Open URL: ${trimmed}` : `Перейти по ссылке: ${trimmed}`,
+      sub: isEn ? 'Open website in default browser' : 'Открыть веб-сайт в браузере по умолчанию',
       url: trimmed.startsWith('http') ? trimmed : `https://${trimmed}`
     };
   }
@@ -1519,8 +2032,8 @@ function renderApps() {
     if (catalogLoader) catalogLoader.style.display = 'flex';
     if (appsGrid) appsGrid.style.display = 'none';
     if (emptyState) emptyState.style.display = 'none';
-    if (currentCategoryTitle) currentCategoryTitle.textContent = 'Инициализация...';
-    if (resultCount) resultCount.textContent = 'Сканирование системы';
+    if (currentCategoryTitle) currentCategoryTitle.textContent = t('loaderTitle', 'Инициализация...');
+    if (resultCount) resultCount.textContent = t('loaderSub', 'Сканирование системы');
     return;
   } else {
     if (catalogLoader) catalogLoader.style.display = 'none';
@@ -1542,7 +2055,7 @@ function renderApps() {
           <div class="web-sub">${web.sub}</div>
         </div>
       </div>
-      <span class="web-action-pill">Открыть ↵</span>
+      <span class="web-action-pill">${isEn ? 'Open ↵' : 'Открыть ↵'}</span>
     `;
     wcard.onclick = async () => {
       try {
@@ -1620,31 +2133,31 @@ function renderApps() {
     let launchBadgeHtml = '';
     if (activeCategory === 'frequent') {
       const cnt = app._launches || (userData.launch_stats?.[app.id]?.count || 0);
-      launchBadgeHtml = `<span class="launch-count-badge" title="Запущено ${cnt} раз">${ICONS.flame} ${cnt}</span>`;
+      launchBadgeHtml = `<span class="launch-count-badge" title="${t('launchedCountTitle', '', { n: cnt })}">${ICONS.flame} ${cnt}</span>`;
     }
 
     let playtimeBadgeHtml = '';
     if (userData.settings?.enable_playtime_tracking !== false && playtimeStats?.apps_playtime?.[app.id]) {
       const pTotal = playtimeStats.apps_playtime[app.id].total || 0;
       if (pTotal >= 60) {
-        playtimeBadgeHtml = `<span class="playtime-badge" title="Экранное время: ${formatPlaytime(pTotal)}">⏱️ ${formatPlaytime(pTotal)}</span>`;
+        playtimeBadgeHtml = `<span class="playtime-badge" title="${t('screenTimeTitle', '', { t: formatPlaytime(pTotal) })}">⏱️ ${formatPlaytime(pTotal)}</span>`;
       }
     }
 
     let liveDotHtml = '';
     if (userData.settings?.enable_live_status !== false && runningApps[app.id]) {
       const pidsCount = (runningApps[app.id] || []).length;
-      liveDotHtml = `<span class="live-running-dot" title="Программа запущена в системе (${pidsCount} процессов)"></span>`;
+      liveDotHtml = `<span class="live-running-dot" title="${t('runningSystemTitle', '', { n: pidsCount })}"></span>`;
     }
 
-    const newBadgeHtml = isNewApp(app) ? `<span class="app-badge-new" title="Недавно добавлено в систему">Новое</span>` : '';
+    const newBadgeHtml = isNewApp(app) ? `<span class="app-badge-new" title="${t('badgeRecentlyAdded')}">${t('badgeNew', 'НОВОЕ')}</span>` : '';
 
     card.innerHTML = `
       <div class="card-actions">
-        <button class="card-action-btn fav-btn ${isFav ? 'active' : ''}" title="${isFav ? 'Удалить из избранного (F)' : 'В избранное (F)'}">
+        <button class="card-action-btn fav-btn ${isFav ? 'active' : ''}" title="${isFav ? t('favRemoveTooltip') : t('favAddTooltip')}">
           ${isFav ? ICONS.starFilled : ICONS.starEmpty}
         </button>
-        <button class="card-action-btn folder-btn" title="Открыть папку (Alt+Enter)">
+        <button class="card-action-btn folder-btn" title="${t('folderTooltip')}">
           ${ICONS.folder}
         </button>
       </div>
@@ -1663,11 +2176,11 @@ function renderApps() {
           <span class="app-category-badge">${shortCat}</span>
         </div>
         <div class="app-description" title="${app.description || ''}">
-          ${app.description || 'Приложение Windows'}
+          ${app.description || t('appDefaultDesc', 'Приложение Windows')}
         </div>
       </div>
       <div class="compact-launch-hint">
-        <kbd>↵</kbd> <span>Открыть</span>
+        <kbd>↵</kbd> <span>${t('openApp', 'Открыть')}</span>
       </div>
     `;
 
@@ -1727,7 +2240,7 @@ function showContextMenu(e, app) {
   const favSet = new Set(userData.favorites || []);
   const isFav = favSet.has(app.id);
   if (ctxFavText) {
-    ctxFavText.textContent = isFav ? 'Удалить из избранного' : 'Добавить в избранное';
+    ctxFavText.textContent = isFav ? t('favRemove', 'Удалить из избранного') : t('favAdd', 'Добавить в избранное');
   }
 
   // Populate categories submenu
@@ -1736,7 +2249,7 @@ function showContextMenu(e, app) {
     allCategories.forEach(cat => {
       const item = document.createElement('div');
       item.className = `submenu-item ${cat.name === app.category ? 'current' : ''}`;
-      item.textContent = cat.name.replace(/^\d+\.\s*/, '');
+      item.textContent = formatCategoryName(cat.name);
       item.onclick = async (evt) => {
         evt.stopPropagation();
         hideContextMenu();
@@ -1768,7 +2281,7 @@ function showContextMenu(e, app) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(ws)
         });
-        showToast('Стек обновлен', inWs ? `«${app.name}» удалена из стека «${ws.name}»` : `«${app.name}» добавлена в стек «${ws.name}»`);
+        showToast(t('toastStackUpdated'), inWs ? t('toastStackAppRemoved', '', { app: app.name, ws: ws.name }) : t('toastStackAppAdded', '', { app: app.name, ws: ws.name }));
         renderWorkspacesList();
       };
       ctxWorkspaceSubmenu.appendChild(item);
@@ -1777,7 +2290,7 @@ function showContextMenu(e, app) {
     const createItem = document.createElement('div');
     createItem.className = 'submenu-item';
     createItem.style.borderTop = '1px solid rgba(255,255,255,0.06)';
-    createItem.innerHTML = `<span style="display:inline-block; width: 14px; color: var(--accent); font-weight: 700;">+</span> <span>Новый стек с этой программой</span>`;
+    createItem.innerHTML = `<span style="display:inline-block; width: 14px; color: var(--accent); font-weight: 700;">+</span> <span>${t('ctxNewStackWithApp', 'Новый стек с этой программой')}</span>`;
     createItem.onclick = (evt) => {
       evt.stopPropagation();
       hideContextMenu();
@@ -1863,7 +2376,7 @@ if (ctxKillTask) {
     if (activeContextApp) {
       const app = activeContextApp;
       hideContextMenu();
-      showToast('Завершение задачи...', `Останавливаем процессы ${app.name}`);
+      showToast(t('toastKillTaskPending'), t('toastKillTaskPendingMsg', '', { app: app.name }));
       try {
         const res = await fetch('/api/kill_app', {
           method: 'POST',
@@ -1872,21 +2385,21 @@ if (ctxKillTask) {
         });
         const d = await res.json();
         if (d.success) {
-          showToast('Процесс завершен', `Программа «${app.name}» остановлена`);
+          showToast(t('toastKillTaskSuccess'), t('toastKillTaskSuccessMsg', '', { app: app.name }));
           delete runningApps[app.id];
           renderApps();
         } else {
-          showToast('Ошибка', d.message || 'Не удалось завершить процесс');
+          showToast(t('toastError'), d.message || t('toastError'));
         }
       } catch (err) {
-        showToast('Ошибка', err.message);
+        showToast(t('toastError'), err.message);
       }
     }
   });
 }
 
 async function launchAdmin(app) {
-  showToast('Запуск от имени администратора', `Запрос прав для ${app.name}...`);
+  showToast(t('toastAdminLaunch'), t('toastAdminLaunchMsg', '', { app: app.name }));
   try {
     const res = await fetch('/api/launch_admin', {
       method: 'POST',
@@ -1895,10 +2408,10 @@ async function launchAdmin(app) {
     });
     const data = await res.json();
     if (!res.ok) {
-      showToast('UAC отклонен', data.message || 'Запуск отменен пользователем');
+      showToast(t('toastUacDenied'), data.message || 'Cancelled');
     }
   } catch (e) {
-    showToast('Ошибка запуска', e.message);
+    showToast(t('toastLaunchError'), e.message);
   }
 }
 
@@ -1911,7 +2424,7 @@ async function openTargetFolder(app) {
     });
     const data = await res.json();
     if (res.ok) {
-      showToast('Проводник', `Папка открыта: ${app.name}`);
+      showToast(t('toastExplorer'), t('toastExplorerOpened', '', { app: app.name }));
     } else {
       openAppFolder(app);
     }
@@ -1929,13 +2442,13 @@ async function moveCategory(app, newCategory) {
     });
     const data = await res.json();
     if (res.ok) {
-      showToast('Категория изменена', `${app.name} перемещена в ${newCategory.replace(/^\d+\.\s*/, '')}`);
+      showToast(t('toastCategoryChanged'), t('toastCategoryMoved', '', { app: app.name, cat: formatCategoryName(newCategory) }));
       await reloadCatalogData();
     } else {
-      showToast('Ошибка перемещения', data.message || 'Не удалось переместить ярлык');
+      showToast(t('toastError'), data.message || e.message);
     }
   } catch (e) {
-    showToast('Ошибка перемещения', e.message);
+    showToast(t('toastError'), e.message);
   }
 }
 
@@ -1947,12 +2460,12 @@ async function hideApp(app) {
       body: JSON.stringify({ id: app.id })
     });
     if (res.ok) {
-      showToast('Программа скрыта', `${app.name} скрыта из каталога (можно вернуть в Настройках)`);
+      showToast(t('toastAppHidden'), t('toastAppHiddenMsg', '', { app: app.name }));
       await reloadCatalogData();
       renderHiddenApps();
     }
   } catch (e) {
-    showToast('Ошибка', e.message);
+    showToast(t('toastError'), e.message);
   }
 }
 
@@ -1964,12 +2477,12 @@ async function unhideApp(appId, appName) {
       body: JSON.stringify({ id: appId })
     });
     if (res.ok) {
-      showToast('Программа восстановлена', `${appName} возвращена в каталог`);
+      showToast(t('toastAppRestored'), t('toastAppRestoredMsg', '', { app: appName }));
       await reloadCatalogData();
       renderHiddenApps();
     }
   } catch (e) {
-    showToast('Ошибка', e.message);
+    showToast(t('toastError'), e.message);
   }
 }
 
@@ -1986,7 +2499,7 @@ async function toggleFavorite(app) {
   updateStats();
   renderApps();
 
-  showToast(willAdd ? 'Добавлено в Избранное' : 'Удалено из Избранного', app.name);
+  showToast(willAdd ? t('toastFavAdded') : t('toastFavRemoved'), app.name);
 
   try {
     await fetch('/api/favorites/toggle', {
@@ -2004,7 +2517,7 @@ async function launchApp(app) {
   userData.launch_stats[app.id].last_launched = Date.now() / 1000;
   updateStats();
 
-  if (statusText) statusText.textContent = `Запуск ${app.name}...`;
+  if (statusText) statusText.textContent = `${t('keyLaunch')} ${app.name}...`;
 
   try {
     const res = await fetch('/api/launch', {
@@ -2014,17 +2527,17 @@ async function launchApp(app) {
     });
     const data = await res.json();
     if (res.ok) {
-      showToast('Запуск программы', `Запуск ${app.name}...`);
-      if (statusText) statusText.textContent = `Запущено: ${app.name}`;
+      showToast(t('toastAppLaunching'), t('toastAppLaunchingMsg', '', { app: app.name }));
+      if (statusText) statusText.textContent = `${t('toastAppLaunching')}: ${app.name}`;
     } else {
-      showToast('Ошибка запуска', data.detail || data.message || 'Не удалось открыть приложение');
-      if (statusText) statusText.textContent = `Ошибка: ${app.name}`;
+      showToast(t('toastLaunchError'), data.detail || data.message || 'Error');
+      if (statusText) statusText.textContent = `${t('toastError')}: ${app.name}`;
     }
   } catch (err) {
-    showToast('Ошибка запуска', err.message);
+    showToast(t('toastLaunchError'), err.message);
   } finally {
     setTimeout(() => {
-      if (statusText) statusText.textContent = 'Каталог готов';
+      if (statusText) statusText.textContent = t('statusReady');
     }, 3000);
   }
 }
@@ -2062,12 +2575,12 @@ openPlayniteBtn.addEventListener('click', async () => {
     const res = await fetch('/api/open_playnite', { method: 'POST' });
     const data = await res.json();
     if (data.success) {
-      showToast('Playnite', 'Библиотека игр запущена');
+      showToast('Playnite', t('toastPlayniteRunning'));
     } else {
-      showToast('Playnite не найден', 'Установите Playnite или проверьте путь');
+      showToast(t('toastPlayniteNotFound'), t('toastPlayniteNotFoundMsg'));
     }
   } catch (e) {
-    showToast('Ошибка', e.message);
+    showToast(t('toastError'), e.message);
   }
 });
 
@@ -2084,12 +2597,12 @@ openFolderBtn.addEventListener('click', async () => {
 rescanBtn.addEventListener('click', async () => {
   rescanBtn.style.transform = 'rotate(360deg)';
   try {
-    showToast('Синхронизация...', 'Сканирование системы и проверка каталогов...');
+    showToast(t('toastRescanStarting'), t('toastRescanStartingMsg'));
     await fetch('/api/rescan', { method: 'POST' });
     await reloadCatalogData();
-    showToast('Синхронизация завершена', `Проверена система и каталоги (всего программ: ${allApps.length})`);
+    showToast(t('toastRescanDone'), t('toastRescanDoneMsg', '', { total: allApps.length }));
   } catch (e) {
-    showToast('Ошибка обновления', e.message);
+    showToast(t('toastError'), e.message);
   } finally {
     setTimeout(() => { rescanBtn.style.transform = ''; }, 450);
   }
@@ -2196,7 +2709,7 @@ if (startupTabSelect) {
     localStorage.setItem('smartcatalog_startup_tab', chosen);
     saveSetting('startup_tab', chosen);
     const selectedText = startupTabSelect.options[startupTabSelect.selectedIndex]?.textContent || chosen;
-    showToast('Стартовая вкладка изменена', selectedText);
+    showToast(t('toastStartupSaved'), selectedText);
   });
 }
 
@@ -2205,7 +2718,7 @@ if (viewModeSelect) {
     const val = e.target.value;
     setViewMode(val);
     saveSetting('view_mode', val);
-    showToast('Режим лаунчера', val === 'compact' ? 'Компактный поиск (Raycast)' : 'Стандартный каталог (3 колонки)');
+    showToast(t('toastViewMode'), val === 'compact' ? t('toastCompactMode') : t('toastFullMode'));
   });
 }
 
@@ -2214,7 +2727,7 @@ if (themeSelect) {
     const val = e.target.value;
     applyTheme(val);
     saveSetting('theme', val);
-    showToast('Тема оформления', themeSelect.options[themeSelect.selectedIndex]?.textContent || val);
+    showToast(t('toastTheme'), themeSelect.options[themeSelect.selectedIndex]?.textContent || val);
   });
 }
 
@@ -2226,7 +2739,7 @@ if (enableNewBadgeToggle) {
     }
     saveSetting('enable_new_badge', checked);
     renderApps();
-    showToast('Индикатор «Новое»', checked ? 'Включен' : 'Отключен');
+    showToast(t('toastBadgeIndicator'), checked ? t('toastEnabled') : t('toastDisabled'));
   });
 }
 
@@ -2235,7 +2748,7 @@ if (badgePeriodSelect) {
     const val = e.target.value;
     saveSetting('new_badge_period', val);
     renderApps();
-    showToast('Период индикатора «Новое»', badgePeriodSelect.options[badgePeriodSelect.selectedIndex]?.textContent || val);
+    showToast(t('toastBadgePeriod'), badgePeriodSelect.options[badgePeriodSelect.selectedIndex]?.textContent || val);
   });
 }
 
@@ -2243,7 +2756,7 @@ if (hotkeySelect) {
   hotkeySelect.addEventListener('change', (e) => {
     const val = e.target.value;
     saveSetting('global_hotkey', val);
-    showToast('Горячая клавиша', hotkeySelect.options[hotkeySelect.selectedIndex]?.textContent || val);
+    showToast(t('toastHotkey'), hotkeySelect.options[hotkeySelect.selectedIndex]?.textContent || val);
   });
 }
 
@@ -2251,7 +2764,7 @@ if (enableTrayToggle) {
   enableTrayToggle.addEventListener('change', (e) => {
     const checked = e.target.checked;
     saveSetting('enable_tray', checked);
-    showToast('Значок в трее', checked ? 'Включен' : 'Отключен');
+    showToast(t('toastTrayIcon'), checked ? t('toastEnabled') : t('toastDisabled'));
   });
 }
 
@@ -2260,7 +2773,7 @@ if (enablePlaytimeToggle) {
     const checked = e.target.checked;
     saveSetting('enable_playtime_tracking', checked);
     renderApps();
-    showToast('Учет экранного времени', checked ? 'Включен' : 'Отключен');
+    showToast(t('toastPlaytimeTrack'), checked ? t('toastEnabled') : t('toastDisabled'));
   });
 }
 
@@ -2269,7 +2782,7 @@ if (enableLiveStatusToggle) {
     const checked = e.target.checked;
     saveSetting('enable_live_status', checked);
     renderApps();
-    showToast('Индикатор запущенных программ', checked ? 'Включен' : 'Отключен');
+    showToast(t('toastLiveStatus'), checked ? t('toastEnabled') : t('toastDisabled'));
   });
 }
 
@@ -2277,7 +2790,7 @@ if (enableClipboardToggle) {
   enableClipboardToggle.addEventListener('change', (e) => {
     const checked = e.target.checked;
     saveSetting('enable_clipboard_history', checked);
-    showToast('История буфера обмена', checked ? 'Включена' : 'Отключена');
+    showToast(t('toastClipHistory'), checked ? t('toastEnabledFemale') : t('toastDisabledFemale'));
   });
 }
 
@@ -2295,12 +2808,12 @@ if (openLogsFolderBtn) {
       const res = await fetch('/api/open_logs_folder', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        showToast('Папка с логами', 'Папка открыта в Проводнике Windows');
+        showToast(t('toastLogsFolder'), t('toastLogsFolderMsg'));
       } else {
-        showToast('Ошибка', data.error || 'Не удалось открыть папку');
+        showToast(t('toastError'), data.error || (isEn ? 'Failed to open folder' : 'Не удалось открыть папку'));
       }
     } catch (e) {
-      showToast('Ошибка', e.message);
+      showToast(t('toastError'), e.message);
     }
   });
 }
@@ -2315,16 +2828,16 @@ const copyLogBtn = document.getElementById('copyLogBtn');
 if (viewClassificationLogBtn) {
   viewClassificationLogBtn.addEventListener('click', async () => {
     if (logViewerModal) logViewerModal.style.display = 'flex';
-    if (logViewerContent) logViewerContent.value = 'Загрузка журнала классификации...';
+    if (logViewerContent) logViewerContent.value = t('logLoading');
     try {
       const res = await fetch('/api/classification_log');
       const data = await res.json();
       if (data.success && logViewerContent) {
-        logViewerContent.value = data.log || '(Журнал пуст)';
+        logViewerContent.value = data.log || t('logEmpty');
         logViewerContent.scrollTop = logViewerContent.scrollHeight;
       }
     } catch (e) {
-      if (logViewerContent) logViewerContent.value = 'Ошибка загрузки лога: ' + e.message;
+      if (logViewerContent) logViewerContent.value = t('toastError') + ': ' + e.message;
     }
   });
 }
@@ -2343,7 +2856,7 @@ if (copyLogBtn) {
   copyLogBtn.addEventListener('click', () => {
     if (logViewerContent && logViewerContent.value) {
       navigator.clipboard.writeText(logViewerContent.value);
-      showToast('Лог скопирован', 'Содержимое лога классификации скопировано в буфер обмена');
+      showToast(t('toastLogCopied'), t('toastLogCopiedMsg'));
     }
   });
 }
@@ -2379,14 +2892,14 @@ function openWorkspaceEditor(ws = null, preselectedAppIds = []) {
   if (wsModalFooter) wsModalFooter.style.display = 'none';
 
   if (ws) {
-    if (wsEditorHeading) wsEditorHeading.textContent = `Редактировать стек: ${ws.name}`;
+    if (wsEditorHeading) wsEditorHeading.textContent = t('wsEditorHeadingEdit', '', { name: ws.name });
     if (wsEditId) wsEditId.value = ws.id || '';
     if (wsEditName) wsEditName.value = ws.name || '';
     if (wsEditIcon) wsEditIcon.value = ws.icon || '🚀';
     if (wsEditDesc) wsEditDesc.value = ws.description || '';
     selectedWorkspaceAppIds = new Set(ws.apps || []);
   } else {
-    if (wsEditorHeading) wsEditorHeading.textContent = 'Создать новый стек ПО';
+    if (wsEditorHeading) wsEditorHeading.textContent = t('wsEditorHeadingCreate');
     if (wsEditId) wsEditId.value = '';
     if (wsEditName) wsEditName.value = '';
     if (wsEditIcon) wsEditIcon.value = '🚀';
@@ -2413,7 +2926,7 @@ function renderWorkspaceSelectedChips() {
   if (wsSelectedCount) wsSelectedCount.textContent = selectedWorkspaceAppIds.size;
 
   if (selectedWorkspaceAppIds.size === 0) {
-    wsSelectedChipsBar.innerHTML = '<span class="ws-empty-chips-text">Пока не выбрано ни одной программы</span>';
+    wsSelectedChipsBar.innerHTML = `<span class="ws-empty-chips-text">${t('wsNoAppsSelected')}</span>`;
     return;
   }
 
@@ -2429,7 +2942,7 @@ function renderWorkspaceSelectedChips() {
     chip.innerHTML = `
       <img class="ws-chip-icon" src="${iconSrc}" onerror="this.src='/static/icons/default.png'">
       <span>${escapeHtml(app.name)}</span>
-      <span class="ws-chip-remove" title="Удалить из стека">✕</span>
+      <span class="ws-chip-remove" title="${t('wsPickerHint')}">✕</span>
     `;
     chip.querySelector('.ws-chip-remove').onclick = (e) => {
       e.stopPropagation();
@@ -2460,7 +2973,7 @@ function renderWorkspaceAppsPicker(filterText = '') {
   });
 
   if (matched.length === 0) {
-    wsAppsPickerList.innerHTML = '<div style="grid-column: 1/-1; padding: 12px; text-align: center; color: var(--text-tertiary); font-size: 12px;">Программы не найдены</div>';
+    wsAppsPickerList.innerHTML = `<div style="grid-column: 1/-1; padding: 12px; text-align: center; color: var(--text-tertiary); font-size: 12px;">${t('emptySearchTitle')}</div>`;
     return;
   }
 
@@ -2502,8 +3015,8 @@ async function renderWorkspacesList() {
       workspacesListContainer.innerHTML = `
         <div style="grid-column: 1/-1; padding: 32px 16px; text-align: center;">
           <div style="font-size: 28px; margin-bottom: 8px;">🚀</div>
-          <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">Стеков пока нет</div>
-          <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 12px;">Создайте свой первый стек программ для быстрого запуска в 1 клик</div>
+          <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">${t('wsEmptyTitle')}</div>
+          <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 12px;">${t('wsEmptyDesc')}</div>
         </div>
       `;
       return;
@@ -2530,32 +3043,32 @@ async function renderWorkspacesList() {
           <span class="ws-icon">${ws.icon || '🚀'}</span>
           <div class="ws-title-wrap">
             <div class="ws-name">${escapeHtml(ws.name)}</div>
-            <div class="ws-desc">${escapeHtml(ws.description || `${appIds.length} программ в стеке`)}</div>
+            <div class="ws-desc">${escapeHtml(ws.description || `${appIds.length} ${t('wsAppsInStack')}`)}</div>
           </div>
           <div class="ws-card-actions">
-            <button class="ws-icon-btn edit-ws-btn" title="Редактировать стек">
+            <button class="ws-icon-btn edit-ws-btn" title="${t('wsEditTitle')}">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
             </button>
-            <button class="ws-icon-btn del-ws-btn danger" title="Удалить стек">
+            <button class="ws-icon-btn del-ws-btn danger" title="${t('wsDeleteTitle')}">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             </button>
           </div>
         </div>
         <div class="ws-apps-preview">
-          <div class="ws-icons-row">${iconsHtml || '<span style="font-size:11px;color:var(--text-tertiary);">Нет программ</span>'}</div>
+          <div class="ws-icons-row">${iconsHtml || `<span style="font-size:11px;color:var(--text-tertiary);">${t('wsNoApps')}</span>`}</div>
           <div class="ws-apps-names-tags">${tagsHtml}</div>
         </div>
         <div class="ws-footer-row">
           <button class="ws-launch-btn" data-id="${ws.id}">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <span>Запустить всё (${appIds.length})</span>
+            <span>${t('wsLaunchAll')} (${appIds.length})</span>
           </button>
         </div>
       `;
 
       // Launch
       card.querySelector('.ws-launch-btn').onclick = async () => {
-        showToast('Запуск пространства...', `Запускаем набор «${ws.name}» (${appIds.length} программ)`);
+        showToast(t('toastWsLaunching'), t('toastWsLaunchingMsg', '', { ws: ws.name, count: appIds.length }));
         try {
           const lres = await fetch('/api/workspaces/launch', {
             method: 'POST',
@@ -2564,11 +3077,11 @@ async function renderWorkspacesList() {
           });
           const ld = await lres.json();
           if (ld.success) {
-            showToast('Стек запущен', ld.message);
+            showToast(t('toastWsLaunched'), ld.message);
             closeWorkspacesModal();
           }
         } catch (e) {
-          showToast('Ошибка запуска', e.message);
+          showToast(t('toastLaunchError'), e.message);
         }
       };
 
@@ -2581,7 +3094,7 @@ async function renderWorkspacesList() {
       // Delete
       card.querySelector('.del-ws-btn').onclick = async (e) => {
         e.stopPropagation();
-        if (!confirm(`Удалить стек «${ws.name}»?`)) return;
+        if (!confirm(t('wsConfirmDelete', '', { name: ws.name }))) return;
         try {
           const dres = await fetch('/api/workspaces/delete', {
             method: 'POST',
@@ -2590,11 +3103,11 @@ async function renderWorkspacesList() {
           });
           const dd = await dres.json();
           if (dd.success) {
-            showToast('Стек удалён', `Стек «${ws.name}» удалён`);
+            showToast(t('toastWsDeleted'), t('toastWsDeletedMsg', '', { ws: ws.name }));
             await renderWorkspacesList();
           }
         } catch (err) {
-          showToast('Ошибка удаления', err.message);
+          showToast(t('toastError'), err.message);
         }
       };
 
@@ -2627,7 +3140,7 @@ if (saveWorkspaceSubmitBtn) {
   saveWorkspaceSubmitBtn.addEventListener('click', async () => {
     const name = wsEditName ? wsEditName.value.trim() : '';
     if (!name) {
-      showToast('Ошибка', 'Введите название для стека ПО');
+      showToast(t('toastError'), t('toastWsNameRequired'));
       if (wsEditName) wsEditName.focus();
       return;
     }
@@ -2644,14 +3157,14 @@ if (saveWorkspaceSubmitBtn) {
       });
       const sd = await sres.json();
       if (sd.success) {
-        showToast('Стек сохранён', `Стек «${name}» успешно сохранён (${apps.length} программ)`);
+        showToast(t('toastWsSaved'), t('toastWsSavedMsg', '', { name, count: apps.length }));
         closeWorkspaceEditor();
         await renderWorkspacesList();
       } else {
-        showToast('Ошибка сохранения', sd.message || 'Не удалось сохранить стек');
+        showToast(t('toastError'), sd.message || 'Error');
       }
     } catch (e) {
-      showToast('Ошибка сохранения', e.message);
+      showToast(t('toastError'), e.message);
     }
   });
 }
@@ -2702,7 +3215,7 @@ async function populateInsightsData() {
     if (insightTopApp && playtimeStats.top_apps?.[0]) {
       const top = playtimeStats.top_apps[0];
       insightTopApp.textContent = top.name;
-      if (insightTopAppTime) insightTopAppTime.textContent = `${formatPlaytime(top.total)} всего`;
+      if (insightTopAppTime) insightTopAppTime.textContent = `${formatPlaytime(top.total)} ${t('insTotalSuffix')}`;
     }
 
     // Category percentage bars
@@ -2712,7 +3225,7 @@ async function populateInsightsData() {
       const sortedCats = Object.entries(playtimeStats.categories || {}).sort((a, b) => b[1] - a[1]);
       sortedCats.forEach(([catName, catSecs]) => {
         const pct = Math.round((catSecs / totalTime) * 100);
-        const cleanName = catName.replace(/^\d+\.\s*/, '');
+        const cleanName = formatCategoryName(catName);
         const item = document.createElement('div');
         item.className = 'cat-bar-item';
         item.innerHTML = `
@@ -2782,24 +3295,24 @@ async function renderSystemMonitorModal() {
     // CPU
     if (sysGaugeCpuVal) sysGaugeCpuVal.textContent = `${Math.round(d.cpu_percent)}%`;
     if (sysGaugeCpuBar) sysGaugeCpuBar.style.width = `${Math.min(100, Math.max(0, d.cpu_percent))}%`;
-    if (sysGaugeCpuSub) sysGaugeCpuSub.textContent = `${d.cpu_count || 16} ядер (потоков)`;
+    if (sysGaugeCpuSub) sysGaugeCpuSub.textContent = `${d.cpu_count || 16} ${t('sysCoresThreads')}`;
 
     // RAM
     if (sysGaugeRamVal) sysGaugeRamVal.textContent = `${Math.round(d.ram_percent)}%`;
     if (sysGaugeRamBar) sysGaugeRamBar.style.width = `${Math.min(100, Math.max(0, d.ram_percent))}%`;
-    if (sysGaugeRamSub) sysGaugeRamSub.textContent = `${d.ram_used_gb} / ${d.ram_total_gb} ГБ`;
+    if (sysGaugeRamSub) sysGaugeRamSub.textContent = `${d.ram_used_gb} / ${d.ram_total_gb} ${t('sysGbUnit')}`;
 
     // Disk C:
     if (sysGaugeDiskVal) sysGaugeDiskVal.textContent = `${Math.round(d.disk_percent)}%`;
     if (sysGaugeDiskBar) sysGaugeDiskBar.style.width = `${Math.min(100, Math.max(0, d.disk_percent))}%`;
     const freeGb = Math.max(0, Math.round(d.disk_total_gb - d.disk_used_gb));
-    if (sysGaugeDiskSub) sysGaugeDiskSub.textContent = `${freeGb} ГБ свободно из ${d.disk_total_gb} ГБ`;
+    if (sysGaugeDiskSub) sysGaugeDiskSub.textContent = `${freeGb} ${t('sysGbFreeOf')} ${d.disk_total_gb} ${t('sysGbUnit')}`;
 
     // Top RAM Processes
     if (sysTopRamList) {
       sysTopRamList.innerHTML = '';
       if (!d.top_ram || d.top_ram.length === 0) {
-        sysTopRamList.innerHTML = '<div class="hidden-empty-text">Нет данных о процессах</div>';
+        sysTopRamList.innerHTML = `<div class="hidden-empty-text">${t('sysNoProcesses')}</div>`;
       } else {
         d.top_ram.forEach(p => {
           const row = document.createElement('div');
@@ -2810,8 +3323,8 @@ async function renderSystemMonitorModal() {
               <div class="sys-proc-meta">PID: ${p.pid}</div>
             </div>
             <div class="sys-proc-actions">
-              <span class="sys-proc-metric-val">${p.mem_mb} МБ</span>
-              <button class="sys-kill-btn" data-pid="${p.pid}" data-name="${escapeHtml(p.name)}">Снять задачу</button>
+              <span class="sys-proc-metric-val">${p.mem_mb} ${t('sysMbUnit')}</span>
+              <button class="sys-kill-btn" data-pid="${p.pid}" data-name="${escapeHtml(p.name)}">${t('sysEndTask')}</button>
             </div>
           `;
           row.querySelector('.sys-kill-btn').onclick = () => killProcessAction(p.pid, p.name);
@@ -2824,7 +3337,7 @@ async function renderSystemMonitorModal() {
     if (sysTopCpuList) {
       sysTopCpuList.innerHTML = '';
       if (!d.top_cpu || d.top_cpu.length === 0) {
-        sysTopCpuList.innerHTML = '<div class="hidden-empty-text">Нет данных о процессах</div>';
+        sysTopCpuList.innerHTML = `<div class="hidden-empty-text">${t('sysNoProcesses')}</div>`;
       } else {
         d.top_cpu.forEach(p => {
           const row = document.createElement('div');
@@ -2836,7 +3349,7 @@ async function renderSystemMonitorModal() {
             </div>
             <div class="sys-proc-actions">
               <span class="sys-proc-metric-val">${p.cpu_percent.toFixed(1)}%</span>
-              <button class="sys-kill-btn" data-pid="${p.pid}" data-name="${escapeHtml(p.name)}">Снять задачу</button>
+              <button class="sys-kill-btn" data-pid="${p.pid}" data-name="${escapeHtml(p.name)}">${t('sysEndTask')}</button>
             </div>
           `;
           row.querySelector('.sys-kill-btn').onclick = () => killProcessAction(p.pid, p.name);
@@ -2856,14 +3369,14 @@ async function killProcessAction(pid, name) {
     });
     const d = await res.json();
     if (d.success) {
-      showToast('Задача снята', `Процесс ${name} (PID: ${pid}) успешно завершен`);
+      showToast(t('toastTaskTerminated'), t('toastTaskTerminatedMsg', '', { name, pid }));
       renderSystemMonitorModal();
       updateRunningApps();
     } else {
-      showToast('Ошибка', d.error || 'Не удалось завершить процесс');
+      showToast(t('toastError'), d.error || (isEn ? 'Failed to terminate process' : 'Не удалось завершить процесс'));
     }
   } catch (err) {
-    showToast('Ошибка', err.message);
+    showToast(t('toastError'), err.message);
   }
 }
 
@@ -2945,7 +3458,7 @@ function populateClipboardItems(items) {
   clipboardItemsContainer.innerHTML = '';
 
   if (!items || items.length === 0) {
-    clipboardItemsContainer.innerHTML = '<div class="hidden-empty-text">История буфера обмена пуста</div>';
+    clipboardItemsContainer.innerHTML = `<div class="hidden-empty-text">${t('clipEmptyHistory')}</div>`;
     return;
   }
 
@@ -2956,11 +3469,11 @@ function populateClipboardItems(items) {
     el.innerHTML = `
       <div class="clip-content">
         <div class="clip-text">${escapeHtml(item.text)}</div>
-        <div class="clip-meta">${item.length} символов • ${dateStr}</div>
+        <div class="clip-meta">${item.length} ${t('clipChars')} • ${dateStr}</div>
       </div>
       <div class="clip-actions">
-        <button class="clip-pin-btn" title="Сохранить как постоянный сниппет">📌 В сниппеты</button>
-        <button class="clip-copy-btn">Копировать</button>
+        <button class="clip-pin-btn" title="${t('clipPinTitle')}">${t('clipPinBtn')}</button>
+        <button class="clip-copy-btn">${t('clipCopyBtn')}</button>
       </div>
     `;
 
@@ -2974,11 +3487,11 @@ function populateClipboardItems(items) {
         });
         const cd = await cres.json();
         if (cd.success) {
-          showToast('Скопировано!', `Фрагмент помещен в буфер обмена`);
+          showToast(t('toastCopied'), t('toastCopiedMsg'));
           closeClipboardModal();
         }
       } catch (err) {
-        showToast('Ошибка', err.message);
+        showToast(t('toastError'), err.message);
       }
     };
 
@@ -2997,7 +3510,7 @@ function pinClipboardItemToSnippet(text) {
   openSnippetEditor({
     id: '',
     title: text.length > 28 ? text.slice(0, 28).trim() + '...' : text.trim(),
-    category: 'Заметки',
+    category: t('snipCatNotes'),
     content: text
   });
 }
@@ -3028,7 +3541,7 @@ function renderSnippetsList() {
   });
 
   if (filtered.length === 0) {
-    snippetsListContainer.innerHTML = '<div class="hidden-empty-text" style="grid-column: 1 / -1;">Нет подходящих сниппетов</div>';
+    snippetsListContainer.innerHTML = `<div class="hidden-empty-text" style="grid-column: 1 / -1;">${t('snipEmptyList')}</div>`;
     return;
   }
 
@@ -3039,15 +3552,15 @@ function renderSnippetsList() {
     card.innerHTML = `
       <div class="snippet-header">
         <span class="snippet-title" title="${escapeHtml(snip.title)}">${escapeHtml(snip.title)}</span>
-        <span class="snippet-cat-badge">${escapeHtml(snip.category || 'Заметки')}</span>
+        <span class="snippet-cat-badge">${escapeHtml(t(snip.category, snip.category))}</span>
       </div>
-      <div class="snippet-content-preview" title="Кликните для быстрого копирования">${escapeHtml(snipContent)}</div>
+      <div class="snippet-content-preview" title="${t('clipModalHint')}">${escapeHtml(snipContent)}</div>
       <div class="snippet-footer">
-        <span class="snippet-meta-info">${snipContent.length} симв.</span>
+        <span class="snippet-meta-info">${snipContent.length} ${t('snipCharsShort')}</span>
         <div class="snippet-btn-group">
-          <button class="snippet-action-btn copy-btn" title="Скопировать в буфер">Копировать</button>
-          <button class="snippet-action-btn edit-btn" title="Редактировать">✏️</button>
-          <button class="snippet-action-btn danger-btn delete-btn" title="Удалить">🗑️</button>
+          <button class="snippet-action-btn copy-btn" title="${t('snipCopyTitle')}">${t('clipCopyBtn')}</button>
+          <button class="snippet-action-btn edit-btn" title="${t('snipEditTitle')}">✏️</button>
+          <button class="snippet-action-btn danger-btn delete-btn" title="${t('snipDeleteTitle')}">🗑️</button>
         </div>
       </div>
     `;
@@ -3060,9 +3573,9 @@ function renderSnippetsList() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: snipContent })
         });
-        showToast('Скопировано!', `Сниппет «${snip.title}» в буфере обмена`);
+        showToast(t('toastCopied'), t('toastSnipCopied', '', { title: snip.title }));
       } catch (err) {
-        showToast('Ошибка копирования', err.message);
+        showToast(t('toastError'), err.message);
       }
     };
 
@@ -3084,7 +3597,7 @@ function renderSnippetsList() {
         });
         const dd = await dres.json();
         if (dd.success) {
-          showToast('Сниппет удален', snip.title);
+          showToast(t('toastSnipDeleted'), snip.title);
           loadAndRenderSnippets();
         }
       } catch (err) {}
@@ -3100,16 +3613,16 @@ function openSnippetEditor(snip = null) {
   snippetEditorView.style.display = 'block';
 
   if (snip) {
-    if (snippetEditorHeading) snippetEditorHeading.textContent = 'Редактировать сниппет';
+    if (snippetEditorHeading) snippetEditorHeading.textContent = t('snipEditorHeadingEdit');
     if (snipEditId) snipEditId.value = snip.id || '';
     if (snipEditTitle) snipEditTitle.value = snip.title || '';
-    if (snipEditCategory) snipEditCategory.value = snip.category || 'Заметки';
+    if (snipEditCategory) snipEditCategory.value = snip.category || t('snipCatNotes');
     if (snipEditContent) snipEditContent.value = snip.content || snip.text || '';
   } else {
-    if (snippetEditorHeading) snippetEditorHeading.textContent = 'Новый сниппет';
+    if (snippetEditorHeading) snippetEditorHeading.textContent = t('snipEditorHeadingCreate');
     if (snipEditId) snipEditId.value = '';
     if (snipEditTitle) snipEditTitle.value = '';
-    if (snipEditCategory) snipEditCategory.value = 'Команды';
+    if (snipEditCategory) snipEditCategory.value = t('snipCatCommands');
     if (snipEditContent) snipEditContent.value = '';
   }
   if (snipEditTitle) snipEditTitle.focus();
@@ -3129,17 +3642,17 @@ if (cancelSnippetBtn) cancelSnippetBtn.addEventListener('click', closeSnippetEdi
 if (saveSnippetSubmitBtn) {
   saveSnippetSubmitBtn.addEventListener('click', async () => {
     const title = (snipEditTitle?.value || '').trim();
-    const category = (snipEditCategory?.value || '').trim() || 'Заметки';
+    const category = (snipEditCategory?.value || '').trim() || t('snipCatNotes');
     const content = (snipEditContent?.value || '').trim();
     const id = (snipEditId?.value || '').trim();
 
     if (!title) {
-      showToast('Ошибка', 'Введите название сниппета');
+      showToast(t('toastError'), t('toastSnipTitleRequired'));
       snipEditTitle?.focus();
       return;
     }
     if (!content) {
-      showToast('Ошибка', 'Введите содержимое сниппета');
+      showToast(t('toastError'), t('toastSnipContentRequired'));
       snipEditContent?.focus();
       return;
     }
@@ -3152,14 +3665,14 @@ if (saveSnippetSubmitBtn) {
       });
       const d = await res.json();
       if (d.success) {
-        showToast('Сниппет сохранен', title);
+        showToast(t('toastSnipSaved'), title);
         closeSnippetEditor();
         loadAndRenderSnippets();
       } else {
-        showToast('Ошибка', d.error || 'Не удалось сохранить');
+        showToast(t('toastError'), d.error || (isEn ? 'Failed to save' : 'Не удалось сохранить'));
       }
     } catch (err) {
-      showToast('Ошибка', err.message);
+      showToast(t('toastError'), err.message);
     }
   });
 }
@@ -3210,7 +3723,7 @@ if (clearClipboardBtn) {
       clipboardHistory = [];
       populateClipboardItems([]);
       if (clipHistoryCount) clipHistoryCount.textContent = '0';
-      showToast('Буфер очищен', 'История буфера обмена успешно удалена');
+      showToast(t('toastClipCleared'), t('toastClipClearedMsg'));
     } catch (e) {}
   });
 }
@@ -3245,7 +3758,7 @@ async function updateRunningApps() {
         if (!existingDot && iconWrap) {
           const dot = document.createElement('span');
           dot.className = 'live-running-dot';
-          dot.title = `Программа запущена в системе (${runningApps[aid].length} процессов)`;
+          dot.title = t('runningSystemTitle', '', { n: runningApps[aid].length });
           iconWrap.appendChild(dot);
         }
       } else {

@@ -211,10 +211,17 @@ def scan_watch_dirs(is_initial_scan=False):
             save_catalog_data(existing)
             count = len(discovered_entries)
             print(f"[Watcher] Initial scan complete: {count} applications indexed.", flush=True)
-            show_toast(
-                "Каталог готов к работе",
-                f"Первичное сканирование завершено: обнаружено {count} программ."
-            )
+            lang = catalog_manager.load_user_data().get("settings", {}).get("language", "ru")
+            if lang == "en":
+                show_toast(
+                    "SmartCatalog is Ready",
+                    f"Initial system scan complete: {count} applications indexed."
+                )
+            else:
+                show_toast(
+                    "Каталог готов к работе",
+                    f"Первичное сканирование завершено: обнаружено {count} программ."
+                )
     finally:
         pythoncom.CoUninitialize()
 

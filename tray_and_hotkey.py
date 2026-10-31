@@ -194,13 +194,20 @@ class TrayIconWindow:
             self.remove_tray_icon()
 
     def show_context_menu(self):
+        lang = get_setting("language", "ru")
         menu = win32gui.CreatePopupMenu()
-        win32gui.AppendMenu(menu, win32con.MF_STRING | win32con.MF_DEFAULT, CMD_OPEN, "Открыть SmartCatalog Hub")
-        win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_RESCAN, "Синхронизировать каталог")
-        win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_OPEN_FOLDER, "Открыть папку F:\\SmartCatalog")
-        win32gui.AppendMenu(menu, win32con.MF_SEPARATOR, 0, "")
-        win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_EXIT, "Закрыть лаунчер")
-
+        if lang == "en":
+            win32gui.AppendMenu(menu, win32con.MF_STRING | win32con.MF_DEFAULT, CMD_OPEN, "Open SmartCatalog Hub")
+            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_RESCAN, "Rescan and Sync Catalog")
+            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_OPEN_FOLDER, "Open Catalog Folder")
+            win32gui.AppendMenu(menu, win32con.MF_SEPARATOR, 0, "")
+            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_EXIT, "Quit SmartCatalog")
+        else:
+            win32gui.AppendMenu(menu, win32con.MF_STRING | win32con.MF_DEFAULT, CMD_OPEN, "Открыть SmartCatalog Hub")
+            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_RESCAN, "Синхронизировать каталог")
+            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_OPEN_FOLDER, "Открыть папку F:\\SmartCatalog")
+            win32gui.AppendMenu(menu, win32con.MF_SEPARATOR, 0, "")
+            win32gui.AppendMenu(menu, win32con.MF_STRING, CMD_EXIT, "Закрыть лаунчер")
         pos = win32gui.GetCursorPos()
         win32gui.SetForegroundWindow(self.hwnd)
         cmd = win32gui.TrackPopupMenu(

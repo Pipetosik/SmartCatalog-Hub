@@ -46,7 +46,7 @@
           spellcheck="false"
         >
         <div class="search-hints">
-          <button class="clear-btn" id="clearSearchBtn" title="Очистить поиск (Esc)">
+          <button class="clear-btn" id="clearSearchBtn" data-i18n-title="clearSearchTitle" title="Очистить поиск (Esc)">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
           <kbd class="search-kbd" id="searchKbd">Ctrl K</kbd>
@@ -82,7 +82,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
           <span data-i18n="topBtnClipboard">Буфер</span>
         </button>
-        <button class="action-btn playnite-btn" id="openPlayniteBtn" title="Запустить библиотеку Playnite">
+        <button class="action-btn playnite-btn" id="openPlayniteBtn" data-i18n-title="openPlayniteTitle" title="Запустить библиотеку Playnite">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
           <span>Playnite</span>
         </button>
@@ -123,33 +123,33 @@
     <main class="content-area">
       <div class="section-header">
         <div class="section-title-wrap">
-          <h2 id="currentCategoryTitle">Все программы</h2>
+          <h2 id="currentCategoryTitle" data-i18n="allPrograms">Все программы</h2>
           <span class="result-count" id="resultCount">134</span>
         </div>
         
         <div class="header-filters-wrap">
           <!-- Filter for running processes on 'Все программы' -->
-          <button class="filter-running-btn" id="filterRunningBtn" title="Показать только запущенные в данный момент программы">
+          <button class="filter-running-btn" id="filterRunningBtn" data-i18n-title="filterRunningTitle" title="Показать только запущенные в данный момент программы">
             <span class="filter-running-dot"></span>
-            <span class="filter-running-text">Запущенные</span>
+            <span class="filter-running-text" data-i18n="filterRunningText">Запущенные</span>
             <span class="filter-running-badge" id="runningFilterBadge">0</span>
           </button>
 
           <!-- Sorting options for Top 15 Frequently Used apps -->
           <div class="sort-selector" id="sortSelector" style="display: none;">
-            <span class="sort-label">Сортировка:</span>
+            <span class="sort-label" data-i18n="sortLabel">Сортировка:</span>
             <div class="segmented-control">
-              <button class="sort-btn active" data-sort="launches" title="По числу запусков">
-                <span>По запускам</span>
+              <button class="sort-btn active" data-sort="launches" data-i18n-title="sortLaunchesTitle" title="По числу запусков">
+                <span data-i18n="sortLaunches">По запускам</span>
               </button>
-              <button class="sort-btn" data-sort="playtime" title="По экранному времени использования">
-                <span>По времени</span>
+              <button class="sort-btn" data-sort="playtime" data-i18n-title="sortPlaytimeTitle" title="По экранному времени использования">
+                <span data-i18n="sortPlaytime">По времени</span>
               </button>
-              <button class="sort-btn" data-sort="recent" title="По недавнему запуску">
-                <span>Недавние</span>
+              <button class="sort-btn" data-sort="recent" data-i18n-title="sortRecentTitle" title="По недавнему запуску">
+                <span data-i18n="sortRecent">Недавние</span>
               </button>
-              <button class="sort-btn" data-sort="name" title="По алфавиту">
-                <span>А — Я</span>
+              <button class="sort-btn" data-sort="name" data-i18n-title="sortNameTitle" title="По алфавиту">
+                <span data-i18n="sortName">А — Я</span>
               </button>
             </div>
           </div>
@@ -164,8 +164,8 @@
       <div class="catalog-loader" id="catalogLoader" style="display: none;">
         <div class="catalog-spinner"></div>
         <div class="loader-content">
-          <h3 class="loader-title">Инициализация каталога...</h3>
-          <p class="loader-sub">Поиск и автоматическая категоризация установленных программ Windows</p>
+          <h3 class="loader-title" data-i18n="loaderTitle">Инициализация каталога...</h3>
+          <p class="loader-sub" data-i18n="loaderSub">Поиск и автоматическая категоризация установленных программ Windows</p>
           <div class="loader-pulse-dots">
             <span></span><span></span><span></span>
           </div>
@@ -181,8 +181,8 @@
             <line x1="8" y1="11" x2="14" y2="11"/>
           </svg>
         </div>
-        <h3 id="emptyTitle">Ничего не найдено</h3>
-        <p id="emptyDesc">Попробуйте изменить поисковый запрос или переключить категорию</p>
+        <h3 id="emptyTitle" data-i18n="emptySearchTitle">Ничего не найдено</h3>
+        <p id="emptyDesc" data-i18n="emptySearchDesc">Попробуйте изменить поисковый запрос или переключить категорию</p>
       </div>
     </main>
 
@@ -232,7 +232,7 @@
         <span class="menu-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </span>
-        <span class="menu-text" id="ctxFavText">Добавить в избранное</span>
+        <span class="menu-text" id="ctxFavText" data-i18n="favAdd">Добавить в избранное</span>
       </div>
       <div class="menu-separator"></div>
       <div class="menu-item has-submenu" id="ctxMoveCategoryWrap">
@@ -254,7 +254,7 @@
         <span class="menu-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
         </span>
-        <span class="menu-text" style="color: #f87171;">Завершить процесс (Снять задачу)</span>
+        <span class="menu-text" style="color: #f87171;" data-i18n="ctxKillProcess">Завершить процесс (Снять задачу)</span>
       </div>
       <div class="menu-item danger" id="ctxHideApp">
         <span class="menu-icon">
@@ -273,9 +273,9 @@
               <circle cx="12" cy="12" r="3"/>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
             </svg>
-            <h3>Параметры SmartCatalog</h3>
+            <h3 data-i18n="settingsModalTitle">Параметры SmartCatalog</h3>
           </div>
-          <button class="modal-close-btn" id="closeSettingsBtn" title="Закрыть (Esc)">
+          <button class="modal-close-btn" id="closeSettingsBtn" data-i18n-title="keyClose" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
@@ -315,12 +315,12 @@
 
           <!-- Section 2: Appearance & Glass -->
           <div class="setting-section">
-            <h4 class="setting-section-title">Внешний вид и стиль</h4>
+            <h4 class="setting-section-title" data-i18n="secViewTitle">Внешний вид и стиль</h4>
             
             <div class="setting-group">
               <div class="setting-label-row">
-                <label for="viewModeSelect" class="setting-title">Режим отображения лаунчера</label>
-                <span class="setting-desc">Полноразмерный каталог программ или компактный поисковый док (Raycast)</span>
+                <label for="viewModeSelect" class="setting-title" data-i18n="settingViewModeTitle">Режим отображения лаунчера</label>
+                <span class="setting-desc" data-i18n="settingViewModeDesc">Полноразмерный каталог программ или компактный поисковый док (Raycast)</span>
               </div>
               <div class="custom-select-wrap">
                 <select id="viewModeSelect" class="setting-select">
@@ -389,7 +389,7 @@
 
           <!-- Section 3: System & Hotkeys -->
           <div class="setting-section">
-            <h4 class="setting-section-title">Системная интеграция</h4>
+            <h4 class="setting-section-title" data-i18n="secSysTitle">Системная интеграция</h4>
             
             <div class="setting-group">
               <div class="setting-label-row">
@@ -421,7 +421,7 @@
 
           <!-- Section 4: Productivity & Analytics -->
           <div class="setting-section">
-            <h4 class="setting-section-title">Мониторинг и продуктивность</h4>
+            <h4 class="setting-section-title" data-i18n="secProdTitle">Мониторинг и продуктивность</h4>
             
             <div class="setting-group row-group">
               <div class="setting-label-row">
@@ -459,26 +459,26 @@
 
           <!-- Section 5: Hidden Apps -->
           <div class="setting-section">
-            <h4 class="setting-section-title">Скрытые программы</h4>
+            <h4 class="setting-section-title" data-i18n="secHiddenTitle">Скрытые программы</h4>
             <div class="hidden-apps-box" id="hiddenAppsContainer">
-              <div class="hidden-empty-text">Нет скрытых программ</div>
+              <div class="hidden-empty-text" data-i18n="hiddenEmptyText">Нет скрытых программ</div>
             </div>
           </div>
 
           <!-- Section 6: Diagnostics & Debug Logs -->
           <div class="setting-section">
-            <h4 class="setting-section-title">Диагностика и отладка</h4>
+            <h4 class="setting-section-title" data-i18n="secDiagTitle">Диагностика и отладка</h4>
             <div class="setting-group">
               <div class="setting-label-row">
                 <span class="setting-title" data-i18n="settingLogTitle">Журнал классификации программ</span>
                 <span class="setting-desc" data-i18n="settingLogDesc">Файл classification_debug.log с подробным отчетом о распределении приложений по категориям</span>
               </div>
               <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <button class="action-btn" id="openLogsFolderBtn" type="button" title="Открыть папку с логами в Проводнике Windows">
+                <button class="action-btn" id="openLogsFolderBtn" type="button" data-i18n-title="openLogsFolderTitle" title="Открыть папку с логами в Проводнике Windows">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
                   <span data-i18n="btnLogFolder">Папка с логами</span>
                 </button>
-                <button class="action-btn" id="viewClassificationLogBtn" type="button" title="Просмотреть и скопировать лог">
+                <button class="action-btn" id="viewClassificationLogBtn" type="button" data-i18n-title="viewLogTitle" title="Просмотреть и скопировать лог">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                   <span data-i18n="btnViewLog">Просмотреть лог</span>
                 </button>
@@ -525,8 +525,8 @@
         </div>
 
         <div class="modal-footer">
-          <span class="modal-hint">Изменения сохраняются и применяются мгновенно</span>
-          <button class="action-btn primary-action-btn" id="saveSettingsBtn">Готово</button>
+          <span class="modal-hint" data-i18n="settingsHint">Изменения сохраняются и применяются мгновенно</span>
+          <button class="action-btn primary-action-btn" id="saveSettingsBtn" data-i18n="btnDone">Готово</button>
         </div>
       </div>
     </div>
@@ -539,12 +539,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             <h3 data-i18n="logModalTitle">Журнал классификации (classification_debug.log)</h3>
           </div>
-          <button class="modal-close-btn" id="closeLogViewerBtn" title="Закрыть (Esc)">
+          <button class="modal-close-btn" id="closeLogViewerBtn" data-i18n-title="keyClose" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
         <div class="modal-body">
-          <textarea id="logViewerContent" readonly class="code-log-viewer" placeholder="Загрузка журнала..."></textarea>
+          <textarea id="logViewerContent" readonly class="code-log-viewer" placeholder="Загрузка журнала..." data-i18n-placeholder="logLoading"></textarea>
         </div>
         <div class="modal-footer" style="justify-content: space-between;">
           <button class="action-btn" id="copyLogBtn">
@@ -564,7 +564,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
             <h3 data-i18n="insightsModalTitle">Аналитика активности и экранное время</h3>
           </div>
-          <button class="modal-close-btn" id="closeInsightsBtn" title="Закрыть (Esc)">
+          <button class="modal-close-btn" id="closeInsightsBtn" data-i18n-title="keyClose" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
@@ -618,7 +618,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             <h3 data-i18n="wsModalTitle">Рабочие пространства (Стеки программ)</h3>
           </div>
-          <button class="modal-close-btn" id="closeWorkspacesBtn" title="Закрыть (Esc)">
+          <button class="modal-close-btn" id="closeWorkspacesBtn" data-i18n-title="keyClose" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
@@ -639,10 +639,10 @@
           <div id="workspaceEditorView" style="display: none;">
             <div class="ws-editor-title-row">
               <div class="ws-editor-heading-wrap">
-                <h4 id="wsEditorHeading">Создать стек ПО</h4>
-                <span class="ws-editor-sub">Настройте состав программ, иконку и название</span>
+                <h4 id="wsEditorHeading" data-i18n="wsEditorHeadingCreate">Создать стек ПО</h4>
+                <span class="ws-editor-sub" data-i18n="wsEditorSub">Настройте состав программ, иконку и название</span>
               </div>
-              <button class="action-btn icon-only" id="cancelWsEditorTopBtn" title="Вернуться к списку">
+              <button class="action-btn icon-only" id="cancelWsEditorTopBtn" data-i18n-title="wsBackToList" title="Вернуться к списку">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
@@ -652,11 +652,11 @@
               
               <div class="ws-form-row two-cols">
                 <div class="ws-form-group flex-2">
-                  <label class="form-label" for="wsEditName">Название стека</label>
-                  <input type="text" id="wsEditName" class="form-input" placeholder="Например: Стриминг, Аналитика, 3D Графика...">
+                  <label class="form-label" for="wsEditName" data-i18n="wsFormName">Название стека</label>
+                  <input type="text" id="wsEditName" class="form-input" placeholder="Например: Стриминг, Аналитика, 3D Графика..." data-i18n-placeholder="wsPlaceholderName">
                 </div>
                 <div class="ws-form-group flex-1">
-                  <label class="form-label" for="wsEditIcon">Иконка (эмодзи)</label>
+                  <label class="form-label" for="wsEditIcon" data-i18n="wsFormIcon">Иконка (эмодзи)</label>
                   <div class="ws-icon-picker-wrap">
                     <input type="text" id="wsEditIcon" class="form-input ws-icon-input" value="🚀" maxlength="4">
                     <div class="ws-emoji-presets">
@@ -674,32 +674,32 @@
               </div>
 
               <div class="ws-form-group">
-                <label class="form-label" for="wsEditDesc">Описание набора (необязательно)</label>
-                <input type="text" id="wsEditDesc" class="form-input" placeholder="Краткое описание назначения стека...">
+                <label class="form-label" for="wsEditDesc" data-i18n="wsFormDesc">Описание набора (необязательно)</label>
+                <input type="text" id="wsEditDesc" class="form-input" placeholder="Краткое описание назначения стека..." data-i18n-placeholder="wsPlaceholderDesc">
               </div>
 
               <div class="ws-form-group">
                 <div class="ws-picker-header">
-                  <label class="form-label">Выбранные программы (<span id="wsSelectedCount">0</span>)</label>
-                  <span class="ws-picker-hint">Кликните на чип с крестиком для удаления из набора</span>
+                  <label class="form-label"><span data-i18n="wsSelectedApps">Выбранные программы</span> (<span id="wsSelectedCount">0</span>)</label>
+                  <span class="ws-picker-hint" data-i18n="wsPickerHint">Кликните на чип с крестиком для удаления из набора</span>
                 </div>
                 <div class="ws-selected-chips-bar" id="wsSelectedChipsBar">
-                  <span class="ws-empty-chips-text">Пока не выбрано ни одной программы</span>
+                  <span class="ws-empty-chips-text" data-i18n="wsNoAppsSelected">Пока не выбрано ни одной программы</span>
                 </div>
               </div>
 
               <div class="ws-form-group ws-apps-selection-group">
                 <div class="ws-app-search-wrap">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  <input type="text" id="wsAppSearchInput" placeholder="Поиск программы каталога для добавления в стек...">
+                  <input type="text" id="wsAppSearchInput" placeholder="Поиск программы каталога для добавления в стек..." data-i18n-placeholder="wsSearchAppPlaceholder">
                 </div>
                 <div class="ws-apps-picker-list" id="wsAppsPickerList"></div>
               </div>
             </div>
 
             <div class="ws-editor-actions">
-              <button class="action-btn primary-action-btn" id="saveWorkspaceSubmitBtn">Сохранить стек</button>
-              <button class="action-btn" id="cancelWorkspaceEditBtn">Отмена</button>
+              <button class="action-btn primary-action-btn" id="saveWorkspaceSubmitBtn" data-i18n="wsSaveBtn">Сохранить стек</button>
+              <button class="action-btn" id="cancelWorkspaceEditBtn" data-i18n="cancelBtn">Отмена</button>
             </div>
           </div>
         </div>
@@ -721,10 +721,10 @@
             <h3 data-i18n="sysModalTitle">Мониторинг системы и диспетчер задач</h3>
           </div>
           <div class="modal-header-actions">
-            <button class="modal-icon-btn" id="refreshSysStatsBtn" title="Обновить сейчас">
+            <button class="modal-icon-btn" id="refreshSysStatsBtn" data-i18n-title="sysRefreshTitle" title="Обновить сейчас">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             </button>
-            <button class="modal-close-btn" id="closeSysMonitorBtn" title="Закрыть (Esc)">
+            <button class="modal-close-btn" id="closeSysMonitorBtn" data-i18n-title="keyClose" title="Закрыть (Esc)">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
@@ -802,7 +802,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
             <h3 data-i18n="clipModalTitle">Буфер обмена и быстрые сниппеты</h3>
           </div>
-          <button class="modal-close-btn" id="closeClipboardBtn" title="Закрыть (Esc)">
+          <button class="modal-close-btn" id="closeClipboardBtn" data-i18n-title="keyClose" title="Закрыть (Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
@@ -846,10 +846,10 @@
             <!-- Snippet Category Chips -->
             <div class="snippet-chips-bar" id="snippetChipsBar">
               <button class="snip-chip active" data-snip-cat="all" data-i18n="catAll">Все</button>
-              <button class="snip-chip" data-snip-cat="Команды">Команды</button>
-              <button class="snip-chip" data-snip-cat="Ссылки">Ссылки</button>
-              <button class="snip-chip" data-snip-cat="Шаблоны">Шаблоны</button>
-              <button class="snip-chip" data-snip-cat="Заметки">Заметки</button>
+              <button class="snip-chip" data-snip-cat="Команды" data-i18n="snipCatCommands">Команды</button>
+              <button class="snip-chip" data-snip-cat="Ссылки" data-i18n="snipCatLinks">Ссылки</button>
+              <button class="snip-chip" data-snip-cat="Шаблоны" data-i18n="snipCatTemplates">Шаблоны</button>
+              <button class="snip-chip" data-snip-cat="Заметки" data-i18n="snipCatNotes">Заметки</button>
             </div>
 
             <div class="snippets-grid" id="snippetsListContainer"></div>
@@ -859,10 +859,10 @@
           <div id="snippetEditorView" style="display: none;">
             <div class="ws-editor-title-row">
               <div class="ws-editor-heading-wrap">
-                <h4 id="snippetEditorHeading">Новый сниппет</h4>
-                <span class="ws-editor-sub">Сохраните часто используемый текст, команду или шаблон</span>
+                <h4 id="snippetEditorHeading" data-i18n="snipEditorHeadingCreate">Новый сниппет</h4>
+                <span class="ws-editor-sub" data-i18n="snipEditorSub">Сохраните часто используемый текст, команду или шаблон</span>
               </div>
-              <button class="action-btn icon-only" id="cancelSnippetTopBtn" title="Вернуться к сниппетам">
+              <button class="action-btn icon-only" id="cancelSnippetTopBtn" data-i18n-title="snipBack" title="Вернуться к сниппетам">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
@@ -871,12 +871,12 @@
               <input type="hidden" id="snipEditId" value="">
               <div class="ws-form-row two-cols">
                 <div class="ws-form-group flex-2">
-                  <label class="form-label" for="snipEditTitle">Название сниппета</label>
-                  <input type="text" id="snipEditTitle" class="form-input" placeholder="Например: Git Pull Rebase, Docker Prune, Шаблон...">
+                  <label class="form-label" for="snipEditTitle" data-i18n="snipFormTitle">Название сниппета</label>
+                  <input type="text" id="snipEditTitle" class="form-input" placeholder="Например: Git Pull Rebase, Docker Prune, Шаблон..." data-i18n-placeholder="snipPlaceholderTitle">
                 </div>
                 <div class="ws-form-group flex-1">
-                  <label class="form-label" for="snipEditCategory">Категория</label>
-                  <input type="text" id="snipEditCategory" class="form-input" list="snippetCategoriesList" placeholder="Команды, Ссылки...">
+                  <label class="form-label" for="snipEditCategory" data-i18n="snipFormCategory">Категория</label>
+                  <input type="text" id="snipEditCategory" class="form-input" list="snippetCategoriesList" placeholder="Команды, Ссылки..." data-i18n-placeholder="snipPlaceholderCat">
                   <datalist id="snippetCategoriesList">
                     <option value="Команды">
                     <option value="Ссылки">
@@ -887,13 +887,13 @@
               </div>
 
               <div class="ws-form-group">
-                <label class="form-label" for="snipEditContent">Содержимое (текст, код или ссылка)</label>
-                <textarea id="snipEditContent" class="form-textarea mono" rows="5" placeholder="Вставьте текст шаблона, код или ссылку..."></textarea>
+                <label class="form-label" for="snipEditContent" data-i18n="snipFormContent">Содержимое (текст, код или ссылка)</label>
+                <textarea id="snipEditContent" class="form-textarea mono" rows="5" placeholder="Вставьте текст шаблона, код или ссылку..." data-i18n-placeholder="snipPlaceholderContent"></textarea>
               </div>
 
               <div class="ws-editor-actions">
-                <button class="action-btn primary-action-btn" id="saveSnippetSubmitBtn">Сохранить сниппет</button>
-                <button class="action-btn" id="cancelSnippetBtn">Отмена</button>
+                <button class="action-btn primary-action-btn" id="saveSnippetSubmitBtn" data-i18n="snipSaveBtn">Сохранить сниппет</button>
+                <button class="action-btn" id="cancelSnippetBtn" data-i18n="cancelBtn">Отмена</button>
               </div>
             </div>
           </div>
@@ -914,7 +914,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             <h3 data-i18n="quickLookTitle">Быстрый просмотр</h3>
           </div>
-          <button class="modal-close-btn" id="closeQuickLookBtn" title="Закрыть (Space / Esc)">
+          <button class="modal-close-btn" id="closeQuickLookBtn" data-i18n-title="keyClose" title="Закрыть (Space / Esc)">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
@@ -929,7 +929,7 @@
                 <span id="qlCatBadge" class="card-badge cat-tag">Категория</span>
                 <span id="qlNewBadge" class="card-badge new-badge" style="display: none;">НОВОЕ</span>
               </div>
-              <p id="qlDesc" class="ql-desc">Описание программы...</p>
+              <p id="qlDesc" class="ql-desc" data-i18n="qlDescPlaceholder">Описание программы...</p>
             </div>
           </div>
           <div class="ql-grid">
