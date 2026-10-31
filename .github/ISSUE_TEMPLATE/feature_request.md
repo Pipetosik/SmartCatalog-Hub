@@ -1,20 +1,20 @@
 ---
-name: Предложить улучшение (Feature request)
-about: Предложить новую функцию, категорию или идею для проекта
+name: Feature Request / Предложить улучшение
+about: Suggest an idea, category rule, or feature for SmartCatalog Hub
 title: "[FEATURE] "
 labels: enhancement
 assignees: ''
 
 ---
 
-**Связано ли ваше предложение с какой-то проблемой?**
-Чёткое и краткое описание проблемы (например: *«Мне неудобно, когда...»*).
+**Is your feature request related to a problem?**
+A clear and concise description of what the problem is (e.g. *"I struggle when..."*).
 
-**Предлагаемое решение**
-Чёткое и краткое описание того, как должна работать новая возможность.
+**Proposed Solution**
+A clear and concise description of what you want to happen and how it should work.
 
-**Альтернативные варианты**
-Рассматривали ли вы другие пути решения?
+**Alternative Solutions**
+Describe any alternative solutions or features you have considered.
 
-**Дополнительный контекст**
-Любые дополнительные ссылки, примеры программ или контекст.
+**Additional Context**
+Add any other context, screenshots, or links about the feature request here.

@@ -1,27 +1,27 @@
 ---
-name: Сообщить об ошибке (Bug report)
-about: Создать отчёт об ошибке для улучшения SmartCatalog Hub
+name: Bug Report / Сообщить об ошибке
+about: Report a bug to help improve SmartCatalog Hub
 title: "[BUG] "
 labels: bug
 assignees: ''
 
 ---
 
-**Описание проблемы**
-Чёткое и краткое описание того, в чём заключается ошибка.
+**Describe the Bug**
+A clear and concise description of what the bug is.
 
-**Шаги для воспроизведения**
-1. Открыть SmartCatalog Hub...
-2. Нажать на кнопку '...'
-3. Прокрутить до '...'
-4. Увидеть ошибку
+**Steps to Reproduce**
+1. Open SmartCatalog Hub...
+2. Click on '...'
+3. Scroll down to '...'
+4. See error
 
-**Ожидаемое поведение**
-Чёткое и краткое описание того, что должно было произойти.
+**Expected Behavior**
+A clear and concise description of what you expected to happen.
 
-**Скриншоты или логи**
-Если применимо, добавьте скриншоты или фрагмент из `service.log` для помощи в объяснении проблемы.
+**Screenshots & Logs**
+If applicable, attach screenshots or error snippets from `service.log` to help diagnose the issue.
 
-**Окружение:**
- - ОС: Windows 10 / Windows 11 (номер сборки)
- - Версия SmartCatalog: v1.0.0
+**Environment:**
+ - OS: Windows 10 / Windows 11 (Build number)
+ - SmartCatalog Version: v1.1.0

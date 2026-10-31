@@ -5,10 +5,13 @@
 <h1 align="center">SmartCatalog Hub</h1>
 
 <p align="center">
-  <b>Современный лаунчер приложений, органайзер меню «Пуск» и центр мониторинга для Windows 10 & 11</b>
+  <b>Modern application launcher, Start Menu organizer, and system resource monitor for Windows 10 & 11</b>
 </p>
 
 <p align="center">
+  <a href="README.md"><img src="https://img.shields.io/badge/Language-English-blue.svg" alt="English" /></a>
+  <a href="README_RU.md"><img src="https://img.shields.io/badge/Language-Русский-lightgrey.svg" alt="Русский" /></a>
+  <img src="https://img.shields.io/badge/Release-v1.1.0-emerald.svg?style=flat-square" alt="Version 1.1.0" />
   <img src="https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078d4?style=flat-square&logo=windows" alt="Platform" />
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776ab?style=flat-square&logo=python" alt="Python" />
   <img src="https://img.shields.io/badge/License-MIT-success?style=flat-square" alt="License" />
@@ -18,133 +21,171 @@
 
 ---
 
-## О проекте
+## About the Project
 
-**SmartCatalog Hub** — это легковесный, быстрый и эстетичный командный центр для Windows. Он автоматически сканирует установленное программное обеспечение, распределяет программы по тематическим категориям, отслеживает добавление нового ПО в реальном времени через системные события ядра и предоставляет удобную витрину быстрого запуска с глобальной горячей клавишей.
+**SmartCatalog Hub** is a lightweight, responsive, and aesthetic desktop command center for Windows. It automatically indexes installed software, organizes applications into 13 curated categories, tracks new software installations in real-time via Windows kernel filesystem notifications, and provides an instant quick-launch overlay with global hotkey support.
 
-### Главный экран каталога
+### Main Catalog Window
 ![SmartCatalog Hub Main Screen](assets/screenshots/main_grid.png)
 
 ---
 
-## Ключевые возможности
+## Key Features
 
-### 🚀 Автоматическая каталогизация на лету
-* **Ядерный мониторинг (`ReadDirectoryChangesW`)**: фоновый сервис мгновенно реагирует на появление новых ярлыков при установке программ, не расходуя процессорное время в ожидании (0% CPU).
-* **13 категорий программ**: автоматическая раскладка (Разработка, Базы данных, ИИ/Нейросети, Браузеры, Мессенджеры, VPN/Сеть, Мультимедиа, Игры, Офис, Системные утилиты и др.).
-* **Интеллектуальная фильтрация мусора**: деинсталляторы, справки и ссылки на сайты авторов автоматически отсеиваются.
-* **Высокое разрешение иконок**: прямое извлечение 128×128 и 256×256 иконок из бинарных PE-файлов.
+### 🚀 Zero-Config Real-Time Cataloging
+* **Kernel-Level Filesystem Monitoring (`ReadDirectoryChangesW`)**: Background service reacts instantly to newly created shortcuts whenever software is installed, without consuming CPU cycles while waiting (0% CPU idle).
+* **13 Smart Categories**: Automatic grouping into Development, Databases, AI & Neural Networks, Browsers, Communication & Messengers, Network & VPN, Multimedia & Audio, Games, Game Launchers, Office, Graphics & Design, System Utilities, and Security.
+* **Intelligent Noise Filtering**: Uninstaller wizards, manual links, and documentation shortcuts are automatically ignored.
+* **High-Definition Icon Extraction**: Direct PE header extraction for sharp 128×128 and 256×256 PNGs with multi-resolution native DIB `.ico` encoding.
 
 ---
 
-### ⚡ Производительность и Мониторинг
-Встроенный диспетчер задач и монитор системных ресурсов позволяет в реальном времени отслеживать состояние оборудования и безопасно завершать зависшие процессы в один клик.
+### 🌐 Multilingual Interface (English & Russian)
+Seamless runtime language switching between **English (EN)** and **Russian (RU)** without reloading the page. All UI elements, category labels, tooltips, modal dialogs, and Windows Action Center balloon toasts are fully localized.
+
+---
+
+### 🎨 Windows 11 Fluent 2 Acrylic & Custom Accent Themes
+* **5 Background Materials**: Start Menu (Windows 11 Acrylic Glass), Obsidian (Dark Slate), Fluent Acrylic (Deep Frosted Blur), Mica Alt, and OLED Pure Black.
+* **6 Curated Accent Palettes**: Sky Blue, Ultraviolet Purple, Emerald Green, Amber Sunset, Ruby Rose, and Steel Slate with real-time CSS variable updates.
+
+---
+
+### ⚡ Integrated System Monitor & Task Manager
+Built-in hardware telemetry and process monitor allows checking live system metrics and safely terminating unresponsive applications with a single click.
 
 ![System Monitor](assets/screenshots/system_monitor.png)
 
-* **Мониторинг ресурсов**: загрузка CPU, использование RAM и свободное место на диске.
-* **Топ процессов**: раздельные списки наиболее прожорливых процессов по оперативной памяти и процессору.
-* **Защита целостности ОС**: блокировка случайного завершения системных процессов Windows (`System`, `csrss`, `dwm` и др.).
+* **Hardware Metrics**: Real-time CPU load percentage, RAM usage, and C: drive free space.
+* **Top Resource Consumers**: Separate top lists for highest memory and processor utilization.
+* **OS Integrity Guard**: Hardcoded safeguards prevent accidental termination of critical Windows system processes (`System`, `csrss`, `dwm`, `lsass`, `services`, etc.).
 
 ---
 
-### ⏱ Аналитика экранного времени и Рабочие пространства
-| Аналитика экранного времени | Рабочие пространства (Стеки) |
+### ⏱ Screen Time Analytics & Workspaces
+| Screen Time Insights | Workspaces (App Stacks) |
 | :---: | :---: |
 | ![Screen Time Analytics](assets/screenshots/insights.png) | ![Workspaces](assets/screenshots/workspaces.png) |
-| Умный трекер экранного времени и частоты запуска приложений с разбивкой по категориям. | Одновременный запуск наборов приложений для работы, игр или стриминга в 1 клик. |
+| Passive tracking of foreground window activity, total screen time, launch counts, and category breakdowns. | Group related tools into custom stacks (Development, Gaming, Office) and launch them simultaneously with 1 click. |
 
 ---
 
-### ⌨️ Горячие клавиши (Hotkeys)
+### 👁 macOS-Style Quick Look (`Space`)
+Navigate through the application grid using arrow keys and press <kbd>Space</kbd> to inspect an app with Quick Look: view its high-resolution icon, full executable path, total screen time, launch counter, last launched date, and trigger instant actions.
 
-| Сочетание | Действие |
+---
+
+### 🔄 Shortcut Cold-Start Auto-Resurrection
+Launching the app via its Desktop, Start Menu, or Taskbar shortcut performs an ultra-fast (<1ms) HTTP health check (`/api/version`). If the background daemon is not currently active, it is silently resurrected in an isolated detached process without throwing browser connection errors.
+
+---
+
+### ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
 | :--- | :--- |
-| <kbd>Alt</kbd> + <kbd>C</kbd> | Глобальный вызов / скрытие SmartCatalog Hub из любого приложения |
-| <kbd>Ctrl</kbd> + <kbd>K</kbd> | Мгновенный фокус на строку поиска |
-| <kbd>Ctrl</kbd> + <kbd>M</kbd> | Переключение между полным и компактным режимом (Mini Launcher) |
-| <kbd>Esc</kbd> | Закрытие модальных окон или скрытие приложения |
-| <kbd>Enter</kbd> | Запуск выбранной программы |
+| <kbd>Alt</kbd> + <kbd>Space</kbd> / <kbd>Alt</kbd> + <kbd>C</kbd> | Toggle SmartCatalog Hub visibility from any application |
+| <kbd>Ctrl</kbd> + <kbd>K</kbd> / <kbd>Ctrl</kbd> + <kbd>F</kbd> | Focus the search bar |
+| <kbd>Ctrl</kbd> + <kbd>M</kbd> | Toggle between Full Grid and Compact Search mode (Raycast / Spotlight style) |
+| <kbd>Space</kbd> | Open Quick Look preview for the focused application |
+| <kbd>Enter</kbd> | Launch the selected application |
+| <kbd>Alt</kbd> + <kbd>Enter</kbd> | Open containing folder in Windows Explorer |
+| <kbd>F</kbd> | Toggle Favorite status for the selected application |
+| <kbd>,</kbd> (comma) | Open Settings panel |
+| <kbd>Esc</kbd> | Close active modal dialog or hide the launcher window |
 
-> **Умный поиск**: поиск понимает опечатки и автоматическую смену раскладки клавиатуры (`ghbkj;tybt` $\rightarrow$ `приложение`, `vsc` $\rightarrow$ `Visual Studio Code`).
-
----
-
-## Установка и Запуск
-
-### Вариант 1. Установщик Windows (Рекомендуется для пользователей)
-1. Перейдите в раздел [Releases](https://github.com/Pipetosik/SmartCatalog-Hub/releases).
-2. Скачайте актуальный файл `SmartCatalog-Setup-v1.0.0.exe`.
-3. Запустите мастер установки и следуйте простым подсказкам на экране.
+> **Typo & Layout Correction**: The search engine automatically corrects mismatched keyboard layouts (e.g. typing `ghbkj;tybt` finds `приложение`, `vsc` finds `Visual Studio Code`).
 
 ---
 
-### Вариант 2. Запуск из исходного кода (Для разработчиков)
+## Installation & Setup
 
-**Требования**: Windows 10/11 x64, Python 3.10 или новее.
+### Option 1. Standalone Windows Installer (Recommended for Users)
+1. Head over to the [Releases](https://github.com/Pipetosik/SmartCatalog-Hub/releases) page.
+2. Download the latest installer executable: `SmartCatalog-Setup-v1.1.0.exe`.
+3. Run the installer and follow the on-screen setup instructions.
 
-1. **Клонируйте репозиторий**:
+---
+
+### Option 2. Run from Source (Recommended for Developers)
+
+**Prerequisites**: Windows 10/11 x64, Python 3.10 or higher.
+
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/Pipetosik/SmartCatalog-Hub.git
    cd SmartCatalog-Hub
    ```
 
-2. **Запустите автоматический установщик**:
+2. **Run the automated setup script**:
    ```bat
    install.bat
    ```
-   Скрипт автоматически создаст виртуальное окружение `venv`, установит необходимые зависимости (`requirements.txt`), зарегистрирует фоновую службу автозапуска в Планировщике Windows и запустит приложение.
+   This script creates a Python virtual environment (`venv`), installs required dependencies (`requirements.txt`), registers the background daemon in the Windows Task Scheduler, and starts the client.
 
-3. **Ручной запуск (при необходимости)**:
+3. **Manual Execution (Optional)**:
    ```bash
-   # Запуск фоновой службы
+   # Start the background daemon
    python service.py
 
-   # Открытие клиентского окна
+   # Open the GUI client window
    python app.py
    ```
 
-4. **Чистое удаление службы**:
+4. **Clean Uninstall**:
    ```bat
    uninstall.bat
    ```
 
 ---
 
-## Архитектура проекта
+## Project Structure
 
 ```
 SmartCatalog-Hub/
-├── assets/                  # Иконка приложения и промо-скриншоты
-├── static/                  # Веб-клиент (HTML5, Vanilla JS, Fluent CSS)
-│   ├── index.html           # Интерфейс приложения
-│   ├── style.css            # Fluent 2 стили и анимации
-│   └── app.js               # Клиентская логика и интеграция с API
-├── app.py                   # Оконный клиент (Edge Webview / App mode)
-├── service.py               # Фоновая служба Windows
-├── server.py                # HTTP API сервер (на стандартной библиотеке http.server)
-├── watcher.py               # ReadDirectoryChangesW мониторинг ФС
-├── catalog_manager.py       # Диспетчер каталога, запуск ПО и сбор метрик
-├── classifier.py            # Движок категорий и правил метаданных
-├── icon_extractor.py        # Извлечение иконок из PE-заголовков Windows
-├── tray_and_hotkey.py       # Системный трей и глобальные хоткеи (Alt+C)
-├── install_autostart.py     # Регистрация автозапуска в Windows Task Scheduler
-├── install.bat              # Скрипт развёртывания в 1 клик
-├── uninstall.bat            # Скрипт чистого удаления
-└── requirements.txt         # Зависимости Python
+├── assets/                  # Application icons, graphics, and release screenshots
+├── static/                  # Web client frontend (HTML5, Vanilla JS, Fluent CSS)
+│   ├── index.html           # Main UI layout with data-i18n bindings
+│   ├── style.css            # Windows 11 Fluent 2 Acrylic design, animations, themes
+│   └── app.js               # Client controller, search engine, shortcuts, and API client
+├── app.py                   # Windowed client (Edge WebView2 / App mode) with auto-resurrection
+├── service.py               # Background Windows daemon coordinator
+├── server.py                # HTTP REST API server (Python http.server)
+├── watcher.py               # ReadDirectoryChangesW kernel filesystem monitor
+├── catalog_manager.py       # Catalog indexer, execution dispatcher, telemetry aggregation
+├── classifier.py            # Categorization heuristics and metadata rules
+├── icon_extractor.py        # Windows PE header multi-resolution icon extractor
+├── tray_and_hotkey.py       # System tray integration and global hotkey listener
+├── install_autostart.py     # Windows Task Scheduler autostart registrar
+├── install.bat              # One-click deployment script
+├── uninstall.bat            # Clean removal script
+├── tests/                   # Automated test suite (security audits, i18n symmetry)
+└── requirements.txt         # Python dependencies
 ```
 
 ---
 
-## Безопасность
+## Security & Reliability
 
-Проект протестирован на устойчивость к типовым векторам атак:
-* **Защита от Path Traversal (CWE-22)**: строгая проверка канонических путей `realpath` при отдаче файлов и иконок.
-* **CORS & CSRF защита (CWE-346/352)**: проверка `Origin` и `Sec-Fetch-Site` для блокировки внешних запросов из браузера.
-* **Защита от DoS**: ограничение размера входящих пакетов (2 MB) и лимитирование частоты записи на диск.
+SmartCatalog Hub has undergone rigorous security testing and audit checks:
+* **Path Traversal Protection (CWE-22)**: Strict `realpath` canonical boundary verification prevents access outside designated assets and icons cache directories.
+* **CORS & CSRF Safeguards (CWE-346/352)**: Strict `Origin` and `Sec-Fetch-Site` validation blocks malicious cross-origin requests from external browsers.
+* **Denial-of-Service Defense**: Inbound HTTP payload sizes are capped at 2 MB, and filesystem disk writes are debounced with atomic temp-file swaps.
+* **Automated Verification**: Run test suite with:
+  ```bash
+  python -m unittest discover tests
+  ```
 
 ---
 
-## Лицензия
+## Contributing
 
-Распространяется под свободной лицензией [MIT](LICENSE). Вы можете бесплатно использовать, изменять и распространять данный проект.
+Contributions are welcome! Please review [CONTRIBUTING.md](CONTRIBUTING.md) for details on code style, classifier rules submission, and testing guidelines.
+
+If you encounter any issues or have feature suggestions, feel free to submit a [Bug Report](https://github.com/Pipetosik/SmartCatalog-Hub/issues/new?template=bug_report.md) or [Feature Request](https://github.com/Pipetosik/SmartCatalog-Hub/issues/new?template=feature_request.md).
+
+---
+
+## License
+
+Distributed under the [MIT License](LICENSE). You are free to use, modify, and distribute this software for personal and commercial purposes.

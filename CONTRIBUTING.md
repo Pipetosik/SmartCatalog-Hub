@@ -21,7 +21,7 @@ If a popular application is miscategorized or uncategorized:
 3. Commit your changes (`git commit -m 'feat: add amazing feature'`).
 4. Run security and regression tests:
    ```bash
-   python scratch/test_audit_fixes.py
+   python -m unittest discover tests
    ```
 5. Push to the branch (`git push origin feature/amazing-feature`).
 6. Open a Pull Request.

@@ -1,23 +1,24 @@
 # Project Backlog & Roadmap
 
-Этот документ содержит запланированные улучшения, идеи и задачи для будущих версий **SmartCatalog Hub**.
+This document outlines planned improvements, feature ideas, and release roadmaps for **SmartCatalog Hub**.
 
 ---
 
-## ✅ Завершено в релизе v1.1.0 (2026-10-31)
-- [x] **Визуальное отображение версии программы**: бейдж `v1.1.0` в шапке, футере и окне «О программе».
-- [x] **Кнопка «⭐ Star on GitHub»** и быстрые ссылки на создание issue / предложений в панели настроек.
-- [x] **Двуязычный интерфейс (English & Русский / i18n)**: переключение языка без перезагрузки, адаптация названий категорий, подсказок и уведомлений Action Center.
-- [x] **Акцентные темы оформления (Accent Color Picker)**: 6 палитр (Blue, Purple, Emerald, Amber, Rose, Slate) с динамическим обновлением переменных CSS.
-- [x] **Быстрый просмотр по клавише `Space` (Quick Look)**: превью карточки программы с экранным временем, счетчиком запусков, путем и кнопками действий.
-- [x] **Авто-поднятие службы по клику на ярлык**: проверка доступности сервера по `/api/version` и бесшовный запуск `service.py`.
-- [x] **Исправление иконок ярлыка и системного трея**: нативная DIB-перекодировка всех размеров .ico.
-- [x] **Адаптивная шапка**: гарантированная видимость кнопки «Настройки» на любых разрешениях экрана.
+## ✅ Completed in Release v1.1.0 (2026-10-31)
+- [x] **Visual Application Version Badges**: Displayed `v1.1.0` badge in the header, footer status bar, and in the new "About / О программе" settings module.
+- [x] **Community Feedback Loop**: Added "⭐ Star on GitHub" button along with direct quick-links to file bug reports or feature suggestions.
+- [x] **Multilingual UI (English & Russian / i18n)**: Full runtime language switching with zero page reload, localized category titles, tooltips, modals, and Windows Action Center balloon toasts.
+- [x] **Accent Color Themes (Accent Color Picker)**: 6 curated Windows 11 Fluent palettes (*Sky Blue*, *Ultraviolet Purple*, *Emerald Green*, *Amber Sunset*, *Ruby Rose*, and *Steel Slate*) with instant CSS variable updates.
+- [x] **macOS-style Quick Look (`Space`)**: Pressing `Space` while navigating the catalog grid opens an instant preview card with high-res icon, full path, screen time, launch counter, and quick action buttons.
+- [x] **Shortcut Cold-Start Auto-Resurrection**: Double-clicking the Desktop or Start Menu shortcut verifies background service health via `/api/version` and automatically resurrects `service.py` if stopped.
+- [x] **Desktop Shortcut & System Tray Blank Icons**: Native DIB 32-bit BMP encoding across all icon sizes (16x16 to 256x256) inside `.ico`, resolving blank sheet fallbacks.
+- [x] **Responsive Header**: Guaranteed full visibility of the Settings button across all monitor resolutions and window sizes.
 
 ---
 
-## 🎯 Ближайшие релизы (v1.2.0)
-- [ ] Drag-and-drop сортировка карточек внутри категорий и ручное изменение порядка.
-- [ ] Интеграция с winget / Chocolatey для проверки обновлений установленного ПО в 1 клик.
-- [ ] Экспорт и импорт наборов рабочих пространств (Workspaces) в формате JSON для синхронизации между разными ПК.
-- [ ] Расширение классификатора пользовательскими плагинами на Python.
+## 🎯 Planned for Upcoming Releases (v1.2.0)
+- [ ] **Drag-and-Drop Card Reordering**: Manually reorder application cards within categories with persistent order state.
+- [ ] **Package Manager Integration (winget / Chocolatey)**: Check for available software updates for installed applications with 1-click upgrade actions.
+- [ ] **Workspace Sync (Export / Import)**: Export and import Workspace app stacks in JSON format to sync configurations across multiple PCs.
+- [ ] **Extensible Classification Plugins**: Support custom user-defined Python rules and community classifiers.
+- [ ] **Global Hotkey Customization**: Custom key chord configuration directly from the Settings UI.
