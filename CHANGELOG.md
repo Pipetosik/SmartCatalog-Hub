@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.1] - 2026-11-01
+
+### Fixed
+- **Installer Handover Execution (`Windows cannot find "\\"` error)**:
+  - Replaced legacy `cmd.exe /c start ""` subprocess invocation in `updater.py` with native Windows `os.startfile(..., arguments=flags)` (Win32 `ShellExecuteW`).
+  - Completely resolved command line quote-stripping and backslash escaping failures where Windows Shell attempted to execute `\\` instead of the setup binary.
+  - Added graceful process detachment fallback using `subprocess.CREATE_NEW_PROCESS_GROUP`.
+
 ## [1.2.0] - 2026-11-01
 
 ### Added

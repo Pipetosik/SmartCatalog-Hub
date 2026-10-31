@@ -11,7 +11,7 @@ import urllib.error
 import tempfile
 import subprocess
 
-CURRENT_VERSION = "1.2.0"
+CURRENT_VERSION = "1.2.1"
 GITHUB_REPO = "Pipetosik/SmartCatalog-Hub"
 GITHUB_API_URL = f"https://api.github.com/repos/{GITHUB_REPO}/releases/latest"
 
@@ -280,9 +280,32 @@ def install_update(installer_path=None, silent=False):
 
     try:
         flags = "/SILENT /CLOSEAPPLICATIONS" if silent else ""
-        cmd = f'timeout /t 2 /nobreak >nul & start "" "{resolved_target}" {flags}'
-        subprocess.Popen(["cmd.exe", "/c", cmd], shell=True)
-        threading.Timer(2.0, lambda: os._exit(0)).start()
+
+        # Launch installer via native Windows ShellExecute (os.startfile) or direct subprocess
+        # This completely avoids cmd.exe quote-stripping and escaping bugs (e.g. 'Windows cannot find "\\"')
+        launched = False
+        try:
+            if hasattr(os, "startfile"):
+                if flags:
+                    os.startfile(resolved_target, "open", arguments=flags)
+                else:
+                    os.startfile(resolved_target)
+                launched = True
+        except Exception as start_err:
+            print(f"[Updater] os.startfile failed: {start_err}, falling back to subprocess...", flush=True)
+
+        if not launched:
+            args = [resolved_target]
+            if flags:
+                args.extend(flags.split())
+            creation_flags = 0
+            if hasattr(subprocess, "DETACHED_PROCESS"):
+                creation_flags |= subprocess.DETACHED_PROCESS
+            if hasattr(subprocess, "CREATE_NEW_PROCESS_GROUP"):
+                creation_flags |= subprocess.CREATE_NEW_PROCESS_GROUP
+            subprocess.Popen(args, creationflags=creation_flags)
+
+        threading.Timer(1.5, lambda: os._exit(0)).start()
         return True, "Installer launched. SmartCatalog is restarting..."
     except Exception as e:
         return False, str(e)

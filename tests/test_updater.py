@@ -54,8 +54,8 @@ class TestUpdater(unittest.TestCase):
         mock_resp = MagicMock()
         mock_resp.status = 200
         mock_resp.read.return_value = b'''{
-            "tag_name": "v1.2.0",
-            "name": "SmartCatalog Hub v1.2.0",
+            "tag_name": "v1.2.1",
+            "name": "SmartCatalog Hub v1.2.1",
             "body": "Current release",
             "assets": []
         }'''
@@ -65,7 +65,7 @@ class TestUpdater(unittest.TestCase):
         res = updater.check_for_updates(force=True)
         self.assertTrue(res["success"])
         self.assertFalse(res["update_available"])
-        self.assertEqual(res["latest_version"], "1.2.0")
+        self.assertEqual(res["latest_version"], "1.2.1")
 
     def test_start_download_untrusted_domain(self):
         ok, msg = updater.start_download("https://malicious-site.com/setup.exe")
@@ -101,6 +101,23 @@ class TestUpdater(unittest.TestCase):
         ok, msg = updater.install_update(outside_temp)
         self.assertFalse(ok)
         self.assertIn("Invalid installer path", msg)
+
+    @patch("os.startfile", create=True)
+    @patch("threading.Timer")
+    def test_install_update_launch_clean(self, mock_timer, mock_startfile):
+        temp_dir = tempfile.gettempdir()
+        fake_installer = os.path.join(temp_dir, "SmartCatalog-Setup-test.exe")
+        with open(fake_installer, "wb") as f:
+            f.write(b"MZfake")
+
+        try:
+            ok, msg = updater.install_update(fake_installer, silent=True)
+            self.assertTrue(ok)
+            self.assertIn("Installer launched", msg)
+            mock_startfile.assert_called_once_with(fake_installer, "open", arguments="/SILENT /CLOSEAPPLICATIONS")
+        finally:
+            if os.path.exists(fake_installer):
+                os.remove(fake_installer)
 
 if __name__ == "__main__":
     unittest.main()
