@@ -171,6 +171,19 @@ def test_api():
     print("    Classification log endpoint functional and returning non-empty logs.")
     print("    -> PASS: Windows administrative tools and debug logging 100% verified.")
 
+    print("\n[8] Testing Single-Instance Named Mutex Enforcement...")
+    import subprocess
+    import service
+    mutex = service.acquire_single_instance_mutex()
+    assert mutex is not None, "Primary mutex acquisition failed!"
+    # Subprocess attempting to acquire the same mutex must exit with code 0 without executing payload
+    probe_code = "import service; service.acquire_single_instance_mutex(); print('FAIL_DUPLICATE_STARTED')"
+    proc = subprocess.run([sys.executable, "-c", probe_code], capture_output=True, text=True)
+    assert proc.returncode == 0, f"Expected clean exit 0, got {proc.returncode}"
+    assert "FAIL_DUPLICATE_STARTED" not in proc.stdout, "Secondary process ran instead of exiting on existing mutex!"
+    print("    Secondary service process cleanly exited 0 without starting duplicate threads or tray icons.")
+    print("    -> PASS: Single-instance named mutex enforcement 100% verified.")
+
     print("\nALL AUDIT AND SECURITY TESTS PASSED SUCCESSFULLY!")
 
 if __name__ == "__main__":

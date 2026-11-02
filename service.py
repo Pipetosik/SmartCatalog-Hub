@@ -132,6 +132,24 @@ def run_playtime_and_clipboard_tracker():
 
         time.sleep(tick_interval)
 
+_single_instance_mutex = None
+
+def acquire_single_instance_mutex():
+    """
+    Creates a Windows named mutex to guarantee only ONE instance
+    of service.py can ever run at the same time in the current user session.
+    """
+    global _single_instance_mutex
+    import ctypes
+    kernel32 = ctypes.windll.kernel32
+    mutex_name = "Local\\SmartCatalogHub_Service_SingleInstance_Mutex"
+    _single_instance_mutex = kernel32.CreateMutexW(None, True, mutex_name)
+    ERROR_ALREADY_EXISTS = 183
+    if kernel32.GetLastError() == ERROR_ALREADY_EXISTS:
+        log("[Service] Another instance is already running (Mutex exists). Exiting immediately to avoid duplicate tray icons.")
+        sys.exit(0)
+    return _single_instance_mutex
+
 def attach_to_default_desktop():
     try:
         import ctypes
@@ -142,6 +160,7 @@ def attach_to_default_desktop():
         pass
 
 def main():
+    acquire_single_instance_mutex()
     attach_to_default_desktop()
     log("=== SmartCatalog Background Service Starting ===")
     

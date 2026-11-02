@@ -7,6 +7,7 @@ import pythoncom
 import win32com.client
 import win32file
 import win32con
+import catalog_manager
 from classifier import is_junk_or_uninstaller, classify_app, get_app_description
 from catalog_manager import add_new_software, load_catalog_data, SMART_CATALOG_ROOT
 

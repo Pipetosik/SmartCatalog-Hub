@@ -23,6 +23,12 @@ if os.path.exists(OLD_LNK):
     except Exception:
         pass
 
+# Clean up legacy Task Scheduler entry if present to avoid dual-launch
+try:
+    subprocess.run(["schtasks", "/delete", "/tn", "SmartCatalogHubService", "/f"], capture_output=True)
+except Exception:
+    pass
+
 shell = win32com.client.Dispatch("WScript.Shell")
 try:
     os.makedirs(STARTUP_DIR, exist_ok=True)
