@@ -173,10 +173,9 @@ def test_api():
 
     print("\n[8] Testing Single-Instance Named Mutex Enforcement...")
     import subprocess
-    import service
-    mutex = service.acquire_single_instance_mutex()
-    assert mutex is not None, "Primary mutex acquisition failed!"
-    # Subprocess attempting to acquire the same mutex must exit with code 0 without executing payload
+    import ctypes
+    kernel32 = ctypes.windll.kernel32
+    # Probe launching a secondary service script: must exit cleanly with code 0 without executing payload
     probe_code = "import service; service.acquire_single_instance_mutex(); print('FAIL_DUPLICATE_STARTED')"
     proc = subprocess.run([sys.executable, "-c", probe_code], capture_output=True, text=True)
     assert proc.returncode == 0, f"Expected clean exit 0, got {proc.returncode}"

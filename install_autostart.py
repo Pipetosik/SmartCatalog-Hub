@@ -25,7 +25,8 @@ if os.path.exists(OLD_LNK):
 
 # Clean up legacy Task Scheduler entry if present to avoid dual-launch
 try:
-    subprocess.run(["schtasks", "/delete", "/tn", "SmartCatalogHubService", "/f"], capture_output=True)
+    cflags = subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
+    subprocess.run(["schtasks", "/delete", "/tn", "SmartCatalogHubService", "/f"], capture_output=True, creationflags=cflags)
 except Exception:
     pass
 

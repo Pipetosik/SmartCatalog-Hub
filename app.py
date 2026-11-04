@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import json
 import subprocess
 import urllib.request
 import ctypes
@@ -136,9 +137,50 @@ def focus_existing_window():
         log(f"Focus window error: {e}")
     return False
 
+def ensure_browser_preferences(profile_dir):
+    """
+    Ensures that Chromium browser profile settings explicitly disable
+    Google Translate and translation prompts.
+    """
+    try:
+        default_dir = os.path.join(profile_dir, "Default")
+        os.makedirs(default_dir, exist_ok=True)
+        pref_file = os.path.join(default_dir, "Preferences")
+        data = {}
+        if os.path.exists(pref_file):
+            try:
+                with open(pref_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except Exception:
+                data = {}
+        
+        modified = False
+        if not isinstance(data.get("translate"), dict):
+            data["translate"] = {}
+            modified = True
+        if data["translate"].get("enabled") is not False:
+            data["translate"]["enabled"] = False
+            modified = True
+            
+        blocked = data.get("translate_blocked_languages", [])
+        if not isinstance(blocked, list):
+            blocked = []
+        for lang in ["ru", "en"]:
+            if lang not in blocked:
+                blocked.append(lang)
+                modified = True
+        data["translate_blocked_languages"] = blocked
+        
+        if modified:
+            with open(pref_file, "w", encoding="utf-8") as f:
+                json.dump(data, f)
+    except Exception:
+        pass
+
 def open_ui():
     attach_to_default_desktop()
     os.makedirs(APP_PROFILE, exist_ok=True)
+    ensure_browser_preferences(APP_PROFILE)
     win_x, win_y, win_w, win_h = get_target_window_bounds()
     
     # Try Chrome first
@@ -160,7 +202,8 @@ def open_ui():
         f"--window-size={win_w},{win_h}",
         "--no-first-run",
         "--no-default-browser-check",
-        "--disable-features=TranslateUI,AvatarBadge,ProfilePicker,ProfileMenu"
+        "--disable-translate",
+        "--disable-features=Translate,TranslateUI,AvatarBadge,ProfilePicker,ProfileMenu"
     ]
     
     for cp in chrome_paths:

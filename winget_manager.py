@@ -149,22 +149,47 @@ _all_winget_packages = []
 _upgrade_lock = threading.Lock()
 _active_upgrades = {}  # pkg_id -> { "status": "running"|"success"|"failed", "log": ..., "error": ..., "exit_code": ... }
 _is_batch_upgrading = False
+_cached_winget_available = None
+_cached_winget_version = None
+
+def _get_silent_subprocess_flags():
+    """
+    Returns creationflags and startupinfo configured to completely suppress
+    console window creation on Windows when launching CLI executables (e.g. winget, powershell).
+    """
+    kwargs = {}
+    if sys.platform == "win32":
+        kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        startupinfo.wShowWindow = subprocess.SW_HIDE
+        kwargs["startupinfo"] = startupinfo
+    return kwargs
 
 def is_winget_available():
     """Checks whether the winget executable is installed and reachable."""
+    global _cached_winget_available
+    if _cached_winget_available is not None:
+        return _cached_winget_available
     path = shutil.which('winget')
     if path:
+        _cached_winget_available = True
         return True
     # Check default WindowsApps location
     local_app_data = os.environ.get('LOCALAPPDATA', '')
     if local_app_data:
         wa_path = os.path.join(local_app_data, 'Microsoft', 'WindowsApps', 'winget.exe')
         if os.path.exists(wa_path):
+            _cached_winget_available = True
             return True
+    _cached_winget_available = False
     return False
 
 def get_winget_version():
     """Returns the installed winget version string, or None if unavailable."""
+    global _cached_winget_version
+    if _cached_winget_version is not None:
+        return _cached_winget_version
     if not is_winget_available():
         return None
     try:
@@ -174,10 +199,12 @@ def get_winget_version():
             text=True,
             encoding='utf-8',
             errors='replace',
-            timeout=5
+            timeout=5,
+            **_get_silent_subprocess_flags()
         )
         if proc.returncode == 0:
-            return proc.stdout.strip()
+            _cached_winget_version = proc.stdout.strip()
+            return _cached_winget_version
     except Exception:
         pass
     return None
@@ -402,7 +429,8 @@ def _run_scan_thread():
         proc = subprocess.run(
             cmd,
             capture_output=True,
-            timeout=120
+            timeout=120,
+            **_get_silent_subprocess_flags()
         )
 
         stdout_text = proc.stdout.decode('utf-8', errors='replace')
@@ -475,12 +503,13 @@ def _run_upgrade_worker(pkg_id, elevated=False):
                 f"-Verb RunAs -Wait"
             )
             proc = subprocess.run(
-                ["powershell", "-NoProfile", "-Command", ps_cmd],
+                ["powershell", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-Command", ps_cmd],
                 capture_output=True,
                 text=True,
                 encoding='utf-8',
                 errors='replace',
-                timeout=600
+                timeout=600,
+                **_get_silent_subprocess_flags()
             )
             exit_code = proc.returncode
             output = proc.stdout + proc.stderr
@@ -494,7 +523,8 @@ def _run_upgrade_worker(pkg_id, elevated=False):
                 cmd,
                 capture_output=True,
                 stdin=subprocess.DEVNULL,
-                timeout=600
+                timeout=600,
+                **_get_silent_subprocess_flags()
             )
             exit_code = proc.returncode
             output = proc.stdout.decode('utf-8', errors='replace') + proc.stderr.decode('utf-8', errors='replace')
@@ -508,12 +538,13 @@ def _run_upgrade_worker(pkg_id, elevated=False):
                     f"-Verb RunAs -Wait"
                 )
                 elev_proc = subprocess.run(
-                    ["powershell", "-NoProfile", "-Command", ps_cmd],
+                    ["powershell", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-Command", ps_cmd],
                     capture_output=True,
                     text=True,
                     encoding='utf-8',
                     errors='replace',
-                    timeout=600
+                    timeout=600,
+                    **_get_silent_subprocess_flags()
                 )
                 exit_code = elev_proc.returncode
                 output += "\n[Elevated RunAs Execution]:\n" + elev_proc.stdout + elev_proc.stderr

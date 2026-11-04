@@ -977,6 +977,12 @@ function applyLanguage(lang) {
   if (!userData.settings) userData.settings = {};
   userData.settings.language = lang;
   document.documentElement.lang = lang;
+  document.documentElement.setAttribute('translate', 'no');
+  document.documentElement.classList.add('notranslate');
+  if (document.body) {
+    document.body.setAttribute('translate', 'no');
+    document.body.classList.add('notranslate');
+  }
   const isEn = (lang === 'en');
 
   // Translate all DOM elements marked with data-i18n
