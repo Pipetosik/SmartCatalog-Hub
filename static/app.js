@@ -4361,10 +4361,10 @@ function buildAppUpdateBadgeHtml(appId) {
 
   if (activeUpgrade) {
     if (activeUpgrade.status === 'running') {
-      const pct = (typeof activeUpgrade.progress === 'number' && activeUpgrade.progress > 0)
-        ? `${activeUpgrade.progress}%`
-        : t('updatingAppAction', 'Обновление...');
-      return `<span class="app-update-badge updating" title="${t('updatingAppAction', 'Обновление...')} ${pct}" data-app-id="${appId}" data-pkg-id="${pkgId}"><span class="badge-spinner"></span> <span>${pct}</span></span>`;
+      const hasPct = typeof activeUpgrade.progress === 'number' && activeUpgrade.progress > 0;
+      const cleanMsg = (activeUpgrade.message || t('updatingAppAction', 'Обновление...')).replace(/\s*\d+%\s*$/, '').trim();
+      const badgeText = hasPct ? `${activeUpgrade.progress}%` : cleanMsg;
+      return `<span class="app-update-badge updating" title="${cleanMsg} ${hasPct ? activeUpgrade.progress + '%' : ''}" data-app-id="${appId}" data-pkg-id="${pkgId}"><span class="badge-spinner"></span> <span>${badgeText}</span></span>`;
     } else if (activeUpgrade.status === 'success') {
       return `<span class="app-update-badge success" title="${t('updatedAppAction', 'Обновлено')}" data-app-id="${appId}" data-pkg-id="${pkgId}">✓ <span>${t('updatedAppAction', 'Обновлено')}</span></span>`;
     } else if (activeUpgrade.status === 'failed') {
@@ -4675,17 +4675,17 @@ function renderSoftwareUpdatesUI() {
 
     let actionBtnHtml = '';
     if (activeUpgrade?.status === 'running') {
-      const pct = (typeof activeUpgrade.progress === 'number' && activeUpgrade.progress > 0)
-        ? `${activeUpgrade.progress}%`
-        : '';
-      const msg = activeUpgrade.message || t('updatingAppAction', 'Обновление...');
+      const hasPct = typeof activeUpgrade.progress === 'number' && activeUpgrade.progress > 0;
+      const pct = hasPct ? `${activeUpgrade.progress}%` : '';
+      const cleanMsg = (activeUpgrade.message || t('updatingAppAction', 'Обновление...')).replace(/\s*\d+%\s*$/, '').trim();
+      const statusText = pct ? `${cleanMsg} ${pct}` : cleanMsg;
       const barWidth = Math.max(6, Math.min(100, activeUpgrade.progress || 12));
       actionBtnHtml = `
         <div class="update-progress-container">
           <div class="update-progress-track">
             <div class="update-progress-fill" style="width: ${barWidth}%"></div>
           </div>
-          <span class="update-status-badge running"><span class="updates-spinner" style="width:12px;height:12px;border-width:2px;"></span> ${msg} ${pct}</span>
+          <span class="update-status-badge running"><span class="updates-spinner" style="width:12px;height:12px;border-width:2px;"></span> ${statusText}</span>
         </div>
       `;
     } else if (activeUpgrade?.status === 'success') {

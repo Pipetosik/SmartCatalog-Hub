@@ -5,6 +5,7 @@ import json
 import time
 import shutil
 import threading
+import queue
 import subprocess
 
 WORKSPACE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -538,50 +539,90 @@ def _run_upgrade_worker(pkg_id, elevated=False):
                 **_get_silent_subprocess_flags()
             )
 
-            # Stream real-time output chunks to track download percentage and phases
-            while True:
-                chunk = proc.stdout.read(64)
-                if not chunk and proc.poll() is not None:
-                    break
-                if chunk:
-                    text = chunk.decode('utf-8', errors='replace')
-                    output_chunks.append(text)
-                    
-                    pct_matches = re.findall(r'(\d{1,3})\s*%', text)
-                    if pct_matches:
-                        try:
-                            p = int(pct_matches[-1])
-                            if 0 <= p <= 100:
-                                progress_val = max(progress_val, p)
-                        except ValueError:
-                            pass
+            # Background thread to continuously read pipe without blocking the progress loop
+            output_queue = queue.Queue()
+            def pipe_reader(pipe):
+                try:
+                    while True:
+                        c = pipe.read(64)
+                        if not c:
+                            break
+                        output_queue.put(c)
+                except Exception:
+                    pass
+                finally:
+                    try:
+                        pipe.close()
+                    except Exception:
+                        pass
 
-                    lower = text.lower()
-                    phase = "downloading"
-                    msg = f"Загрузка {progress_val}%"
-                    if "install" in lower or "установ" in lower:
-                        phase = "installing"
-                        msg = "Установка пакета..."
-                        progress_val = max(progress_val, 90)
-                    elif "hash" in lower or "хэш" in lower or "verif" in lower:
-                        phase = "verifying"
-                        msg = "Проверка целостности..."
-                        progress_val = max(progress_val, 85)
-                    elif "found" in lower or "найден" in lower:
-                        phase = "starting"
-                        msg = "Запуск..."
+            reader_thread = threading.Thread(target=pipe_reader, args=(proc.stdout,), daemon=True)
+            reader_thread.start()
 
-                    with _upgrade_lock:
-                        _active_upgrades[pkg_id]["progress"] = progress_val
-                        _active_upgrades[pkg_id]["phase"] = phase
-                        _active_upgrades[pkg_id]["message"] = msg
-                else:
-                    elapsed = time.time() - start_t
-                    sim = min(88, int(5 + elapsed * 2))
+            current_phase = "starting"
+            current_msg = "Подготовка..."
+            explicit_percent = None
+
+            while proc.poll() is None or not output_queue.empty():
+                while not output_queue.empty():
+                    try:
+                        chunk = output_queue.get_nowait()
+                        text = chunk.decode('utf-8', errors='replace')
+                        output_chunks.append(text)
+
+                        pct_matches = re.findall(r'(\d{1,3})\s*%', text)
+                        if pct_matches:
+                            try:
+                                p = int(pct_matches[-1])
+                                if 0 <= p <= 100:
+                                    explicit_percent = p
+                                    progress_val = max(progress_val, p)
+                            except ValueError:
+                                pass
+
+                        lower = text.lower()
+                        if "install" in lower or "установ" in lower:
+                            current_phase = "installing"
+                            current_msg = "Установка пакета..."
+                            progress_val = max(progress_val, 88)
+                        elif "hash" in lower or "хэш" in lower or "verif" in lower:
+                            current_phase = "verifying"
+                            current_msg = "Проверка целостности..."
+                            progress_val = max(progress_val, 84)
+                        elif "download" in lower or "загруз" in lower:
+                            current_phase = "downloading"
+                            current_msg = "Загрузка пакета..."
+                        elif "found" in lower or "найден" in lower:
+                            current_phase = "starting"
+                            current_msg = "Поиск пакета..."
+                    except queue.Empty:
+                        break
+
+                elapsed = time.time() - start_t
+                if current_phase == "starting":
+                    sim = min(15, int(5 + elapsed * 2.5))
                     progress_val = max(progress_val, sim)
-                    with _upgrade_lock:
-                        _active_upgrades[pkg_id]["progress"] = progress_val
-                    time.sleep(0.1)
+                elif current_phase == "downloading":
+                    if explicit_percent is not None:
+                        progress_val = max(progress_val, explicit_percent)
+                    else:
+                        # Smooth dynamic progression while downloading
+                        # Moves from 15% towards 82% naturally over ~15-25 seconds
+                        sim = min(82, int(15 + (1.0 - (0.92 ** elapsed)) * 70))
+                        progress_val = max(progress_val, sim)
+                elif current_phase == "verifying":
+                    progress_val = max(progress_val, 85)
+                elif current_phase == "installing":
+                    install_elapsed = max(0, elapsed - 8)
+                    sim = min(96, int(88 + install_elapsed * 0.8))
+                    progress_val = max(progress_val, sim)
+
+                with _upgrade_lock:
+                    _active_upgrades[pkg_id]["progress"] = progress_val
+                    _active_upgrades[pkg_id]["phase"] = current_phase
+                    _active_upgrades[pkg_id]["message"] = current_msg
+
+                time.sleep(0.2)
 
             proc.wait()
             exit_code = proc.returncode
