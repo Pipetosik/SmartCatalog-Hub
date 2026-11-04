@@ -2334,11 +2334,9 @@ function renderApps() {
 
     const newBadgeHtml = isNewApp(app) ? `<span class="app-badge-new" title="${t('badgeRecentlyAdded')}">${t('badgeNew', 'НОВОЕ')}</span>` : '';
 
-    let updateBadgeHtml = '';
-    const appUpdate = softwareUpdatesMap[app.id];
-    if (appUpdate) {
-      updateBadgeHtml = `<span class="app-update-badge" title="${t('updateCardTooltip', '', { ver: appUpdate.available_version })}" data-pkg-id="${appUpdate.package_id}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg><span>${appUpdate.available_version}</span></span>`;
-    }
+    const isAppUpdating = Boolean(softwareUpdatesMap[app.id] && softwareUpdatesData.active_upgrades?.[softwareUpdatesMap[app.id]?.package_id]?.status === 'running');
+    if (isAppUpdating) card.classList.add('is-updating');
+    const updateBadgeHtml = buildAppUpdateBadgeHtml(app.id);
 
     card.innerHTML = `
       <div class="card-actions">
@@ -4356,6 +4354,83 @@ let softwareUpdatesData = {
 let softwareUpdatesMap = {};
 let softwareUpdatesPollTimer = null;
 
+function buildAppUpdateBadgeHtml(appId) {
+  const appUpdate = softwareUpdatesMap[appId];
+  const pkgId = appUpdate?.package_id;
+  const activeUpgrade = pkgId ? softwareUpdatesData.active_upgrades?.[pkgId] : null;
+
+  if (activeUpgrade) {
+    if (activeUpgrade.status === 'running') {
+      const pct = (typeof activeUpgrade.progress === 'number' && activeUpgrade.progress > 0)
+        ? `${activeUpgrade.progress}%`
+        : t('updatingAppAction', 'Обновление...');
+      return `<span class="app-update-badge updating" title="${t('updatingAppAction', 'Обновление...')} ${pct}" data-app-id="${appId}" data-pkg-id="${pkgId}"><span class="badge-spinner"></span> <span>${pct}</span></span>`;
+    } else if (activeUpgrade.status === 'success') {
+      return `<span class="app-update-badge success" title="${t('updatedAppAction', 'Обновлено')}" data-app-id="${appId}" data-pkg-id="${pkgId}">✓ <span>${t('updatedAppAction', 'Обновлено')}</span></span>`;
+    } else if (activeUpgrade.status === 'failed') {
+      return `<span class="app-update-badge failed" title="${activeUpgrade.error || t('updateFailedAction', 'Ошибка')}" data-app-id="${appId}" data-pkg-id="${pkgId}">✕ <span>${t('updateFailedAction', 'Ошибка')}</span></span>`;
+    }
+  }
+
+  if (appUpdate) {
+    return `<span class="app-update-badge" title="${t('updateCardTooltip', '', { ver: appUpdate.available_version })}" data-app-id="${appId}" data-pkg-id="${appUpdate.package_id}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg><span>${appUpdate.available_version}</span></span>`;
+  }
+
+  return '';
+}
+
+function updateGridUpdateBadges() {
+  if (!appsGrid) return;
+  const cards = appsGrid.querySelectorAll('.app-card');
+  cards.forEach(card => {
+    const appId = card.dataset.id;
+    if (!appId) return;
+    const badgesRow = card.querySelector('.app-badges-row');
+    if (!badgesRow) return;
+
+    const existingBadge = card.querySelector('.app-update-badge');
+    const newBadgeHtml = buildAppUpdateBadgeHtml(appId);
+
+    if (!newBadgeHtml) {
+      if (existingBadge) {
+        existingBadge.remove();
+      }
+      card.classList.remove('is-updating');
+    } else {
+      if (existingBadge) {
+        const temp = document.createElement('div');
+        temp.innerHTML = newBadgeHtml;
+        const newEl = temp.firstElementChild;
+        if (existingBadge.className !== newEl.className || existingBadge.innerHTML !== newEl.innerHTML) {
+          existingBadge.replaceWith(newEl);
+          newEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openSoftwareUpdatesModal(appId);
+          });
+        }
+      } else {
+        const temp = document.createElement('div');
+        temp.innerHTML = newBadgeHtml;
+        const newEl = temp.firstElementChild;
+        const catBadge = badgesRow.querySelector('.app-category-badge');
+        if (catBadge) {
+          badgesRow.insertBefore(newEl, catBadge);
+        } else {
+          badgesRow.appendChild(newEl);
+        }
+        newEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openSoftwareUpdatesModal(appId);
+        });
+      }
+
+      const pkgId = softwareUpdatesMap[appId]?.package_id;
+      const isRunning = pkgId && softwareUpdatesData.active_upgrades?.[pkgId]?.status === 'running';
+      card.classList.toggle('is-updating', Boolean(isRunning));
+    }
+  });
+}
+
 async function fetchSoftwareUpdatesStatus(triggerRerender = true) {
   try {
     const res = await fetch('/api/software_updates/status');
@@ -4375,13 +4450,15 @@ async function fetchSoftwareUpdatesStatus(triggerRerender = true) {
     renderSoftwareUpdatesUI();
     if (triggerRerender && typeof renderApps === 'function') {
       renderApps();
+    } else {
+      updateGridUpdateBadges();
     }
 
     // If scanning or upgrading is active, poll periodically
     const isBusy = data.scanning || data.is_batch_upgrading || Object.values(data.active_upgrades || {}).some(x => x.status === 'running');
     if (isBusy) {
       if (!softwareUpdatesPollTimer) {
-        softwareUpdatesPollTimer = setInterval(() => fetchSoftwareUpdatesStatus(false), 2000);
+        softwareUpdatesPollTimer = setInterval(() => fetchSoftwareUpdatesStatus(false), 1500);
       }
     } else {
       if (softwareUpdatesPollTimer) {
@@ -4432,6 +4509,22 @@ async function upgradeSinglePackage(packageId, elevated = false, btnElement = nu
   if (btnElement) {
     btnElement.disabled = true;
     btnElement.innerHTML = `<span class="updates-spinner" style="width:14px;height:14px;border-width:2px;display:inline-block;vertical-align:middle;margin-right:6px;"></span> ${t('updatingAppAction')}`;
+  }
+
+  // Optimistically set active_upgrades so the badge and modal update immediately
+  if (!softwareUpdatesData.active_upgrades) softwareUpdatesData.active_upgrades = {};
+  softwareUpdatesData.active_upgrades[packageId] = {
+    status: 'running',
+    progress: 8,
+    phase: 'starting',
+    message: t('updatingAppAction', 'Обновление...'),
+    start_time: Date.now() / 1000
+  };
+  updateGridUpdateBadges();
+  renderSoftwareUpdatesUI();
+
+  if (!softwareUpdatesPollTimer) {
+    softwareUpdatesPollTimer = setInterval(() => fetchSoftwareUpdatesStatus(false), 1500);
   }
 
   try {
@@ -4582,18 +4675,30 @@ function renderSoftwareUpdatesUI() {
 
     let actionBtnHtml = '';
     if (activeUpgrade?.status === 'running') {
-      actionBtnHtml = `<span class="update-status-badge running"><span class="updates-spinner" style="width:12px;height:12px;border-width:2px;"></span> ${t('updatingAppAction')}</span>`;
+      const pct = (typeof activeUpgrade.progress === 'number' && activeUpgrade.progress > 0)
+        ? `${activeUpgrade.progress}%`
+        : '';
+      const msg = activeUpgrade.message || t('updatingAppAction', 'Обновление...');
+      const barWidth = Math.max(6, Math.min(100, activeUpgrade.progress || 12));
+      actionBtnHtml = `
+        <div class="update-progress-container">
+          <div class="update-progress-track">
+            <div class="update-progress-fill" style="width: ${barWidth}%"></div>
+          </div>
+          <span class="update-status-badge running"><span class="updates-spinner" style="width:12px;height:12px;border-width:2px;"></span> ${msg} ${pct}</span>
+        </div>
+      `;
     } else if (activeUpgrade?.status === 'success') {
-      actionBtnHtml = `<span class="update-status-badge success">✓ ${t('updatedAppAction')}</span>`;
+      actionBtnHtml = `<span class="update-status-badge success">✓ ${t('updatedAppAction', 'Обновлено')}</span>`;
     } else if (activeUpgrade?.status === 'failed') {
       actionBtnHtml = `
         <div style="display:flex;align-items:center;gap:6px;">
-          <span class="update-status-badge failed" title="${activeUpgrade.error || ''}">✕ ${t('updateFailedAction')}</span>
-          <button class="action-btn update-item-btn update-admin-btn" title="${t('updateAdminAction')}">🛡️ ${t('updateAdminAction')}</button>
+          <span class="update-status-badge failed" title="${activeUpgrade.error || ''}">✕ ${t('updateFailedAction', 'Ошибка')}</span>
+          <button class="action-btn update-item-btn update-admin-btn" title="${t('updateAdminAction', 'От имени Администратора')}">🛡️ ${t('updateAdminAction', 'От имени Администратора')}</button>
         </div>
       `;
     } else {
-      actionBtnHtml = `<button class="action-btn primary-action-btn update-item-btn update-single-btn">${t('updateAppAction')}</button>`;
+      actionBtnHtml = `<button class="action-btn primary-action-btn update-item-btn update-single-btn">${t('updateAppAction', 'Обновить')}</button>`;
     }
 
     card.innerHTML = `

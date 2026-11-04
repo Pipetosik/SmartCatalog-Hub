@@ -328,6 +328,38 @@ def add_new_software(name, target_path, source_lnk=None, save_now=True):
     finally:
         pythoncom.CoUninitialize()
 
+def remove_software_entry(app_id):
+    """
+    Removes an application from catalog_data.json and deletes its generated shortcut from disk.
+    """
+    apps = load_catalog_data()
+    target_app = next((a for a in apps if a.get("id") == app_id), None)
+    if not target_app:
+        return False
+        
+    lnk = target_app.get("lnk_path")
+    if lnk and os.path.exists(lnk):
+        try:
+            os.remove(lnk)
+        except Exception:
+            pass
+            
+    remaining = [a for a in apps if a.get("id") != app_id]
+    save_catalog_data(remaining)
+    
+    # Clean up from user preferences
+    u = load_user_data()
+    changed_u = False
+    if "favorites" in u and app_id in u["favorites"]:
+        u["favorites"] = [x for x in u["favorites"] if x != app_id]
+        changed_u = True
+    if "hidden_apps" in u and app_id in u["hidden_apps"]:
+        u["hidden_apps"] = [x for x in u["hidden_apps"] if x != app_id]
+        changed_u = True
+    if changed_u:
+        save_user_data(u)
+    return True
+
 def launch_app_as_admin(app_id):
     apps = load_catalog_data()
     app = next((a for a in apps if a.get("id") == app_id), None)

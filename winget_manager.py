@@ -483,11 +483,14 @@ def get_status():
     }
 
 def _run_upgrade_worker(pkg_id, elevated=False):
-    """Executes upgrade for a single package."""
+    """Executes upgrade for a single package with real-time progress tracking."""
     global _active_upgrades
     with _upgrade_lock:
         _active_upgrades[pkg_id] = {
             "status": "running",
+            "progress": 5,
+            "phase": "starting",
+            "message": "Подготовка...",
             "start_time": time.time(),
             "output": "",
             "error": None,
@@ -495,8 +498,16 @@ def _run_upgrade_worker(pkg_id, elevated=False):
         }
 
     try:
+        output_chunks = []
+        progress_val = 5
+        start_t = time.time()
+
         if elevated:
-            # Execute with PowerShell RunAs elevation
+            with _upgrade_lock:
+                _active_upgrades[pkg_id]["phase"] = "elevating"
+                _active_upgrades[pkg_id]["progress"] = 30
+                _active_upgrades[pkg_id]["message"] = "Запуск от имени Администратора..."
+
             ps_cmd = (
                 f"Start-Process winget -ArgumentList 'upgrade', '--exact', '--id', '{pkg_id}', "
                 f"'--accept-source-agreements', '--accept-package-agreements', '--disable-interactivity' "
@@ -519,19 +530,70 @@ def _run_upgrade_worker(pkg_id, elevated=False):
                 '--accept-source-agreements', '--accept-package-agreements',
                 '--disable-interactivity'
             ]
-            proc = subprocess.run(
+            proc = subprocess.Popen(
                 cmd,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
                 stdin=subprocess.DEVNULL,
-                timeout=600,
                 **_get_silent_subprocess_flags()
             )
+
+            # Stream real-time output chunks to track download percentage and phases
+            while True:
+                chunk = proc.stdout.read(64)
+                if not chunk and proc.poll() is not None:
+                    break
+                if chunk:
+                    text = chunk.decode('utf-8', errors='replace')
+                    output_chunks.append(text)
+                    
+                    pct_matches = re.findall(r'(\d{1,3})\s*%', text)
+                    if pct_matches:
+                        try:
+                            p = int(pct_matches[-1])
+                            if 0 <= p <= 100:
+                                progress_val = max(progress_val, p)
+                        except ValueError:
+                            pass
+
+                    lower = text.lower()
+                    phase = "downloading"
+                    msg = f"Загрузка {progress_val}%"
+                    if "install" in lower or "установ" in lower:
+                        phase = "installing"
+                        msg = "Установка пакета..."
+                        progress_val = max(progress_val, 90)
+                    elif "hash" in lower or "хэш" in lower or "verif" in lower:
+                        phase = "verifying"
+                        msg = "Проверка целостности..."
+                        progress_val = max(progress_val, 85)
+                    elif "found" in lower or "найден" in lower:
+                        phase = "starting"
+                        msg = "Запуск..."
+
+                    with _upgrade_lock:
+                        _active_upgrades[pkg_id]["progress"] = progress_val
+                        _active_upgrades[pkg_id]["phase"] = phase
+                        _active_upgrades[pkg_id]["message"] = msg
+                else:
+                    elapsed = time.time() - start_t
+                    sim = min(88, int(5 + elapsed * 2))
+                    progress_val = max(progress_val, sim)
+                    with _upgrade_lock:
+                        _active_upgrades[pkg_id]["progress"] = progress_val
+                    time.sleep(0.1)
+
+            proc.wait()
             exit_code = proc.returncode
-            output = proc.stdout.decode('utf-8', errors='replace') + proc.stderr.decode('utf-8', errors='replace')
+            output = "".join(output_chunks)
 
             # Check for elevation requirement: 0x800702e4 (signed: -2147023644) or code 1603 / UAC error
             if exit_code in (-2147023644, 2147942405, 1603) or 'requires elevation' in output.lower() or 'администратора' in output.lower():
-                # Attempt automatic RunAs escalation
+                with _upgrade_lock:
+                    _active_upgrades[pkg_id]["phase"] = "elevating"
+                    _active_upgrades[pkg_id]["progress"] = 85
+                    _active_upgrades[pkg_id]["message"] = "Ожидание прав Администратора..."
+
                 ps_cmd = (
                     f"Start-Process winget -ArgumentList 'upgrade', '--exact', '--id', '{pkg_id}', "
                     f"'--accept-source-agreements', '--accept-package-agreements', '--disable-interactivity' "
@@ -552,12 +614,18 @@ def _run_upgrade_worker(pkg_id, elevated=False):
         with _upgrade_lock:
             if exit_code == 0:
                 _active_upgrades[pkg_id]["status"] = "success"
+                _active_upgrades[pkg_id]["progress"] = 100
+                _active_upgrades[pkg_id]["phase"] = "success"
+                _active_upgrades[pkg_id]["message"] = "Успешно обновлено"
                 # Remove upgraded item from cache
                 global _cached_updates
                 _cached_updates = [u for u in _cached_updates if u.get('package_id') != pkg_id]
                 save_cached_updates(_cached_updates, _all_winget_packages, _last_scan_time)
             else:
                 _active_upgrades[pkg_id]["status"] = "failed"
+                _active_upgrades[pkg_id]["progress"] = 0
+                _active_upgrades[pkg_id]["phase"] = "failed"
+                _active_upgrades[pkg_id]["message"] = f"Ошибка ({exit_code})"
                 _active_upgrades[pkg_id]["error"] = f"Exit code {exit_code}"
             _active_upgrades[pkg_id]["output"] = output[-1000:]
             _active_upgrades[pkg_id]["exit_code"] = exit_code
@@ -565,6 +633,9 @@ def _run_upgrade_worker(pkg_id, elevated=False):
     except Exception as e:
         with _upgrade_lock:
             _active_upgrades[pkg_id]["status"] = "failed"
+            _active_upgrades[pkg_id]["progress"] = 0
+            _active_upgrades[pkg_id]["phase"] = "failed"
+            _active_upgrades[pkg_id]["message"] = str(e)
             _active_upgrades[pkg_id]["error"] = str(e)
             _active_upgrades[pkg_id]["exit_code"] = -1
 

@@ -314,11 +314,21 @@ JUNK_KEYWORDS = [
     "uninstall", "unins000", "деинстал", "удалить", "удаление",
     "crashpad", "crashhandler", "feedback", "updater.exe", "update.exe",
     "manual", "readme", "license", "help", "documentation", "справка", 
-    "setup.exe", "installer.exe", "download", "helper"
+    "setup.exe", "installer.exe", "download", "helper",
+    "release notes", "releasenotes", "release_notes", "changelog", "change log",
+    "what's new", "whatsnew", "история версий", "список изменений", "примечания к выпуску",
+    "read me", "user guide", "getting started", "visit website"
 ]
+
+NON_APP_EXTENSIONS = (
+    '.html', '.htm', '.url', '.txt', '.pdf', '.chm',
+    '.doc', '.docx', '.rtf', '.md', '.website'
+)
 
 def is_junk_or_uninstaller(name, path=""):
     combined = f"{name} {path}".lower()
+    if path and path.lower().endswith(NON_APP_EXTENSIONS):
+        return True
     for kw in JUNK_KEYWORDS:
         if kw in combined:
             if "patch my pc" in combined or "apk editor" in combined:
