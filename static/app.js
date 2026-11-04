@@ -1011,11 +1011,14 @@ function applyLanguage(lang) {
 
   // Update themeSelect options
   if (typeof themeSelect !== 'undefined' && themeSelect && themeSelect.options.length >= 5) {
-    themeSelect.options[0].textContent = isEn ? 'Start Menu (Windows 11 Acrylic Glass)' : 'Меню «Пуск» (Windows 11 Acrylic — Полупрозрачное стекло)';
-    themeSelect.options[1].textContent = isEn ? 'Obsidian — Dark Slate (Subtle)' : 'Obsidian — Тёмный сланец (Сдержанный)';
-    themeSelect.options[2].textContent = isEn ? 'Fluent Acrylic — Deep Frosted Blur' : 'Fluent Acrylic — Глубокое матовое размытие';
-    themeSelect.options[3].textContent = isEn ? 'Mica Alt — Windows 11 Desktop Style' : 'Mica Alt — Стиль Windows 11';
-    themeSelect.options[4].textContent = isEn ? 'OLED — True Pure Black' : 'OLED — Глубокий абсолютно чёрный';
+    for (const opt of themeSelect.options) {
+      if (opt.value === 'craft') opt.textContent = isEn ? 'Craft Studio (Strict Graphite — Linear / Raycast)' : 'Craft Studio (Строгий графит — Linear / Raycast)';
+      else if (opt.value === 'win11') opt.textContent = isEn ? 'Start Menu (Windows 11 Acrylic Glass)' : 'Меню «Пуск» (Windows 11 Acrylic — Полупрозрачное стекло)';
+      else if (opt.value === 'obsidian') opt.textContent = isEn ? 'Obsidian — Dark Slate (Subtle)' : 'Obsidian — Тёмный сланец (Сдержанный)';
+      else if (opt.value === 'acrylic') opt.textContent = isEn ? 'Fluent Acrylic — Deep Frosted Blur' : 'Fluent Acrylic — Глубокое матовое размытие';
+      else if (opt.value === 'mica') opt.textContent = isEn ? 'Mica Alt — Windows 11 Desktop Style' : 'Mica Alt — Стиль Windows 11';
+      else if (opt.value === 'oled') opt.textContent = isEn ? 'OLED — True Pure Black' : 'OLED — Глубокий абсолютно чёрный';
+    }
   }
 
   // Update viewModeSelect options
@@ -1599,8 +1602,8 @@ document.addEventListener('visibilitychange', () => {
 
 // Theme Management & Settings
 function applyTheme(theme) {
-  const validThemes = ['win11', 'obsidian', 'acrylic', 'mica', 'oled'];
-  const chosen = validThemes.includes(theme) ? theme : 'win11';
+  const validThemes = ['craft', 'win11', 'obsidian', 'acrylic', 'mica', 'oled'];
+  const chosen = validThemes.includes(theme) ? theme : 'craft';
   document.body.className = `theme-${chosen}`;
 }
 
@@ -1711,11 +1714,14 @@ function populateSettings() {
   }
 
   if (themeSelect && themeSelect.options.length >= 5) {
-    themeSelect.options[0].textContent = isEn ? 'Start Menu (Windows 11 Acrylic Glass)' : 'Меню «Пуск» (Windows 11 Acrylic — Полупрозрачное стекло)';
-    themeSelect.options[1].textContent = isEn ? 'Obsidian — Dark Slate (Subtle)' : 'Obsidian — Тёмный сланец (Сдержанный)';
-    themeSelect.options[2].textContent = isEn ? 'Fluent Acrylic — Deep Frosted Blur' : 'Fluent Acrylic — Глубокое матовое размытие';
-    themeSelect.options[3].textContent = isEn ? 'Mica Alt — Windows 11 Desktop Style' : 'Mica Alt — Стиль Windows 11';
-    themeSelect.options[4].textContent = isEn ? 'OLED — True Pure Black' : 'OLED — Глубокий абсолютно чёрный';
+    for (const opt of themeSelect.options) {
+      if (opt.value === 'craft') opt.textContent = isEn ? 'Craft Studio (Strict Graphite — Linear / Raycast)' : 'Craft Studio (Строгий графит — Linear / Raycast)';
+      else if (opt.value === 'win11') opt.textContent = isEn ? 'Start Menu (Windows 11 Acrylic Glass)' : 'Меню «Пуск» (Windows 11 Acrylic — Полупрозрачное стекло)';
+      else if (opt.value === 'obsidian') opt.textContent = isEn ? 'Obsidian — Dark Slate (Subtle)' : 'Obsidian — Тёмный сланец (Сдержанный)';
+      else if (opt.value === 'acrylic') opt.textContent = isEn ? 'Fluent Acrylic — Deep Frosted Blur' : 'Fluent Acrylic — Глубокое матовое размытие';
+      else if (opt.value === 'mica') opt.textContent = isEn ? 'Mica Alt — Windows 11 Desktop Style' : 'Mica Alt — Стиль Windows 11';
+      else if (opt.value === 'oled') opt.textContent = isEn ? 'OLED — True Pure Black' : 'OLED — Глубокий абсолютно чёрный';
+    }
   }
 
   if (viewModeSelect && viewModeSelect.options.length >= 2) {
@@ -1734,7 +1740,7 @@ function populateSettings() {
   }
 
   if (themeSelect) {
-    themeSelect.value = userData.settings?.theme || 'win11';
+    themeSelect.value = userData.settings?.theme || 'craft';
   }
 
   if (languageSelect) {
@@ -1849,7 +1855,7 @@ async function initCatalog() {
     playtimeStats = pStats || {};
 
     // Apply active theme & accent
-    applyTheme(userData.settings?.theme || 'win11');
+    applyTheme(userData.settings?.theme || 'craft');
     applyAccentColor(userData.settings?.accent_color || 'blue');
     applyLanguage(userData.settings?.language || 'ru');
 

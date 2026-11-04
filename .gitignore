@@ -48,6 +48,9 @@ force_refresh_*.py
 rebuild_*.py
 sanitize_*.py
 
+# Local agent definitions & caches
+.agents/
+
 # OS artifacts
 Thumbs.db
 Desktop.ini
