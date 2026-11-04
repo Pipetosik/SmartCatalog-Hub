@@ -146,8 +146,11 @@ def process_discovered_file(file_path, notify=True, save_now=True, delay=True):
             if entry and notify:
                 cat_clean = entry["category"]
                 desc_clean = entry["description"]
-                print(f"[Watcher] Discovered and added: {app_name} -> {cat_clean}", flush=True)
-                notify_discovered_app(app_name, cat_clean, desc_clean, is_portable=False)
+                if not entry.get("is_update"):
+                    print(f"[Watcher] Discovered and added: {app_name} -> {cat_clean}", flush=True)
+                    notify_discovered_app(app_name, cat_clean, desc_clean, is_portable=False)
+                else:
+                    print(f"[Watcher] Updated existing application: {app_name} in {cat_clean}", flush=True)
             return entry
                 
         # 2. Handle standalone / portable .exe
@@ -168,8 +171,11 @@ def process_discovered_file(file_path, notify=True, save_now=True, delay=True):
             if entry and notify:
                 cat_clean = entry["category"]
                 desc_clean = entry["description"]
-                print(f"[Watcher] Added portable application: {app_name} -> {cat_clean}", flush=True)
-                notify_discovered_app(app_name, cat_clean, desc_clean, is_portable=True)
+                if not entry.get("is_update"):
+                    print(f"[Watcher] Added portable application: {app_name} -> {cat_clean}", flush=True)
+                    notify_discovered_app(app_name, cat_clean, desc_clean, is_portable=True)
+                else:
+                    print(f"[Watcher] Updated portable application: {app_name} in {cat_clean}", flush=True)
             return entry
     finally:
         pythoncom.CoUninitialize()

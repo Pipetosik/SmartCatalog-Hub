@@ -154,7 +154,12 @@ def test_api():
         ("iSCSI Initiator", r"C:\Windows\System32\iscsicli.exe"): "06. Удаленный доступ и Сеть",
         ("Character Map", r"C:\Windows\System32\charmap.exe"): "12. Система и Обслуживание",
         ("dfrgui", r"C:\Windows\System32\dfrgui.exe"): "12. Система и Обслуживание",
-        ("Microsoft Edge", r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"): "04. Интернет и Браузеры"
+        ("Microsoft Edge", r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"): "04. Интернет и Браузеры",
+        ("Epic Games Launcher", r"C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"): "10. Игровой софт и Лаунчеры",
+        ("Steam", r"C:\Program Files (x86)\Steam\steam.exe"): "10. Игровой софт и Лаунчеры",
+        ("Genshin Impact", r"C:\Program Files\Genshin Impact\GenshinImpact.exe"): "09. Компьютерные игры",
+        ("Visual Studio Code", r"C:\Program Files\Microsoft VS Code\Code.exe"): "01. Разработка и Код",
+        ("DBeaver", r"C:\Program Files\DBeaver\dbeaver.exe"): "02. Базы данных"
     }
     for (name, path), exp_cat in expected.items():
         res_cat = classify_app(name, path)
@@ -182,6 +187,24 @@ def test_api():
     assert "FAIL_DUPLICATE_STARTED" not in proc.stdout, "Secondary process ran instead of exiting on existing mutex!"
     print("    Secondary service process cleanly exited 0 without starting duplicate threads or tray icons.")
     print("    -> PASS: Single-instance named mutex enforcement 100% verified.")
+
+    print("\n[9] Testing Application Update and Metadata Preservation...")
+    from catalog_manager import add_new_software, load_catalog_data
+    # Verify Epic Games Launcher in catalog
+    apps = load_catalog_data()
+    epic_app = next((a for a in apps if a.get("id") == "epic_games_launcher_c9714d"), None)
+    assert epic_app is not None, "Epic Games Launcher entry missing from catalog!"
+    assert epic_app["category"] == "10. Игровой софт и Лаунчеры", f"Wrong category: {epic_app['category']}"
+    orig_added_at = epic_app.get("added_at")
+    
+    # Simulate an in-place update of Epic Games Launcher
+    res_entry = add_new_software("Epic Games Launcher", epic_app["target"], save_now=False)
+    assert res_entry is not None
+    assert res_entry.get("is_update") is True, "Failed to identify existing app during update!"
+    assert res_entry.get("category") == "10. Игровой софт и Лаунчеры", f"Category changed on update to {res_entry.get('category')}!"
+    assert res_entry.get("added_at") == orig_added_at, "added_at timestamp was reset during software update!"
+    print("    Existing software updates preserve category and original added_at timestamp.")
+    print("    -> PASS: Application update and category preservation 100% verified.")
 
     print("\nALL AUDIT AND SECURITY TESTS PASSED SUCCESSFULLY!")
 

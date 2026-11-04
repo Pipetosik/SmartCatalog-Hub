@@ -203,16 +203,19 @@ def scan_and_rebuild_catalog():
                 name = f[:-4]
                 lnk_p = os.path.join(cat_path, f)
 
-                # Auto-heal legacy misclassifications (e.g. administrative tools in browsers)
+                # Auto-heal legacy or errant misclassifications against authoritative KNOWN_APPS
                 name_l = name.strip().lower()
                 effective_cat = cat_dir
-                if cat_dir == "04. Интернет и Браузеры" and name_l in KNOWN_APPS:
+                if name_l in KNOWN_APPS:
                     correct_cat = KNOWN_APPS[name_l][0]
                     if correct_cat != cat_dir:
                         new_cat_dir = os.path.join(SMART_CATALOG_ROOT, correct_cat)
                         os.makedirs(new_cat_dir, exist_ok=True)
                         new_lnk_p = os.path.join(new_cat_dir, f)
                         try:
+                            # If duplicate shortcut exists in correct_cat, replace with newer or remove old
+                            if os.path.exists(new_lnk_p):
+                                os.remove(new_lnk_p)
                             shutil.move(lnk_p, new_lnk_p)
                             lnk_p = new_lnk_p
                             effective_cat = correct_cat
@@ -269,58 +272,115 @@ def add_new_software(name, target_path, source_lnk=None, save_now=True):
     pythoncom.CoInitialize()
     try:
         shell = win32com.client.Dispatch("WScript.Shell")
+        clean_name = re.sub(r'[\/:*?"<>|]', '', name).strip()
+        app_id = safe_app_id(clean_name)
         
-        cat = classify_app(name, target_path)
+        # Check if the application already exists in the catalog (preserve metadata on updates)
+        existing_apps = load_catalog_data()
+        existing_item = None
+        
+        # 1. Match by app ID
+        for item in existing_apps:
+            if item.get("id") == app_id:
+                existing_item = item
+                break
+                
+        # 2. Match by clean name (case-insensitive)
+        if not existing_item:
+            clean_name_l = clean_name.lower()
+            for item in existing_apps:
+                if item.get("name", "").strip().lower() == clean_name_l:
+                    existing_item = item
+                    break
+                    
+        # 3. Match by target executable base name (e.g. 32-bit to 64-bit upgrades)
+        if not existing_item and target_path:
+            target_base = os.path.splitext(os.path.basename(target_path))[0].lower()
+            if target_base and target_base not in ("explorer", "cmd", "powershell", "rundll32", "conhost"):
+                for item in existing_apps:
+                    old_t = item.get("target", "")
+                    if old_t:
+                        old_base = os.path.splitext(os.path.basename(old_t))[0].lower()
+                        if old_base == target_base:
+                            existing_item = item
+                            break
+
+        is_update = False
+        if existing_item:
+            is_update = True
+            app_id = existing_item.get("id", app_id)
+            added_at = existing_item.get("added_at", time.time())
+            # Maintain user-assigned or previously established category
+            cat = existing_item.get("category")
+            if not cat or cat not in CATEGORY_RULES:
+                cat = classify_app(clean_name, target_path)
+        else:
+            cat = classify_app(clean_name, target_path)
+            added_at = time.time()
+            
         target_cat_dir = os.path.join(SMART_CATALOG_ROOT, cat)
         os.makedirs(target_cat_dir, exist_ok=True)
-        
-        clean_name = re.sub(r'[\/:*?"<>|]', '', name).strip()
         dest_lnk = os.path.join(target_cat_dir, f"{clean_name}.lnk")
+
+        # If updating, clean up legacy/stray shortcut from old category folder
+        if existing_item and existing_item.get("lnk_path"):
+            old_lnk = existing_item.get("lnk_path")
+            if old_lnk and old_lnk.lower() != dest_lnk.lower() and os.path.exists(old_lnk):
+                try:
+                    os.remove(old_lnk)
+                except Exception:
+                    pass
+        
+        args = ""
+        work_dir = os.path.dirname(target_path) if target_path else ""
         
         if source_lnk and os.path.exists(source_lnk):
             try:
                 src = shell.CreateShortCut(source_lnk)
                 dest = shell.CreateShortCut(dest_lnk)
-                dest.TargetPath = src.TargetPath
+                dest.TargetPath = src.TargetPath if src.TargetPath else target_path
                 dest.Arguments = src.Arguments
-                dest.WorkingDirectory = src.WorkingDirectory
-                dest.IconLocation = src.IconLocation if src.IconLocation else src.TargetPath
+                dest.WorkingDirectory = src.WorkingDirectory if src.WorkingDirectory else work_dir
+                dest.IconLocation = src.IconLocation if src.IconLocation else (dest.TargetPath or target_path)
                 dest.Save()
+                args = src.Arguments
+                work_dir = dest.WorkingDirectory
             except Exception:
                 dest = shell.CreateShortCut(dest_lnk)
                 dest.TargetPath = target_path
-                dest.WorkingDirectory = os.path.dirname(target_path)
+                dest.WorkingDirectory = work_dir
                 dest.Save()
         else:
             dest = shell.CreateShortCut(dest_lnk)
             dest.TargetPath = target_path
-            dest.WorkingDirectory = os.path.dirname(target_path)
+            dest.WorkingDirectory = work_dir
             dest.Save()
             
-        app_id = safe_app_id(clean_name)
         icon_file = f"{app_id}.png"
         icon_full_path = os.path.join(ICONS_DIR, icon_file)
-        extract_icon_best(target_path, dest_lnk, icon_full_path, 128)
+        if not os.path.exists(icon_full_path) or is_update:
+            extract_icon_best(target_path, dest_lnk, icon_full_path, 128)
         
-        desc = get_app_description(clean_name, cat, target_path)
+        desc = existing_item.get("description") if (existing_item and existing_item.get("description")) else get_app_description(clean_name, cat, target_path)
         
         app_entry = {
             "id": app_id,
             "name": clean_name,
             "category": cat,
             "target": target_path,
-            "args": "",
-            "working_dir": os.path.dirname(target_path),
+            "args": args,
+            "working_dir": work_dir,
             "lnk_path": dest_lnk,
             "icon": f"/icons/{icon_file}" if os.path.exists(icon_full_path) else "/icons/default.png",
             "description": desc,
             "aliases": get_app_search_aliases(clean_name),
-            "added_at": time.time()
+            "added_at": added_at,
+            "is_update": is_update
         }
         
         if save_now:
             existing = load_catalog_data()
-            existing = [x for x in existing if x["id"] != app_id]
+            existing = [x for x in existing if x.get("id") != app_id and x.get("name", "").strip().lower() != clean_name.lower()]
             existing.append(app_entry)
             save_catalog_data(existing)
         
