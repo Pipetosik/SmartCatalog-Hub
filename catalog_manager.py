@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import re
 import hashlib
@@ -1339,3 +1340,72 @@ def kill_process_by_pid(pid):
     except Exception as e:
         return False, str(e)
 
+
+
+def heal_taskbar_shortcuts():
+    """
+    Ensures that any SmartCatalog shortcuts pinned to Windows Taskbar
+    point to pythonw.exe app.py (not raw chrome.exe) and have the
+    correct AUMID stamped. This ensures clicking the taskbar icon
+    always raises the background service if it was stopped.
+    """
+    healed_count = 0
+    try:
+        pythoncom.CoInitialize()
+        taskbar_dir = os.path.expandvars(r"%APPDATA%\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar")
+        if not os.path.exists(taskbar_dir):
+            return 0
+
+        python_dir = os.path.dirname(sys.executable)
+        cand_pythonw = os.path.join(python_dir, "pythonw.exe")
+        pythonw = cand_pythonw if os.path.exists(cand_pythonw) else sys.executable
+        app_py = os.path.join(WORKSPACE_DIR, "app.py")
+        icon_path = os.path.join(WORKSPACE_DIR, "assets", "icon.ico")
+        if not os.path.exists(icon_path):
+            icon_path = os.path.join(WORKSPACE_DIR, "SmartCatalog_v3.ico")
+        aumid = "Chrome.127.0.0.1_/..appprofile.Default"
+
+        shell = win32com.client.Dispatch("WScript.Shell")
+        from win32com.propsys import propsys, pscon
+
+        for fname in os.listdir(taskbar_dir):
+            if fname.lower().startswith("smartcatalog") and fname.lower().endswith(".lnk"):
+                lnk_path = os.path.join(taskbar_dir, fname)
+                try:
+                    sc = shell.CreateShortCut(lnk_path)
+                    needs_update = False
+                    
+                    tgt = (sc.TargetPath or "").lower()
+                    if "chrome.exe" in tgt or "msedge.exe" in tgt or tgt != pythonw.lower():
+                        needs_update = True
+                    if app_py.lower() not in (sc.Arguments or "").lower():
+                        needs_update = True
+                        
+                    if needs_update:
+                        sc.TargetPath = pythonw
+                        sc.Arguments = f'"{app_py}"'
+                        sc.WorkingDirectory = WORKSPACE_DIR
+                        sc.IconLocation = f"{icon_path},0"
+                        sc.Description = "Умный лаунчер и каталог всех программ с авто-категоризацией"
+                        sc.Save()
+                        
+                        try:
+                            store = propsys.SHGetPropertyStoreFromParsingName(lnk_path, None, 2, propsys.IID_IPropertyStore)
+                            prop = propsys.PROPVARIANTType(aumid)
+                            store.SetValue(pscon.PKEY_AppUserModel_ID, prop)
+                            store.Commit()
+                            store = None
+                        except Exception:
+                            pass
+                        healed_count += 1
+                except Exception as e:
+                    pass
+        shell = None
+    except Exception as e:
+        pass
+    finally:
+        try:
+            pythoncom.CoUninitialize()
+        except Exception:
+            pass
+    return healed_count

@@ -43,6 +43,7 @@ SmartCatalog.ico
 SmartCatalog_v2.ico
 apply_*.py
 deploy_*.py
+!deploy_shortcuts.py
 fix_*.py
 force_refresh_*.py
 rebuild_*.py

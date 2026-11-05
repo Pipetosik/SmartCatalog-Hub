@@ -294,6 +294,10 @@ def start_watcher_loop():
         try:
             time.sleep(60)
             scan_watch_dirs()
+            try:
+                catalog_manager.heal_taskbar_shortcuts()
+            except Exception:
+                pass
         except Exception:
             pass
 

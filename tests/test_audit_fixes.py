@@ -206,6 +206,50 @@ def test_api():
     print("    Existing software updates preserve category and original added_at timestamp.")
     print("    -> PASS: Application update and category preservation 100% verified.")
 
+    print("\n[10] Testing Windows Taskbar Shortcut Resilience & Self-Healing...")
+    import pythoncom
+    pythoncom.CoInitialize()
+    from catalog_manager import heal_taskbar_shortcuts
+    import win32com.client
+    from win32com.propsys import propsys, pscon
+
+    taskbar_dir = os.path.expandvars(r"%APPDATA%\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar")
+    test_lnk = os.path.join(taskbar_dir, "SmartCatalog Hub Test.lnk")
+    shell = win32com.client.Dispatch("WScript.Shell")
+    
+    try:
+        # Create a corrupted test shortcut pointing directly to chrome.exe
+        sc = shell.CreateShortCut(test_lnk)
+        sc.TargetPath = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+        sc.Arguments = "--app=http://127.0.0.1:48123"
+        sc.Save()
+        sc = None
+
+        # Run healing
+        healed = heal_taskbar_shortcuts()
+        assert healed >= 1, "Failed to heal taskbar shortcut!"
+
+        # Verify test shortcut is now repaired
+        repaired = shell.CreateShortCut(test_lnk)
+        assert "pythonw.exe" in repaired.TargetPath.lower(), f"TargetPath not healed: {repaired.TargetPath}"
+        assert "app.py" in repaired.Arguments.lower(), f"Arguments not healed: {repaired.Arguments}"
+        repaired = None
+
+        # Verify AUMID stamped
+        store = propsys.SHGetPropertyStoreFromParsingName(test_lnk, None, 0, propsys.IID_IPropertyStore)
+        aumid = store.GetValue(pscon.PKEY_AppUserModel_ID).GetValue()
+        store = None
+        assert aumid == "Chrome.127.0.0.1_/..appprofile.Default", f"Wrong AUMID: {aumid}"
+        print("    Taskbar shortcuts auto-heal to pythonw app.py with correct AppUserModelID.")
+        print("    -> PASS: Taskbar shortcut resilience and self-healing 100% verified.")
+    finally:
+        shell = None
+        if os.path.exists(test_lnk):
+            try:
+                os.remove(test_lnk)
+            except Exception:
+                pass
+
     print("\nALL AUDIT AND SECURITY TESTS PASSED SUCCESSFULLY!")
 
 if __name__ == "__main__":

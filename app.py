@@ -223,6 +223,11 @@ def open_ui():
 
 def main():
     log("Launch requested.")
+    try:
+        import catalog_manager
+        catalog_manager.heal_taskbar_shortcuts()
+    except Exception:
+        pass
     ensure_service_running()
     
     # If already running, focus & reposition

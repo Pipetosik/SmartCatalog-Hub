@@ -163,6 +163,11 @@ def main():
     acquire_single_instance_mutex()
     attach_to_default_desktop()
     log("=== SmartCatalog Background Service Starting ===")
+    try:
+        import catalog_manager
+        catalog_manager.heal_taskbar_shortcuts()
+    except Exception:
+        pass
     
     # Start watcher in separate thread
     t_watcher = threading.Thread(target=run_watcher, daemon=True)
